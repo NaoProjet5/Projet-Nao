@@ -3,50 +3,98 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use DateTime;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\JdUsersRepository")
+ * @UniqueEntity(
+ *     fields= {"email"},
+ *     message="L'email sue vous avez indiqué est dejà utilise !"
+ * )
  */
-class JdUsers
+class JdUsers implements UserInterface
 {
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
+     * @ORM\Column(name="id", type="integer")
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=30)
+     * @ORM\Column(name="name", type="string", length=30)
+     * @Assert\Length(
+     *      min = 4,
+     *      max = 30,
+     *      minMessage = "Votre nom ne peut faire moins de {{ limit }} caractères.",
+     *      maxMessage = "Votre nom ne peut faire plus de {{ limit }} caractères."
+     * )
      */
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=30)
+     * @ORM\Column(name="firstname", type="string", length=30)
+     * @Assert\Length(
+     *      min = 4,
+     *      max = 30,
+     *      minMessage = "Votre nom ne peut faire moins de {{ limit }} caractères.",
+     *      maxMessage = "Votre nom ne peut faire plus de {{ limit }} caractères."
+     * )
      */
     private $firstname;
 
     /**
-     * @ORM\Column(type="string", length=75)
+     * @ORM\Column(name="email", type="string", length=75)
+     * @Assert\Email()
+     * @Assert\Length(
+     *      min = 4,
+     *      max = 75,
+     *      minMessage = "Votre Votre adress email ne peut faire moins de {{ limit }} caractères.",
+     *      maxMessage = "Votre Votre adress email ne peut faire plus de {{ limit }} caractères."
+     * )
      */
     private $email;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=75)
+     * @Assert\Length(
+     *      min = 6,
+     *      minMessage = "Votre mot de passe ne peut faire moins de {{ limit }} caractères."
+     * )
      */
     private $password;
 
+    /**
+     * @var
+     * @Assert\EqualTo(propertyPath="password", message="Vous n'avez pas entré le même mot de passe")
+     */
     private $passwordConfirm;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\DateTime()
+     * @Assert\GreaterThanOrEqual("today")
      */
     private $createdAt;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(name="valide", type="boolean")
+     * @Assert\Type(type="boolean")
      */
-    private $valide;
+    private $valide = false;
+
+    /**
+     * JdUsers constructor.
+     * @param $createdAt
+     */
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime("now", new \DateTimeZone('Europe/Paris'));
+    }
+
 
     public function getId(): ?int
     {
@@ -91,6 +139,7 @@ class JdUsers
 
     public function getPassword(): ?string
     {
+
         return $this->password;
     }
 
@@ -104,6 +153,13 @@ class JdUsers
     public function getPasswordConfirm(): ?string
     {
         return $this->passwordConfirm;
+    }
+
+    public function setPasswordConfirm(string $passwordConfirm): self
+    {
+        $this->password = $passwordConfirm;
+
+        return $this;
     }
 
     public function getCreatedAt(): ?\DateTimeInterface
@@ -128,5 +184,59 @@ class JdUsers
         $this->valide = $valide;
 
         return $this;
+    }
+
+    /**
+     * Returns the roles granted to the user.
+     *
+     * <code>
+     * public function getRoles()
+     * {
+     *     return array('ROLE_USER');
+     * }
+     * </code>
+     *
+     * Alternatively, the roles might be stored on a ``roles`` property,
+     * and populated in any number of different ways when the user object
+     * is created.
+     *
+     * @return (Role|string)[] The user roles
+     */
+    public function getRoles()
+    {
+        return ['ROLE_USER'];
+    }
+
+    /**
+     * Returns the salt that was originally used to encode the password.
+     *
+     * This can return null if the password was not encoded using a salt.
+     *
+     * @return string|null The salt
+     */
+    public function getSalt()
+    {
+        // TODO: Implement getSalt() method.
+    }
+
+    /**
+     * Returns the username used to authenticate the user.
+     *
+     * @return string The username
+     */
+    public function getUsername()
+    {
+        // TODO: Implement getUsername() method.
+    }
+
+    /**
+     * Removes sensitive data from the user.
+     *
+     * This is important if, at any given point, sensitive information like
+     * the plain-text password is stored on this object.
+     */
+    public function eraseCredentials()
+    {
+        // TODO: Implement eraseCredentials() method.
     }
 }
