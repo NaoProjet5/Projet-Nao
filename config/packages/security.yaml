@@ -6,6 +6,10 @@ security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
         in_memory: { memory: ~ }
+        jd_database_nao:
+            entity:
+                class: App\Entity\JdUsers
+                property: email
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -13,6 +17,15 @@ security:
         main:
             anonymous: true
 
+            provider: jd_database_nao
+
+            form_login:
+                login_path: loginUsers
+                check_path: loginUsers
+
+            logout:
+                path: usersLogout
+                target: home
             # activate different ways to authenticate
 
             # http_basic: true

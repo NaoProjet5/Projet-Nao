@@ -38,7 +38,12 @@
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
         <div>
-            <a href="{{ path('longinUser') }}" class="btn btn-outline-secondary btn-sm">connexion</a>
+            <a href="{{ path('createdAtUser') }}" class="btn btn-outline-secondary btn-sm">Inscription</a>
+            {% if not app.user %}
+            <a href="{{ path('loginUsers') }}" class="btn btn-outline-secondary btn-sm">Connexion</a>
+            {% else %}
+            <a href="{{ path('usersLogout') }}" class="btn btn-outline-secondary btn-sm">Déconnexion</a>
+            {% endif %}
         </div>
     </div>
 </nav>

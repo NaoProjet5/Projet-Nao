@@ -10,10 +10,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
-class JdLonginNaoController extends AbstractController
+class JdLoginNaoController extends AbstractController
 {
     /**
-     * @Route("/createLogin", name="longinUser")
+     * @Route("/createLogin", name="createdAtUser")
      */
     public function jdCreatedAtUser(Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder)
     {
@@ -32,8 +32,22 @@ class JdLonginNaoController extends AbstractController
             return $this->redirectToRoute('home');
         }
 
-        return $this->render('jd_longin_nao/jdLogin.html.twig', [
+        return $this->render('jd_login_nao/jdCreatedAtLogin.html.twig', [
             'form'          => $form->createView(),
         ]);
     }
+
+    /**
+     * @Route("/login", name="loginUsers")
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function jdLoginUsers()
+    {
+        return $this->render('jd_login_nao/jdLogin.html.twig');
+    }
+
+    /**
+     * @Route("/logoutUser", name="usersLogout")
+     */
+    public function jdLogoutUsers(){}
 }
