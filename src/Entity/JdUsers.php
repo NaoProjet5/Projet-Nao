@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -87,12 +89,18 @@ class JdUsers implements UserInterface
     private $valide = false;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Observation", mappedBy="user", orphanRemoval=true)
+     */
+    private $observations;
+
+    /**
      * JdUsers constructor.
      * @param $createdAt
      */
     public function __construct()
     {
         $this->createdAt = new \DateTime("now", new \DateTimeZone('Europe/Paris'));
+        $this->observations = new ArrayCollection();
     }
 
 
@@ -238,5 +246,36 @@ class JdUsers implements UserInterface
     public function eraseCredentials()
     {
         // TODO: Implement eraseCredentials() method.
+    }
+
+    /**
+     * @return Collection|Observation[]
+     */
+    public function getObservations(): Collection
+    {
+        return $this->observations;
+    }
+
+    public function addObservation(Observation $observation): self
+    {
+        if (!$this->observations->contains($observation)) {
+            $this->observations[] = $observation;
+            $observation->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeObservation(Observation $observation): self
+    {
+        if ($this->observations->contains($observation)) {
+            $this->observations->removeElement($observation);
+            // set the owning side to null (unless already changed)
+            if ($observation->getUser() === $this) {
+                $observation->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }
