@@ -2,4 +2,20 @@
 
 {% block body %}
     <h1>Tous Les Articles</h1>
+    <section class="article">
+        {% for oiseau in oiseaux  %}
+           <h2>{{ oiseau.lbNom  }}</h2>
+            <div class="meta">
+                Découvert par {{ oiseau.lbAuteur }} le {{ oiseau.createdAt | date('d/m/Y') }} <strong> reference:</strong>
+                {{ oiseau.cdRef }}
+            </div>
+            <div class="content">
+            {{ oiseau.famille }}
+                <a href="{{ oiseau.url }}">Détails</a>
+                <a href="{{ path('article',{'id':oiseau.id}) }}" class="btn btn-primary">Observations</a>
+            </div>
+
+        {% endfor %}
+
+    </section>
 {% endblock %}

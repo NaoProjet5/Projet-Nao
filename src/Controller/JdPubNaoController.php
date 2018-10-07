@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Observation;
+use App\Entity\Oiseau;
 use App\Form\ObservationType;
+use App\Repository\OiseauRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -35,9 +37,9 @@ class JdPubNaoController extends AbstractController
         return $this->render('jd_pub_nao/Public/jdMapBirds.html.twig');
     }
     /**
-     * @Route("/oneArticle", name="article")
+     * @Route("/oneArticle/{id}", name="article")
      */
-    public function oneArticle(Request $request, ObjectManager $manager){
+    public function oneArticle(Request $request, ObjectManager $manager, Oiseau $oiseau){
         $observation = new Observation();
         $form = $this->createForm(ObservationType::class, $observation);
         $form->handleRequest($request);
@@ -47,17 +49,21 @@ class JdPubNaoController extends AbstractController
             $manager->flush();
             return $this->redirect('blog');
         }
-        return $this->render('lw/observation.thml.twig',[
+        return $this->render('lw/observation.html.twig',[
             'form'=>$form->createView(),
+            'oiseau'=>$oiseau
         ]);
     }
 
     /**
      * @Route("/allArticles", name="blog")
      */
-    public function jdAllArticles()
+    public function jdAllArticles(OiseauRepository $repos)
     {
-        return $this->render('jd_pub_nao/Public/jdAllArticles.html.twig');
+        $oiseau = $repos->findAll();
+        return $this->render('jd_pub_nao/Public/jdAllArticles.html.twig',[
+            'oiseaux'=>$oiseau
+        ]);
     }
 
 }
