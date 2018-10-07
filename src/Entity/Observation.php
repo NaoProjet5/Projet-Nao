@@ -42,6 +42,17 @@ class Observation
      */
     private $user;
 
+    /**
+     * @ORM\Column(type="boolean", default: 0)
+     */
+    private $valide;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Oiseau", inversedBy="observation")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $oiseau;
+
 
     public function getId(): ?int
     {
@@ -104,6 +115,30 @@ class Observation
     public function setUser(?JdUsers $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getValide(): ?bool
+    {
+        return $this->valide;
+    }
+
+    public function setValide(bool $valide): self
+    {
+        $this->valide = $valide;
+
+        return $this;
+    }
+
+    public function getOiseau(): ?Oiseau
+    {
+        return $this->oiseau;
+    }
+
+    public function setOiseau(?Oiseau $oiseau): self
+    {
+        $this->oiseau = $oiseau;
 
         return $this;
     }
