@@ -13,10 +13,8 @@ class ObservationType extends AbstractType
     {
         $builder
             ->add('nom')
-            ->add('createdAt')
             ->add('coordonneesGps')
             ->add('photo')
-            ->add('user')
         ;
     }
 

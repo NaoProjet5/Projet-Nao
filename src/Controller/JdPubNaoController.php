@@ -45,12 +45,13 @@ class JdPubNaoController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid())
         {
-            $manager->persist($observation);
+            dump($oiseau);
+            /*$manager->persist($observation);
             $manager->flush();
-            return $this->redirect('blog');
+            return $this->redirect('blog');*/
         }
         return $this->render('lw/observation.html.twig',[
-            'form'=>$form->createView(),
+            'formObservation'=>$form->createView(),
             'oiseau'=>$oiseau
         ]);
     }

@@ -1,12 +1,12 @@
 {% extends 'jdLayout.html.twig' %}
 
 {% block body %}
-    <h1>Tous Les Articles</h1>
+    <h1>Liste des oiseaux repertoriés</h1>
     <section class="article">
         {% for oiseau in oiseaux  %}
            <h2>{{ oiseau.lbNom  }}</h2>
             <div class="meta">
-                Découvert par {{ oiseau.lbAuteur }} le {{ oiseau.createdAt | date('d/m/Y') }} <strong> reference:</strong>
+                Découvert par {{ oiseau.lbAuteur }} <strong> reference:</strong>
                 {{ oiseau.cdRef }}
             </div>
             <div class="content">
