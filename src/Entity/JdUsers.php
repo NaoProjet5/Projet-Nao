@@ -87,25 +87,40 @@ class JdUsers implements UserInterface
     private $valide = false;
 
     /**
+     * @ORM\Column(name="roles", type="array")
+     */
+    private $roles = [];
+
+    /**
      * JdUsers constructor.
      * @param $createdAt
      */
     public function __construct()
     {
-        $this->createdAt = new \DateTime("now", new \DateTimeZone('Europe/Paris'));
+        $this->createdAt = new DateTime("now", new \DateTimeZone('Europe/Paris'));
+        $this->roles = ['ROLE_NATURALIST'];
     }
 
-
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return null|string
+     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
+    /**
+     * @param string $name
+     * @return JdUsers
+     */
     public function setName(string $name): self
     {
         $this->name = $name;
@@ -113,11 +128,18 @@ class JdUsers implements UserInterface
         return $this;
     }
 
+    /**
+     * @return null|string
+     */
     public function getFirstname(): ?string
     {
         return $this->firstname;
     }
 
+    /**
+     * @param string $firstname
+     * @return JdUsers
+     */
     public function setFirstname(string $firstname): self
     {
         $this->firstname = $firstname;
@@ -125,11 +147,18 @@ class JdUsers implements UserInterface
         return $this;
     }
 
+    /**
+     * @return null|string
+     */
     public function getEmail(): ?string
     {
         return $this->email;
     }
 
+    /**
+     * @param string $email
+     * @return JdUsers
+     */
     public function setEmail(string $email): self
     {
         $this->email = $email;
@@ -137,12 +166,19 @@ class JdUsers implements UserInterface
         return $this;
     }
 
+    /**
+     * @return null|string
+     */
     public function getPassword(): ?string
     {
 
         return $this->password;
     }
 
+    /**
+     * @param string $password
+     * @return JdUsers
+     */
     public function setPassword(string $password): self
     {
         $this->password = $password;
@@ -150,11 +186,18 @@ class JdUsers implements UserInterface
         return $this;
     }
 
+    /**
+     * @return null|string
+     */
     public function getPasswordConfirm(): ?string
     {
         return $this->passwordConfirm;
     }
 
+    /**
+     * @param string $passwordConfirm
+     * @return JdUsers
+     */
     public function setPasswordConfirm(string $passwordConfirm): self
     {
         $this->password = $passwordConfirm;
@@ -162,11 +205,18 @@ class JdUsers implements UserInterface
         return $this;
     }
 
+    /**
+     * @return \DateTimeInterface|null
+     */
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
     }
 
+    /**
+     * @param \DateTimeInterface $createdAt
+     * @return JdUsers
+     */
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
@@ -174,11 +224,18 @@ class JdUsers implements UserInterface
         return $this;
     }
 
+    /**
+     * @return bool|null
+     */
     public function getValide(): ?bool
     {
         return $this->valide;
     }
 
+    /**
+     * @param bool $valide
+     * @return JdUsers
+     */
     public function setValide(bool $valide): self
     {
         $this->valide = $valide;
@@ -188,35 +245,25 @@ class JdUsers implements UserInterface
 
     /**
      * Returns the roles granted to the user.
-     *
-     * <code>
-     * public function getRoles()
-     * {
-     *     return array('ROLE_USER');
-     * }
-     * </code>
-     *
-     * Alternatively, the roles might be stored on a ``roles`` property,
-     * and populated in any number of different ways when the user object
-     * is created.
-     *
-     * @return (Role|string)[] The user roles
      */
-    public function getRoles()
-    {
-        return ['ROLE_USER'];
+
+    public function getRoles() {
+        return $this->roles;
+    }
+
+    function addRole($role) {
+        $this->roles[] = $role;
     }
 
     /**
      * Returns the salt that was originally used to encode the password.
-     *
      * This can return null if the password was not encoded using a salt.
-     *
      * @return string|null The salt
      */
     public function getSalt()
     {
         // TODO: Implement getSalt() method.
+        return null;
     }
 
     /**
@@ -226,7 +273,7 @@ class JdUsers implements UserInterface
      */
     public function getUsername()
     {
-        // TODO: Implement getUsername() method.
+        return $this->email;
     }
 
     /**
@@ -238,5 +285,29 @@ class JdUsers implements UserInterface
     public function eraseCredentials()
     {
         // TODO: Implement eraseCredentials() method.
+    }
+
+    /** @see \Serializable::serialize() */
+    public function serialize() {
+        return serialize(array(
+            $this->id,
+            $this->email,
+            $this->password,
+            $this->isActive,
+            // see section on salt below
+            // $this->salt,
+        ));
+    }
+
+    /** @see \Serializable::unserialize() */
+    public function unserialize($serialized) {
+        list (
+            $this->id,
+            $this->email,
+            $this->password,
+            $this->isActive,
+            // see section on salt below
+            // $this->salt
+            ) = unserialize($serialized);
     }
 }

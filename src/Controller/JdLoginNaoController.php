@@ -7,6 +7,7 @@ use App\Form\JdUsersType;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -41,9 +42,15 @@ class JdLoginNaoController extends AbstractController
      * @Route("/login", name="loginUsers")
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function jdLoginUsers()
+    public function jdLoginUsers(AuthenticationUtils $authenticationUtils)
     {
-        return $this->render('jd_login_nao/jdLogin.html.twig');
+        $error = $authenticationUtils->getLastAuthenticationError();
+        $lastUsername = $authenticationUtils->getLastUsername();
+
+        return $this->render('jd_login_nao/jdLogin.html.twig', [
+                'last_username' => $lastUsername,
+                'error'         => $error,
+            ]);
     }
 
     /**

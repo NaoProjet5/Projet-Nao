@@ -2,6 +2,9 @@
 
 {% block body %}
     <h1>Connexion</h1>
+    {% if error %}
+        <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
     <div class="row">
         <div class="col-lg-12">
             <form action="{{ path('loginUsers') }}" method="post">
