@@ -14,7 +14,7 @@ use DateTime;
  * @ORM\Entity(repositoryClass="App\Repository\JdUsersRepository")
  * @UniqueEntity(
  *     fields= {"email"},
- *     message="L'email sue vous avez indiqué est dejà utilise !"
+ *     message="L'email vous avez indiqué est dejà utilise !"
  * )
  */
 class JdUsers implements UserInterface

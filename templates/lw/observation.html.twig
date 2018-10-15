@@ -10,23 +10,24 @@
         </div>
     </article>
     <section id="observations">
-        {% for observation in oiseau.observation %}
-            <h2>{{ observation.nom  }}</h2>
-            <div class="meta">
-                Coordonnées GPS {{ observation.coordonneesGps }} Laissée le {{ observation.createdAt | date('d/m/Y') }}
-            </div>
+            {% for observation in oiseau.observation %}
+                <h2>{{ observation.nom  }}</h2>
+                <div class="meta">
+                    Coordonnées GPS {{ observation.coordonneesGps }} Laissée le {{ observation.createdAt | date('d/m/Y') }}
+                </div>
 
-        {% endfor %}
-
-        <h1>Laissé une observation !</h1>
-        {{ form_start(formObservation) }}
-        {{ form_row(formObservation.nom,{'attr':{'placeholder':"Nom d'observation"}}) }}
-        {{ form_row(formObservation.coordonneesGps,{'attr':{'placeholder':"Coordonnées Gps"}}) }}
-        {{ form_row(formObservation.photo,{'attr':{'placeholder':"la photo de l'observation"}}) }}
-        <button type="submit" class="btn btn-success">
-            Enregistrer
-        </button>
-        {{ form_end(formObservation) }}
+            {% endfor %}
+        <div class="col-lg-6">
+            <h1>Laissé une observation !</h1>
+            {{ form_start(formObservation) }}
+            {{ form_row(formObservation.nom,{'attr':{'placeholder':"Nom d'observation"}}) }}
+            {{ form_row(formObservation.coordonneesGps,{'attr':{'placeholder':"Coordonnées Gps"}}) }}
+            {{ form_row(formObservation.photo,{'attr':{'placeholder':"la photo de l'observation"}}) }}
+            <button type="submit" class="btn btn-success">
+                Enregistrer
+            </button>
+            {{ form_end(formObservation) }}
+        </div>
 
     </section>
 {% endblock %}
