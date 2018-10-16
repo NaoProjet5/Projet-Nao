@@ -94,6 +94,11 @@ class JdUsers implements UserInterface
     private $observations;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="author")
+     */
+    private $comments;
+
+    /**
      * JdUsers constructor.
      * @param $createdAt
      */
@@ -101,6 +106,7 @@ class JdUsers implements UserInterface
     {
         $this->createdAt = new \DateTime("now", new \DateTimeZone('Europe/Paris'));
         $this->observations = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
 
@@ -273,6 +279,37 @@ class JdUsers implements UserInterface
             // set the owning side to null (unless already changed)
             if ($observation->getUser() === $this) {
                 $observation->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Comment[]
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): self
+    {
+        if ($this->comments->contains($comment)) {
+            $this->comments->removeElement($comment);
+            // set the owning side to null (unless already changed)
+            if ($comment->getAuthor() === $this) {
+                $comment->setAuthor(null);
             }
         }
 

@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\LwArticle;
 use App\Entity\Observation;
 use App\Entity\Oiseau;
 use App\Form\ObservationType;
+use App\Repository\LwArticleRepository;
 use App\Repository\OiseauRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -33,9 +35,12 @@ class JdPubNaoController extends AbstractController
     /**
      * @Route("/mapBirds", name="birds")
      */
-    public function jdMapBirds()
+    public function jdAllBirds(OiseauRepository $repos)
     {
-        return $this->render('jd_pub_nao/Public/jdMapBirds.html.twig');
+        $oiseau = $repos->findAll();
+        return $this->render('jd_pub_nao/Public/jdMapBirds.html.twig',[
+            'oiseaux'=>$oiseau
+        ]);
     }
 
     /**
@@ -48,9 +53,9 @@ class JdPubNaoController extends AbstractController
         return md5(uniqid());
     }
     /**
-     * @Route("/oneArticle/{id}", name="article")
+     * @Route("/oneBird/{id}", name="bird")
      */
-    public function oneArticle(Request $request, ObjectManager $manager, Oiseau $oiseau){
+    public function oneBird(Request $request, ObjectManager $manager, Oiseau $oiseau){
         $observation = new Observation();
         $form = $this->createForm(ObservationType::class, $observation);
         $form->handleRequest($request);
@@ -87,13 +92,22 @@ class JdPubNaoController extends AbstractController
     /**
      * @Route("/allArticles", name="blog")
      */
-    public function jdAllArticles(OiseauRepository $repos)
+    public function jdAllArticles(LwArticleRepository $repos)
     {
-        $oiseau = $repos->findAll();
+        $article = $repos->findAll();
         return $this->render('jd_pub_nao/Public/jdAllArticles.html.twig',[
-            'oiseaux'=>$oiseau
+            'articles'=>$article
         ]);
     }
+    /**
+     * @Route("/article/{id}", name="oneArticle")
+     */
+    public function lwOneArticle(Request $request, ObjectManager $manager, LwArticle $article){
+        return $this->render('jd_pub_nao/Public/lwArticle.html.twig',[
+            'article'=>$article
+        ]);
+    }
+
 
 }
 
