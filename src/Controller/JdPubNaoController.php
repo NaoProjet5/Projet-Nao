@@ -2,9 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
+use App\Entity\JdUsers;
 use App\Entity\LwArticle;
 use App\Entity\Observation;
 use App\Entity\Oiseau;
+use App\Form\CommentType;
 use App\Form\ObservationType;
 use App\Repository\LwArticleRepository;
 use App\Repository\OiseauRepository;
@@ -13,6 +16,7 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 class JdPubNaoController extends AbstractController
 {
@@ -102,9 +106,24 @@ class JdPubNaoController extends AbstractController
     /**
      * @Route("/article/{id}", name="oneArticle")
      */
-    public function lwOneArticle(Request $request, ObjectManager $manager, LwArticle $article){
+    public function lwOneArticle(Request $request, ObjectManager $manager, LwArticle $article, Security $security){
+        $comment = new Comment();
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()){
+            $comment->setCreatedAt(new \DateTime());
+            $user = $security->getUser();
+            $comment->setAuthor($user);
+            $comment->setArticle($article);
+            $manager->persist($comment);
+            $manager->flush();
+            return $this->redirectToRoute('oneArticle',['id'=>$article->getId()]);
+
+        }
+
         return $this->render('jd_pub_nao/Public/lwArticle.html.twig',[
-            'article'=>$article
+            'article'=>$article,
+            'formComment'=>$form->createView()
         ]);
     }
 
