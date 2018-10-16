@@ -1,0 +1,13 @@
+{% extends 'jdLayout.html.twig' %}
+{% block body %}
+    <article>
+        <h2>{{ article.title  | raw }}</h2>
+        <div class="metadata">Ecrit le {{ article.createdAt | date('d/m/Y') }} à {{ article.createdAt | date('H:i') }}</div>
+        <div class="content">
+            <img src="{{  article.photo }}" alt="">
+            {{ article.content | raw }}
+
+        </div>
+    </article>
+
+{% endblock %}
