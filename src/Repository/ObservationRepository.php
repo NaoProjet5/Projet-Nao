@@ -19,6 +19,19 @@ class ObservationRepository extends ServiceEntityRepository
         parent::__construct($registry, Observation::class);
     }
 
+    public function getFiveObservation()
+    {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery(
+            'SELECT o
+            FROM App\Entity\Observation o
+            WHERE o.valide = 1
+            ORDER BY o.createdAt DESC'
+        )->setMaxResults(5);
+        // returns an array of articles objects
+        return $query->execute();
+    }
+
 //    /**
 //     * @return Observation[] Returns an array of Observation objects
 //     */

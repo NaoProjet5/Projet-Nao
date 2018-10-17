@@ -18,6 +18,17 @@ class LwArticleRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, LwArticle::class);
     }
+    public function getFiveArticle(){
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery(
+            'SELECT a 
+            FROM App\Entity\LwArticle a
+            WHERE a.alive = 1
+            ORDER BY a.createdAt DESC'
+        )->setMaxResults(5);
+        // returns an array of articles objects
+        return $query->execute();
+    }
 
 //    /**
 //     * @return LwArticle[] Returns an array of LwArticle objects

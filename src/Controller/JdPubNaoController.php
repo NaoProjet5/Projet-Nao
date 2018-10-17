@@ -10,6 +10,7 @@ use App\Entity\Oiseau;
 use App\Form\CommentType;
 use App\Form\ObservationType;
 use App\Repository\LwArticleRepository;
+use App\Repository\ObservationRepository;
 use App\Repository\OiseauRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -23,9 +24,14 @@ class JdPubNaoController extends AbstractController
     /**
      * @Route("/", name="home")
      */
-    public function jdHome()
+    public function jdHome(LwArticleRepository $artiRepos, ObservationRepository $obserRepos)
     {
-        return $this->render('jd_pub_nao/Public/jdHome.html.twig');
+        $article = $artiRepos->getFiveArticle();
+        $observation = $obserRepos->getFiveObservation();
+        return $this->render('jd_pub_nao/Public/jdHome.html.twig',[
+            'articles'=>$article,
+            'observations'=>$observation
+        ]);
     }
 
     /**
@@ -98,7 +104,7 @@ class JdPubNaoController extends AbstractController
      */
     public function jdAllArticles(LwArticleRepository $repos)
     {
-        $article = $repos->findAll();
+        $article = $repos->findBy(['alive'=>1]);
         return $this->render('jd_pub_nao/Public/jdAllArticles.html.twig',[
             'articles'=>$article
         ]);
