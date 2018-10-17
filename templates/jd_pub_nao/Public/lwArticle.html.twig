@@ -1,0 +1,44 @@
+{% extends 'jdLayout.html.twig' %}
+ {% block body %}
+     <div class="article">
+        <h2>{{ article.title  }}</h2>
+        <div class="metadata">Ecrit le {{ article.createdAt | date('d/m/Y') }} à {{ article.createdAt | date('H:i') }}</div>
+        <div class="content">
+            {{ article.content }}
+        </div>
+     </div>
+     <hr />
+     <h5> listes des commentaires</h5>
+     <section id="commentaires">
+         {% for comment in article.comments %}
+             <div class="comment">
+                 <div class="row">
+                     <div class="col-3">
+                         {{ comment.author.firstname }} (<small> {{  comment.createdAt | date('d/m/Y à H:i') }}</small>)
+                     </div>
+                     <div class="col">
+                         {{ comment.content | raw }}
+
+
+                     </div>
+
+                 </div>
+
+             </div>
+             <hr/>
+         {% endfor %}
+     </section>
+
+{% if app.user %}
+     <p>Formulaire de création d'un commentaire</p>
+     <div class="col-lg-8">
+         {{ form_start(formComment) }}
+         {{ form_row(formComment.content) }}
+         {{ form_end(formComment) }}
+     </div>
+
+     {% else %}
+     Pour laisser un commentaire veuillez vous  <a href="{{ path('loginUsers') }}" class="btn btn-success">Connecter</a>
+     {% endif %}
+
+{% endblock %}

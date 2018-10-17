@@ -1,5 +1,22 @@
 {% extends 'jdLayout.html.twig' %}
 
 {% block body %}
-<h1>La Carte Des Oiseax</h1>
+<h3>La Carte Des Oiseaux</h3>
+    <h3>Liste des oiseaux repertoriés</h3>
+    <section class="article">
+        {% for oiseau in oiseaux  %}
+            <h2>{{ oiseau.lbNom  }}</h2>
+            <div class="meta">
+                Découvert par {{ oiseau.lbAuteur }} <strong> reference:</strong>
+                {{ oiseau.cdRef }}
+            </div>
+            <div class="content">
+                {{ oiseau.famille }}
+                <a href="{{ oiseau.url }}">Détails</a>
+                <a href="{{ path('bird',{'id':oiseau.id}) }}" class="btn btn-primary">Observations</a>
+            </div>
+
+        {% endfor %}
+
+    </section>
 {% endblock %}
