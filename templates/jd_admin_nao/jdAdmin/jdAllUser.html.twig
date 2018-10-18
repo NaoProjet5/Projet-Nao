@@ -1,0 +1,51 @@
+{% extends 'jdLayout.html.twig' %}
+
+{% block body %}
+ <h1>les utisateurs </h1>
+    <table class="table table-hover table-striped">
+        <thead>
+        <tr>
+            <th scope="col">Nom</th>
+            <th scope="col">Prènom</th>
+            <th scope="col">Email</th>
+            <th scope="col">Gestion</th>
+        </tr>
+        </thead>
+        {% for user in users %}
+        <tbody>
+        <tr>
+            <th>{{ user.name }}</th>
+            <td>{{ user.firstname }}</td>
+            <td>{{ user.email }}</td>
+            <td>
+                <a href="" class="btn btn-primary btn-sm" title="supprimer" >
+                    supprimer    <i class="glyphicon glyphicon-trash"></i>
+                </a>
+                <a href="{{ path('jdUpDateUser', {'id': user.id}) }}" class="btn btn-primary btn-sm" title="modifer">
+                    modifier <i class="glyphicon glyphicon-plus"></i>
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <nav aria-label="...">
+        <ul class="pagination">
+            <li class="page-item disabled">
+                <span class="page-link">Previous</span>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item active">
+      <span class="page-link">
+        2
+        <span class="sr-only">(current)</span>
+      </span>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+                <a class="page-link" href="#">Next</a>
+            </li>
+        </ul>
+    </nav>
+{% endblock %}

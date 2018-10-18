@@ -97,7 +97,7 @@ class JdUsers implements UserInterface
      */
     public function __construct()
     {
-        $this->createdAt = new DateTime("now", new \DateTimeZone('Europe/Paris'));
+        $this->createdAt = new DateTime( new \DateTimeZone('Europe/Paris'));
         $this->roles = ['ROLE_NATURALIST'];
     }
 

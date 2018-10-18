@@ -34,7 +34,7 @@ class JdLoginNaoController extends AbstractController
         }
 
         return $this->render('jd_login_nao/jdCreatedAtLogin.html.twig', [
-            'form'          => $form->createView(),
+            'form'          => $form->createView()
         ]);
     }
 

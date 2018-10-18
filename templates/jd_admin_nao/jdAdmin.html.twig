@@ -2,4 +2,24 @@
 
 {% block body %}
     <h1>SUPER ADMIN</h1>
+    <br/><br/><br/>
+        <div class="row">
+            <div class="col-4">
+                <div class="media">
+                    <img class="mr-3" src="{{ asset('web/images/placeimg_64_64_grayscale_arch.jpg') }}" alt="Generic placeholder image">
+                    <div class="media-body">
+                        <h5 class="mt-0">Le mon de utilsateur</h5>
+                    </div>
+                </div>
+                <ul>
+                    <li><a href="" class="btn btn-outline-secondary btn-sm">Tableau de bord</a></li>
+                    <li><a href="" class="btn btn-outline-secondary btn-sm">Les dernièrs observations</a></li>
+                    <li><a href="{{ path('jaAllUser') }}" class="btn btn-outline-secondary btn-sm">Les utilsateurs</a></li>
+                    <li><a href="" class="btn btn-outline-secondary btn-sm">Les articles</a></li>
+                    <li><a href="" class="btn btn-outline-secondary btn-sm">Les tickets</a></li>
+                    <li><a href="" class="btn btn-outline-secondary btn-sm">Les oiseaux</a></li>
+                </ul>
+            </div>
+            <div class="col-8">col-8</div>
+        </div>
 {% endblock %}
