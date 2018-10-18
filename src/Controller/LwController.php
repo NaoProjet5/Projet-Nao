@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\LwArticle;
 use App\Form\LwArticleType;
+use App\Repository\LwArticleRepository;
+use App\Repository\ObservationRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -55,6 +57,27 @@ class LwController extends AbstractController
     public function show_article(LwArticle $article){
         return $this->render('lw/OneArticle.html.twig',[
             'article'=>$article
+        ]);
+
+    }
+
+    /**
+     * @route ("/lw/AdminObservation", name="admin_observation")
+     */
+    public function adminObservation(ObservationRepository $repos){
+        $observation = $repos->findAll();
+        return $this->render('lw/adminObservation.html.twig',[
+            'observations'=>$observation
+        ]);
+
+    }
+    /**
+     * @route ("/lw/AdminArticle", name="admin_article")
+     */
+    public function adminArticle( LwArticleRepository $repos){
+        $article = $repos->findAll();
+        return $this->render('lw/adminArticle.html.twig',[
+            'articles' => $article
         ]);
 
     }
