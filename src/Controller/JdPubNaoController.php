@@ -9,6 +9,7 @@ use App\Entity\Observation;
 use App\Entity\Oiseau;
 use App\Form\CommentType;
 use App\Form\ObservationType;
+use App\LwServices\FileUploader;
 use App\Repository\LwArticleRepository;
 use App\Repository\ObservationRepository;
 use App\Repository\OiseauRepository;
@@ -65,33 +66,23 @@ class JdPubNaoController extends AbstractController
     /**
      * @Route("/oneBird/{id}", name="bird")
      */
-    public function oneBird(Request $request, ObjectManager $manager, Oiseau $oiseau){
+    public function oneBird(Request $request, ObjectManager $manager, Oiseau $oiseau, FileUploader $fileUploader, Security $security){
         $observation = new Observation();
         $form = $this->createForm(ObservationType::class, $observation);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid())
         {
+            $observation->setCreatedAt(new \DateTime());
+            $user = $security->getUser();
+            $observation->setUser($user);
             $file = $observation->getPhoto();
-            $fileName = $this->generateUniqueFileName().'.'.$file->guessExtension();
-
-            // Move the file to the directory where brochures are stored
-            try {
-                $file->move(
-                    $this->getParameter('photo_directory'),
-                    $fileName
-                );
-            } catch (FileException $e) {
-                // ... handle exception if something happens during file upload
-            }
-
-            // updates the 'brochure' property to store the PDF file name
-            // instead of its contents
+            $fileName = $fileUploader->upload($file);
             $observation->setPhoto($fileName);
-            dump($observation);
-
-            /*$manager->persist($observation);
+            $observation->setValide(0);
+            $observation->setOiseau($oiseau);
+            $manager->persist($observation);
             $manager->flush();
-            return $this->redirect('blog');*/
+            return $this->redirectToRoute('bird',['id'=>$oiseau->getId()]);
         }
         return $this->render('lw/observation.html.twig',[
             'formObservation'=>$form->createView(),
