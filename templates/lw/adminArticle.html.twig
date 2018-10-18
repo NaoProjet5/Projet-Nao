@@ -1,0 +1,28 @@
+{% extends "jdLayout.html.twig" %}
+{% block body %}
+    <table class="table table-striped">
+
+        <thead>
+        <tr>
+            <td>Image</td>
+            <td>Titre</td>
+            <td>Date de publication</td>
+            <td>Commentaires</td>
+            <td>Actions</td>
+        </tr>
+        </thead>
+        <tbody>
+        {% for article in articles  %}
+        <tr>
+            <td></td>
+            <td>{{ article.title  }}</td>
+            <td>{{ article.createdAt | date('d/m/Y') }}</td>
+            <td></td>
+            <td> <a href="#" class="btn btn-info btn-lg">
+                    <span class="glyphicon glyphicon-remove"></span> Supprimer
+                </a></td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

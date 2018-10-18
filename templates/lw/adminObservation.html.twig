@@ -1,0 +1,28 @@
+{% extends "jdLayout.html.twig" %}
+{% block body %}
+    <table class="table table-striped">
+
+        <thead>
+        <tr>
+            <td>Image</td>
+            <td>Coordonnées GPS</td>
+            <td>Auteur</td>
+            <td>Crée le</td>
+            <td>Action</td>
+        </tr>
+        </thead>
+        <tbody>
+        {% for observation in observations %}
+        <tr>
+            <td></td>
+            <td>{{ observation.coordonneesGps}}</td>
+            <td>{{ observation.user.firstname}}</td>
+            <td>{{ observation.createdAt | date('d/m/Y') }}</td>
+            <td> <a href="#" class="btn btn-info btn-lg">
+                    <span class="glyphicon glyphicon-remove"></span> Supprimer
+                </a></td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

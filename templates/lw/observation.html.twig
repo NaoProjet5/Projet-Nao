@@ -17,7 +17,10 @@
                 </div>
 
             {% endfor %}
-        <div class="col-lg-6">
+        {% if app.user %}
+
+            <div class="col-lg-6">
+
             <h1>Laissé une observation !</h1>
             {{ form_start(formObservation) }}
             {{ form_row(formObservation.nom,{'attr':{'placeholder':"Nom d'observation"}}) }}
@@ -28,6 +31,9 @@
             </button>
             {{ form_end(formObservation) }}
         </div>
+    {% else %}
+        Pour laisser une observation vous devez vous  <a href="{{ path('loginUsers') }}" class="btn btn-success">Connecter</a>
+        {% endif %}
 
     </section>
 {% endblock %}
