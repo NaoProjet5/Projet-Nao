@@ -17,7 +17,12 @@
     <section class="article row">
         {% for observation in observations  %}
             <div class="col-lg-2">
-                <h2>{{ observation.nom  }}</h2>
+                {% if observation.photo is null %}
+                    <img src="{{ asset('images_appli/no_photo_available.jpg') }}" alt="Bootstrap" class="img-thumbnail">
+                {% else %}
+                    <img src="{{ asset('images_appli/'~ observation.photo) }}" alt="Bootstrap" class="img-thumbnail">
+                {% endif %}
+                <h5>{{ observation.nom  }}</h5>
                 <div class="metadata">Ecrit le {{ observation.createdAt | date('d/m/Y') }} à {{ observation.createdAt | date('H:i') }}</div>
                 <div class="content">
 
@@ -32,7 +37,7 @@
     <section class="article row">
         {% for article in articles  %}
             <div class="col-lg-2">
-                <h2>{{ article.title  }}</h2>
+                <h5>{{ article.title  }}</h5>
                 <div class="metadata">Ecrit le {{ article.createdAt | date('d/m/Y') }} à {{ article.createdAt | date('H:i') }}</div>
                 <div class="content">
 

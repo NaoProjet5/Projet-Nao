@@ -2,13 +2,15 @@
 
 {% block body %}
 <h3>Liste des articles</h3>
-    <section class="article col-lg-4">
+    <section class="article row">
         {% for article in articles  %}
+            <div class="col-lg-3">
             <h2>{{ article.title  }}</h2>
             <div class="metadata">Ecrit le {{ article.createdAt | date('d/m/Y') }} à {{ article.createdAt | date('H:i') }}</div>
             <div class="content">
 
                 <a href="{{ path('oneArticle',{'id':article.id}) }}" class="btn btn-primary">Détails</a>
+            </div>
             </div>
 
         {% endfor %}
