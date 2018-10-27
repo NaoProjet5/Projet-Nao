@@ -1,6 +1,6 @@
 {% extends "jdLayout.html.twig" %}
 {% block body %}
-    <h1>Bienvenu dans mon Blog Test yooooopi</h1>
+    <h3>Bienvenue sur le site du NAO recherche !!!</h3>
     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam deleniti deserunt dolor dolorem, earum error ex
         facilis impedit inventore molestias nam placeat quidem repellat. Animi ducimus magni quas quibusdam recusandae
         soluta! A ad architecto, assumenda dolore dolorem et, excepturi fugit in ipsum laboriosam, necessitatibus possimus
@@ -10,4 +10,37 @@
         eveniet explicabo illum ipsa iure labore magnam magni necessitatibus nemo non nulla obcaecati provident quos
         recusandae reiciendis reprehenderit, repudiandae sed sit soluta tempore vel veniam. Ipsa, laudantium.
     </p>
+    {%  if observations is null  %}
+        <p>Pas d'observation enregistrées pour l'instant</p>
+    {%  else %}
+    <h4>Liste des dernières observations</h4>
+    <section class="article row">
+        {% for observation in observations  %}
+            <div class="col-lg-2">
+                <h2>{{ observation.nom  }}</h2>
+                <div class="metadata">Ecrit le {{ observation.createdAt | date('d/m/Y') }} à {{ observation.createdAt | date('H:i') }}</div>
+                <div class="content">
+
+                    <a href="{{ path('bird',{'id':observation.oiseau.id}) }}" class="btn btn-primary">Détail de l'observation</a>
+                </div>
+            </div>
+
+        {% endfor %}
+    </section>
+    {% endif %}
+    <h4>Liste des derniers articles</h4>
+    <section class="article row">
+        {% for article in articles  %}
+            <div class="col-lg-2">
+                <h2>{{ article.title  }}</h2>
+                <div class="metadata">Ecrit le {{ article.createdAt | date('d/m/Y') }} à {{ article.createdAt | date('H:i') }}</div>
+                <div class="content">
+
+                    <a href="{{ path('oneArticle',{'id':article.id}) }}" class="btn btn-primary">Détails</a>
+                </div>
+            </div>
+
+        {% endfor %}
+
+    </section>
 {% endblock %}

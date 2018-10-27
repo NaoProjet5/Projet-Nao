@@ -1,0 +1,26 @@
+<div class="form-group">
+    {{ form_label(form.name, 'Votre Nom') }}
+    {{ form_errors(form.name) }}
+    {{ form_widget(form.name, {'attr': {'class': 'form-control', 'id': 'nom', 'required': 'required', 'placeholder': 'Nom'}}) }}
+    <span id="nomVide"></span>
+</div>
+<div class="form-group">
+    {{ form_label(form.firstname, 'Votre Prénom') }}
+    {{ form_errors(form.firstname) }}
+    {{ form_widget(form.firstname, {'attr': {'class': 'form-control', 'id': 'prenom', 'placeholder': 'Prénom'}}) }}
+</div>
+<div class="form-group">
+    {{ form_label(form.email, 'Votre adresse email') }}
+    {{ form_errors(form.email) }}
+    {{ form_widget(form.email, {'attr': {'class': 'form-control', 'id': 'email', 'required': 'required', 'placeholder': 'Email'}}) }}
+    <span id="nomVide"></span>
+</div>
+<div class="form-group">
+    <label for="roles">Rôles</label>
+        <select class="form-control" id="roles" name="roles">
+            <option>Utilisateur</option>
+            <option>Super admin</option>
+            <option>Naturaliste</option>
+            <option>Editeur</option>
+        </select>
+</div>

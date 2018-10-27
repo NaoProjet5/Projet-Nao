@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -12,7 +14,7 @@ use DateTime;
  * @ORM\Entity(repositoryClass="App\Repository\JdUsersRepository")
  * @UniqueEntity(
  *     fields= {"email"},
- *     message="L'email sue vous avez indiqué est dejà utilise !"
+ *     message="L'email vous avez indiqué est dejà utilise !"
  * )
  */
 class JdUsers implements UserInterface
@@ -76,7 +78,6 @@ class JdUsers implements UserInterface
     /**
      * @ORM\Column(type="datetime")
      * @Assert\DateTime()
-     * @Assert\GreaterThanOrEqual("today")
      */
     private $createdAt;
 
@@ -90,6 +91,15 @@ class JdUsers implements UserInterface
      * @ORM\Column(name="roles", type="array")
      */
     private $roles = [];
+     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Observation", mappedBy="user", orphanRemoval=true)
+     */
+    private $observations;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="author")
+     */
+    private $comments;
 
     /**
      * JdUsers constructor.
@@ -97,8 +107,10 @@ class JdUsers implements UserInterface
      */
     public function __construct()
     {
-        $this->createdAt = new DateTime( new \DateTimeZone('Europe/Paris'));
-        $this->roles = ['ROLE_NATURALIST'];
+        $this->createdAt = new DateTime( 'now', new \DateTimeZone('Europe/Paris'));
+        $this->roles = ['ROLE_USER'];
+        $this->observations = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     /**
@@ -251,6 +263,14 @@ class JdUsers implements UserInterface
         return $this->roles;
     }
 
+    /**
+     * @param mixed $roles
+     */
+    public function setRoles($roles): void
+    {
+        $this->roles = $roles;
+    }
+
     function addRole($role) {
         $this->roles[] = $role;
     }
@@ -300,7 +320,8 @@ class JdUsers implements UserInterface
     }
 
     /** @see \Serializable::unserialize() */
-    public function unserialize($serialized) {
+    public function unserialize($serialized)
+    {
         list (
             $this->id,
             $this->email,
@@ -309,5 +330,66 @@ class JdUsers implements UserInterface
             // see section on salt below
             // $this->salt
             ) = unserialize($serialized);
+    }
+    /**
+     * @return Collection|Observation[]
+     */
+    public function getObservations(): Collection
+    {
+        return $this->observations;
+    }
+
+    public function addObservation(Observation $observation): self
+    {
+        if (!$this->observations->contains($observation)) {
+            $this->observations[] = $observation;
+            $observation->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeObservation(Observation $observation): self
+    {
+        if ($this->observations->contains($observation)) {
+            $this->observations->removeElement($observation);
+            // set the owning side to null (unless already changed)
+            if ($observation->getUser() === $this) {
+                $observation->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Comment[]
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): self
+    {
+        if ($this->comments->contains($comment)) {
+            $this->comments->removeElement($comment);
+            // set the owning side to null (unless already changed)
+            if ($comment->getAuthor() === $this) {
+                $comment->setAuthor(null);
+            }
+        }
+
+        return $this;
     }
 }
