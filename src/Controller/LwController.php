@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Geocoder\Query\GeocodeQuery;
 use Geocoder\Query\ReverseQuery;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 class LwController extends AbstractController
 {
@@ -66,6 +67,11 @@ class LwController extends AbstractController
      */
     public function adminObservation(ObservationRepository $repos){
         $observation = $repos->findAll();
+        /*$paginator = new Paginator($observation);
+        $c = count($paginator);
+        dump($paginator);
+        dump($c);
+        die();*/
         return $this->render('lw/adminObservation.html.twig',[
             'observations'=>$observation
         ]);
@@ -79,6 +85,31 @@ class LwController extends AbstractController
         return $this->render('lw/adminArticle.html.twig',[
             'articles' => $article
         ]);
+    }
+    /**
+     * @Route("/lw/valide/{id}",name="valide_observation")
+     */
+    public function valideObservation($id, ObservationRepository $repos, ObjectManager $manager){
+        $observation = $repos->find($id);
+        if ($observation->getValide() == 0 ){
+            $observation->setValide(1);
+        }
+        else{
+            $observation->setValide(0);
+        }
 
+        $manager->flush();
+        return $this->redirectToRoute('admin_observation');
+    }
+
+    /**
+     * @route ("/lw/removeObservation/{id}", name="remove_observation")
+     */
+    public function removeObservation( $id, ObservationRepository $repos, ObjectManager $manager){
+        $observation = $repos->find($id);
+
+        $manager->remove($observation);
+        $manager->flush();
+        return $this->redirectToRoute('admin_observation');
     }
 }

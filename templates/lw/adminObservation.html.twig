@@ -4,7 +4,7 @@
 
         <thead>
         <tr>
-            <td>Image</td>
+            <td width="20%">Image</td>
             <td>Coordonnées GPS</td>
             <td>Auteur</td>
             <td>Crée le</td>
@@ -14,13 +14,29 @@
         <tbody>
         {% for observation in observations %}
         <tr>
-            <td></td>
+            <td width="20%"> {% if observation.photo is null %}
+                    <img src="{{ asset('images_appli/no_photo_available.jpg') }}" alt="Bootstrap" class="img-thumbnail" width="70%" >
+                {% else %}
+                    <img src="{{ asset('images_appli/'~ observation.photo) }}" alt="Bootstrap" class="img-thumbnail" width="70%" >
+                {% endif %}</td>
             <td>{{ observation.coordonneesGps}}</td>
             <td>{{ observation.user.firstname}}</td>
             <td>{{ observation.createdAt | date('d/m/Y') }}</td>
-            <td> <a href="#" class="btn btn-info btn-lg">
+
+            <td> <a href="{{ path('remove_observation',{'id':observation.id}) }}" class="btn btn-info btn-lg">
                     <span class="glyphicon glyphicon-remove"></span> Supprimer
-                </a></td>
+                </a>
+             {% if observation.valide == 0 %}
+                <a href="{{ path('valide_observation',{'id':observation.id}) }}" class="btn btn-info btn-lg">
+                    <span class="glyphicon glyphicon-remove"></span> Valider
+                </a>
+             {% else %}
+                 <a href="{{ path('valide_observation',{'id':observation.id}) }}" class="btn btn-info btn-lg">
+                     <span class="glyphicon glyphicon-remove"></span> Retirer
+                 </a>
+             {% endif %}
+
+            </td>
         </tr>
         {% endfor %}
         </tbody>

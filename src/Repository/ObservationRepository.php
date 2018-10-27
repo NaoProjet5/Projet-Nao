@@ -32,6 +32,19 @@ class ObservationRepository extends ServiceEntityRepository
         return $query->execute();
     }
 
+    public function getMyOwneObservation($id_user): array
+    {
+        // automatically knows to select Products
+        // the "p" is an alias you'll use in the rest of the query
+        $qb = $this->createQueryBuilder('o')
+            ->andWhere('o.user = :id_user')
+            ->setParameter('id_user', $id_user)
+            ->getQuery();
+
+        return $qb->execute();
+
+    }
+
 //    /**
 //     * @return Observation[] Returns an array of Observation objects
 //     */
