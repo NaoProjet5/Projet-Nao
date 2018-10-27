@@ -1,21 +1,32 @@
 {% extends 'jdLayout.html.twig' %}
 
 {% block body %}
-<h3>La Carte Des Oiseaux</h3>
+    <div class="row">
+    <h3>La Carte Des Oiseaux</h3>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2785760.795251047!2d3.7830052032750063!3d47.01138802404924!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd54a02933785731%3A0x6bfd3f96c747d9f7!2sFrance!5e0!3m2!1sfr!2scm!4v1540325768768" width="1100" height="400" frameborder="0" style="border:0" allowfullscreen></iframe>
+
+        <form>
+            <input type="text" id="adresse"/>
+            <input type="button"  value="Trouver un oiseau sur la carte" class="btn btn-success" onclick="TrouverAdresse();"/>
+        </form>
+        <span id="text_latlng"></span>
+        <div id="map-canvas" style="float:right;height:220px;width:45%"></div>
+    </div>
     <h3>Liste des oiseaux repertoriés</h3>
-    <section class="article">
+    <section class="row">
         {% for oiseau in oiseaux  %}
-            <h2>{{ oiseau.lbNom  }}</h2>
+            <div class="col-lg-3">
+            <h5>{{ oiseau.lbNom  }}</h5>
+                <img class="img-rounded" src="{{ oiseau.url }}" alt="{{ oiseau.lbNom  }}" style="width: 80%; height: 45%"/>
             <div class="meta">
                 Découvert par {{ oiseau.lbAuteur }} <strong> reference:</strong>
                 {{ oiseau.cdRef }}
             </div>
             <div class="content">
                 {{ oiseau.famille }}
-                <a href="{{ oiseau.url }}">Détails</a>
                 <a href="{{ path('bird',{'id':oiseau.id}) }}" class="btn btn-primary">Observations</a>
             </div>
-
+            </div>
         {% endfor %}
 
     </section>
