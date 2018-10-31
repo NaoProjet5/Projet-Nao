@@ -1,10 +1,24 @@
 {% extends 'jdLayout.html.twig' %}
 
 {% block body %}
+
     <div class="row">
     <h3>La Carte Des Oiseaux</h3>
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2785760.795251047!2d3.7830052032750063!3d47.01138802404924!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd54a02933785731%3A0x6bfd3f96c747d9f7!2sFrance!5e0!3m2!1sfr!2scm!4v1540325768768" width="1100" height="400" frameborder="0" style="border:0" allowfullscreen></iframe>
-
+        <div class="row">
+        <script src='https://maps.googleapis.com/maps/api/js?v=3.exp'></script>
+        <div style='overflow:hidden;height:440px;width:700px;'>
+            <div id='gmap_canvas' style='height:440px;width:700px;'>
+            </div><div><small><a href="https://embedgooglemaps.com/fr/">embedgooglemaps FR</a></small>
+            </div><div><small><a href="http://www.stedentrippers.nl/berlijn.html">stedentrippers(*)</a>
+                </small></div><style>#gmap_canvas img{max-width:none!important;background:none!important}
+            </style></div><script type='text/javascript'>function init_map()
+            {var myOptions = {zoom:10,center:new google.maps.LatLng(48.856614,2.3522219000000177),mapTypeId: google.maps.MapTypeId.ROADMAP};
+            map = new google.maps.Map(document.getElementById('gmap_canvas'), myOptions);
+            marker = new google.maps.Marker({map: map,position: new google.maps.LatLng(48.856614,2.3522219000000177)});
+            infowindow = new google.maps.InfoWindow({content:'<strong>Titre</strong><br>Paris, France<br>'});
+            google.maps.event.addListener(marker, 'click', function(){infowindow.open(map,marker);});infowindow.open(map,marker);}
+            google.maps.event.addDomListener(window, 'load', init_map);</script>
+        </div>
         <form>
             <input type="text" id="adresse"/>
             <input type="button"  value="Trouver un oiseau sur la carte" class="btn btn-success" onclick="TrouverAdresse();"/>
@@ -30,4 +44,14 @@
         {% endfor %}
 
     </section>
+    <script>
+        $('#exampleModal').on('shown.bs.modal', function () {
+            var modal = $(this);
+            $.ajax('{{ path('article_create') }}', {
+                success: function(data) {
+                    modal.find('.modal-body').html(data);
+                }
+            });
+        });
+    </script>
 {% endblock %}

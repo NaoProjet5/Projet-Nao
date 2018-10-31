@@ -21,11 +21,11 @@ class LwController extends AbstractController
      */
     public function index()
     {
-        $httpClient = new \Http\Adapter\Guzzle6\Client();
+       /* $httpClient = new \Http\Adapter\Guzzle6\Client();
         $provider = new \Geocoder\Provider\GoogleMaps\GoogleMaps($httpClient);
         $geocoder = new \Geocoder\StatefulGeocoder($provider, 'fr');
         dump($provider);
-        die();
+        die();*/
         return $this->render('lw/index.html.twig', [
             'controller_name' => 'LwController',
         ]);
@@ -110,6 +110,17 @@ class LwController extends AbstractController
 
         $manager->remove($observation);
         $manager->flush();
+        return $this->redirectToRoute('admin_observation');
+    }
+
+    /**
+     * @route ("/lw/gpsdata", name="gpsdata")
+     */
+    public function getDataObservation( ObservationRepository $repos, ObjectManager $manager){
+        $oiseaux = 'Accipiter efficax';
+        $observation = $repos->getGpsData($oiseaux);
+        dump($observation[1]->getCoordonneesGps());
+        die();
         return $this->redirectToRoute('admin_observation');
     }
 }
