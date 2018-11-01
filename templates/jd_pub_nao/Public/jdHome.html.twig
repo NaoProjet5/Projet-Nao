@@ -1,52 +1,108 @@
-{% extends "jdLayout.html.twig" %}
+{% extends "lwLayout.html.twig" %}
+
 {% block body %}
-    <h3>Bienvenue sur le site du NAO recherche !!!</h3>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam deleniti deserunt dolor dolorem, earum error ex
-        facilis impedit inventore molestias nam placeat quidem repellat. Animi ducimus magni quas quibusdam recusandae
-        soluta! A ad architecto, assumenda dolore dolorem et, excepturi fugit in ipsum laboriosam, necessitatibus possimus
-        quia quidem quis repellat reprehenderit.</p>
-    <p>Dolore quod rem vero! Accusamus accusantium ad alias amet aperiam
-        architecto asperiores autem commodi consectetur consequuntur culpa distinctio dolorem doloribus dolorum ducimus esse
-        eveniet explicabo illum ipsa iure labore magnam magni necessitatibus nemo non nulla obcaecati provident quos
-        recusandae reiciendis reprehenderit, repudiandae sed sit soluta tempore vel veniam. Ipsa, laudantium.
-    </p>
+    <section id="short_desc">
+
+        <div class="section_content">
+
+            <h1>NAO, C'EST QUOI ?</h1>
+
+            <p>Suspendisse eget lorem diam. Integer sit amet sodales ligula. Morbi posuere imperdiet enim, sit amet feugiat dolor pulvinar ac. Nam in orci finibus ipsum dapibus eleifend. Nullam non faucibus magna. Suspendisse vel laoreet quam. Donec porttitor ornare cursus. Aenean dapibus consectetur enim, non faucibus lorem. Sed at sapien nisl. Cras efficitur quis ex egestas semper. Etiam sit amet mollis lacus, et hendrerit tortor</p>
+
+            <div class="buttons_box">
+
+                <a class="view_observation" href="{{ path('birds') }}">Voir les observations</a>
+
+                <a class="do_observation" href="{{ path('birds') }}">Faire une observation</a>
+
+            </div>
+
+        </div>
+
+    </section>
     {%  if observations is null  %}
         <p>Pas d'observation enregistrées pour l'instant</p>
     {%  else %}
-    <h4>Liste des dernières observations</h4>
-    <section class="article row">
+<div class="body_content">
+
+    <div class="last_observations">
+
+        <h2>Les dernières observations</h2>
+
+        <div class="last_observations_content">
+
         {% for observation in observations  %}
-            <div class="col-lg-2">
-                {% if observation.photo is null %}
-                    <img src="{{ asset('images_appli/no_photo_available.jpg') }}" alt="Bootstrap" class="img-thumbnail">
-                {% else %}
-                    <img src="{{ asset('images_appli/'~ observation.photo) }}" alt="Bootstrap" class="img-thumbnail">
-                {% endif %}
-                <h5>{{ observation.nom  }}</h5>
-                <div class="metadata">Ecrit le {{ observation.createdAt | date('d/m/Y') }} à {{ observation.createdAt | date('H:i') }}</div>
-                <div class="content">
+        <div class="last_observation_item">
 
-                    <a href="{{ path('bird',{'id':observation.oiseau.id}) }}" class="btn btn-primary">Détail de l'observation</a>
-                </div>
-            </div>
+            <div class="image_last_observation_item">
 
+                <a>{% if observation.photo is null %}
+                        <img src="{{ asset('images_appli/no_photo_available.jpg') }}" alt="Bootstrap" class="img-thumbnail">
+                    {% else %}
+                        <img src="{{ asset('images_appli/'~ observation.photo) }}" alt="Bootstrap" class="img-thumbnail">
+                    {% endif %}</a>
+
+            </div><!---end image_last_observation_item-->
+
+            <h3>{{ observation.nom  }}Ecrit le {{ observation.createdAt | date('d/m/Y') }} à {{ observation.createdAt | date('H:i') }}</h3>
+
+            <a class="action_view" href="{{ path('bird',{'id':observation.oiseau.id}) }}">Voir l'oiseau</a>
+
+        </div><!---last_observation_item-->
         {% endfor %}
 
-    </section>
-    {% endif %}
-    <h4>Liste des derniers articles</h4>
-    <section class="article row">
-        {% for article in articles  %}
-            <div class="col-lg-2">
-                <h5>{{ article.title  }}</h5>
-                <div class="metadata">Ecrit le {{ article.createdAt | date('d/m/Y') }} à {{ article.createdAt | date('H:i') }}</div>
-                <div class="content">
+        </div><!--- end last_observation_content-->
+        <a class="button_style_1" href="{{ path('birds') }}">Voir toutes les observations</a>
+    </div><!---end last_observation-->
 
-                    <a href="{{ path('oneArticle',{'id':article.id}) }}" class="btn btn-primary">Détails</a>
-                </div>
+        <div id="short_presentation">
+
+            <div class="image_presentation">
+
+                <a><img src="https://jardinage.lemonde.fr/images/dossiers/2018-05/mesange-bleue-1-055106.jpg"/></a>
+
             </div>
 
-        {% endfor %}
+            <div class="paragraphe_presentation">
 
-    </section>
-{% endblock %}
+                <h3>PRESENTATION</h3>
+                <p>On entend rarement parler de ce dernier élément concernant notre santé, ce qui donne l'impression à plusieurs que l'environnement est extérieur à nous et que nous y sommes peu liés. Pourtant, c'est d'une importance primordiale.
+                    Par exemple, fréquenter des milieux naturels a des effets bénéfiques sur notre santé mentale, c'est prouvé scientifiquement. Bien sûr, la pollution affecte aussi directement la qualité de nos aliments et de notre eau. Ce ne sont que deux exemples parmi les nombreux effets qui existent.
+                    Avec l'amour de ces petites bêtes ailées, au fur et à mesure que les gens en connaîtront davantage sur les oiseaux, leur désir de les protéger et de protéger leur habitat devrait augmenter, favorisant ainsi les efforts de conservation de l'environnement. C'est, en fait, le premier but de ce site!</p>
+
+                <a href="{{ path('birds') }}">Faire une observation</a>
+
+            </div>
+
+        </div>
+        <div class="last_articles">
+
+            <h2>Les derniers articles</h2>
+
+            <div class="last_articles_content">
+                {% for article in articles  %}
+                <div class="last_article_item">
+
+                    <div class="image_last_article_item">
+
+                        <a><img src="https://jardinage.lemonde.fr/images/dossiers/2018-05/mesange-bleue-1-055106.jpg" /></a>
+
+                    </div>
+
+                    <h3>{{ article.title  }}</h3>
+
+                    <p>Ecrit le {{ article.createdAt | date('d/m/Y') }} à {{ article.createdAt | date('H:i') }} </p>
+
+                    <a class="action_view" href="{{ path('oneArticle',{'id':article.id}) }}">Voir l'article</a>
+
+                </div><!---end div of last_article_item-->
+                {% endfor %}
+            </div><!---end div of last article content-->
+
+            <a class="button_style_1" href="{{ path('blog') }}">Voir tous les articles</a>
+
+        </div><!---end div of last article-->
+
+    </div> <!---end div of body_content-->
+        {% endif %}
+        {% endblock %}

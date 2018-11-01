@@ -1,8 +1,8 @@
-{% extends 'jdLayout.html.twig' %}
+{% extends 'lwLayout.html.twig' %}
 
 {% block body %}
 
-    <div class="row">
+    <!--<div class="row">
     <h3>La Carte Des Oiseaux</h3>
         <div class="row">
         <script src='https://maps.googleapis.com/maps/api/js?v=3.exp'></script>
@@ -24,34 +24,51 @@
             <input type="button"  value="Trouver un oiseau sur la carte" class="btn btn-success" onclick="TrouverAdresse();"/>
         </form>
         <span id="text_latlng"></span>
-        <div id="map-canvas" style="float:right;height:220px;width:45%"></div>
-    </div>
-    <h3>Liste des oiseaux repertoriés</h3>
-    <section class="row">
-        {% for oiseau in oiseaux  %}
-            <div class="col-lg-3">
-            <h5>{{ oiseau.lbNom  }}</h5>
-                <img class="img-rounded" src="{{ oiseau.url }}" alt="{{ oiseau.lbNom  }}" style="width: 80%; height: 45%"/>
-            <div class="meta">
-                Découvert par {{ oiseau.lbAuteur }} <strong> reference:</strong>
-                {{ oiseau.cdRef }}
-            </div>
-            <div class="content">
-                {{ oiseau.famille }}
-                <a href="{{ path('bird',{'id':oiseau.id}) }}" class="btn btn-primary">Observations</a>
-            </div>
-            </div>
-        {% endfor %}
+        <!--<div id="map-canvas" style="float:right;height:220px;width:45%"></div>
+    </div>-->
+
+    <section class="title_page">
+
+        <div class="section_content">
+
+            <h1>OBSERVATIONS</h1>
+
+        </div>
 
     </section>
-    <script>
-        $('#exampleModal').on('shown.bs.modal', function () {
-            var modal = $(this);
-            $.ajax('{{ path('article_create') }}', {
-                success: function(data) {
-                    modal.find('.modal-body').html(data);
-                }
-            });
-        });
-    </script>
+    <div class="body_content">
+
+        <div class="content">
+
+            <div class="last_articles">
+
+                <h2>LISTE DES OISEAUX REPERTORIES</h2>
+
+                <div class="last_articles_content">
+                    {% for oiseau in oiseaux  %}
+                        <div class="last_article_item">
+
+                            <div class="image_last_article_item">
+
+                                <a><img src="{{ oiseau.url }}" alt="{{ oiseau.lbNom  }}" /></a>
+
+                            </div>
+
+                            <h3>{{ oiseau.lbNom  }}</h3>
+
+                            <p>Découvert par {{ oiseau.lbAuteur }} <strong> reference:</strong>
+                                {{ oiseau.cdRef }}</p>
+                            <p>{{ oiseau.famille }}</p>
+                            <a class="action_view" href="{{ path('bird',{'id':oiseau.id}) }}">Observations</a>
+
+                        </div>
+                    {% endfor %}
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
 {% endblock %}

@@ -123,4 +123,13 @@ class LwController extends AbstractController
         die();
         return $this->redirectToRoute('admin_observation');
     }
+
+    /**
+     * @route ("/lw/contact", name="contactNao")
+     */
+    public function contactNao()
+    {
+        return $this->render('jd_pub_nao/Public/contact.html.twig');
+    }
+
 }
