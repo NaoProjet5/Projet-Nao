@@ -7,7 +7,7 @@
 
             <h1>NAO, C'EST QUOI ?</h1>
 
-            <p>Suspendisse eget lorem diam. Integer sit amet sodales ligula. Morbi posuere imperdiet enim, sit amet feugiat dolor pulvinar ac. Nam in orci finibus ipsum dapibus eleifend. Nullam non faucibus magna. Suspendisse vel laoreet quam. Donec porttitor ornare cursus. Aenean dapibus consectetur enim, non faucibus lorem. Sed at sapien nisl. Cras efficitur quis ex egestas semper. Etiam sit amet mollis lacus, et hendrerit tortor</p>
+            <p>En traitant de l'observation et de la protection des oiseaux,  la mission générale de ce site est la conservation des milieux naturels et des beautés de ce monde.</p>
 
             <div class="buttons_box">
 
@@ -44,8 +44,8 @@
 
             </div><!---end image_last_observation_item-->
 
-            <h3>{{ observation.nom  }}Ecrit le {{ observation.createdAt | date('d/m/Y') }} à {{ observation.createdAt | date('H:i') }}</h3>
-
+            <h3>{{ observation.nom  }} </h3>
+            <p>Ecrit le {{ observation.createdAt | date('d/m/Y') }} à {{ observation.createdAt | date('H:i') }}</p>
             <a class="action_view" href="{{ path('bird',{'id':observation.oiseau.id}) }}">Voir l'oiseau</a>
 
         </div><!---last_observation_item-->

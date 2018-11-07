@@ -19,7 +19,7 @@
                 {% else %}
                     <img src="{{ asset('images_appli/'~ observation.photo) }}" alt="Bootstrap" class="img-thumbnail" width="70%" >
                 {% endif %}</td>
-            <td>{{ observation.coordonneesGps}}</td>
+            <td>{{ observation.longitude}} et {{ observation.latitude}}</td>
             <td>{{ observation.user.firstname}}</td>
             <td>{{ observation.createdAt | date('d/m/Y') }}</td>
 

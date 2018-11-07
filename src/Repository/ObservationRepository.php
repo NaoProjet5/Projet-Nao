@@ -32,6 +32,7 @@ class ObservationRepository extends ServiceEntityRepository
         return $query->execute();
     }
 
+
     public function getMyOwneObservation($id_user): array
     {
         // automatically knows to select Products
@@ -44,6 +45,7 @@ class ObservationRepository extends ServiceEntityRepository
         return $qb->execute();
 
     }
+
     public function getGpsData($oiseau){
         $entityManager = $this->getEntityManager();
         $query = $entityManager->createQuery('SELECT ob FROM App\Entity\Observation ob JOIN ob.oiseau oi WHERE ob.valide = :valide AND oi.lbNom = :oiseau');

@@ -2,31 +2,6 @@
 
 {% block body %}
 
-    <!--<div class="row">
-    <h3>La Carte Des Oiseaux</h3>
-        <div class="row">
-        <script src='https://maps.googleapis.com/maps/api/js?v=3.exp'></script>
-        <div style='overflow:hidden;height:440px;width:700px;'>
-            <div id='gmap_canvas' style='height:440px;width:700px;'>
-            </div><div><small><a href="https://embedgooglemaps.com/fr/">embedgooglemaps FR</a></small>
-            </div><div><small><a href="http://www.stedentrippers.nl/berlijn.html">stedentrippers(*)</a>
-                </small></div><style>#gmap_canvas img{max-width:none!important;background:none!important}
-            </style></div><script type='text/javascript'>function init_map()
-            {var myOptions = {zoom:10,center:new google.maps.LatLng(48.856614,2.3522219000000177),mapTypeId: google.maps.MapTypeId.ROADMAP};
-            map = new google.maps.Map(document.getElementById('gmap_canvas'), myOptions);
-            marker = new google.maps.Marker({map: map,position: new google.maps.LatLng(48.856614,2.3522219000000177)});
-            infowindow = new google.maps.InfoWindow({content:'<strong>Titre</strong><br>Paris, France<br>'});
-            google.maps.event.addListener(marker, 'click', function(){infowindow.open(map,marker);});infowindow.open(map,marker);}
-            google.maps.event.addDomListener(window, 'load', init_map);</script>
-        </div>
-        <form>
-            <input type="text" id="adresse"/>
-            <input type="button"  value="Trouver un oiseau sur la carte" class="btn btn-success" onclick="TrouverAdresse();"/>
-        </form>
-        <span id="text_latlng"></span>
-        <!--<div id="map-canvas" style="float:right;height:220px;width:45%"></div>
-    </div>-->
-
     <section class="title_page">
 
         <div class="section_content">
@@ -38,17 +13,74 @@
     </section>
     <div class="body_content">
 
-        <div class="content">
+        <div class="content map">
 
-            <div class="last_articles">
+            <div id="map_canvas"></div>
 
-                <h2>LISTE DES OISEAUX REPERTORIES</h2>
+            <div id="do_observation">
 
-                <div class="last_articles_content">
+                <input type="text" id="search_text" name="search_text" placeholder="Recherchez un oiseau"/>
+
+                <button id="recherche_bouton">Rechercher</button>
+
+            </div>
+
+            <div id="cartes_oiseaux">
+
+                <a style="cursor : pointer;" onclick="hide_oiseau('rouge_gorge');"><img style="position : absolute; top : 10px; left : 10px; width : 30px; height : auto;" src="assets/css/img/close.png" /></a>
+
+                <div class="carte_oiseau" id="oiseau_rouge_gorge">
+
+                    <h3>Rouge gorge</h3>
+
+                    <div class="image_oiseau">
+
+                        <a><img src="https://jardinage.lemonde.fr/images/dossiers/2018-05/mesange-bleue-1-055106.jpg" /></a>
+
+                    </div>
+
+                    <div class="position_oiseau">
+
+                        <p>
+
+                            <span>Lat : 45.5327</span>
+
+                            <span>Lng : -0.0023</span>
+
+                        </p>
+
+                    </div>
+
+                    <div id="references_nbre_observation">
+
+                        <a><span>7</span> références de cet oiseau</a>
+
+                    </div>
+
+                    <button id="savoir_plus">En savoir plus sur cet oiseau</button>
+
+                </div>
+
+            </div>
+
+            <div id="content_oiseaux">
+
+                <div id="content" data-name="rouge_gorge" style="display : none;">Rouge gorge</div>
+
+            </div>
+
+        </div>
+
+    <div class="last_observations">
+
+    <h2>Les dernières observations</h2>
+
+    <div class="last_observations_content">
+
                     {% for oiseau in oiseaux  %}
-                        <div class="last_article_item">
+                        <div class="last_observation_item">
 
-                            <div class="image_last_article_item">
+                            <div class="image_last_observation_item">
 
                                 <a><img src="{{ oiseau.url }}" alt="{{ oiseau.lbNom  }}" /></a>
 
@@ -70,5 +102,192 @@
         </div>
 
     </div>
+    <div id="databird"></div>
+
+{% endblock %}
+{% block javascripts %}
+{{ parent() }}
+<script
+        src="https://code.jquery.com/jquery-3.3.1.js"
+        integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+        crossorigin="anonymous"></script>
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC1_2otoK8H-gpWeExPvPD-pK7V2CDWNwE"></script>
+
+<script>
+    $('#recherche_bouton').click(function() {
+        bird_name = document.getElementById("search_text").value;
+        $.ajax({
+            url: "{{path('gpsdata')}}",
+            type: "POST",
+            data: {
+                bird_name: bird_name
+            },
+            success: function(data){
+                var oiseaux = [];
+
+                for (var i = 0; i < data[0].length; ++i) {
+                    oiseaux[i] = new google.maps.Marker({
+                        map: map,
+                        icon: 'assets/img/marker_carte.png',
+                        position: {lat: Number(data[1][i]), lng: Number(data[0][i])}
+                    });
+                    oiseaux[i].addListener('click', function() {
+                        map.setZoom(10);
+                        map.setCenter({lat : Number(data[1]), lng: Number(data[0])});
+                        //window.location.href = "http://127.0.0.1:8000/mapBirds"+Number(data[3][i]);
+                    });
+                }
+            }
+        });
+
+    });
+
+
+    var map, popup, Popup;
+
+    var rouge_gorge;
+
+    /** Initializes the map and the custom popup. */
+    function initMap() {
+
+            definePopupClass();
+        var center = {lat: 46.102079,lng: -0.076303};
+
+        map = new google.maps.Map(document.getElementById('map_canvas'), {
+            zoom: 7,
+            center: {lat: 46.102079,lng: -0.076303 }
+        });
+
+        popup = new Popup(
+            new google.maps.LatLng(46.102079, -0.076303),
+            document.getElementById('content'));
+        popup.setMap(map);
+
+
+
+
+    }
+
+
+
+    function anim_rouge_gorge() {
+        if (rouge_gorge.getAnimation() !== null) {
+            rouge_gorge.setAnimation(null);
+        } else {
+            rouge_gorge.setAnimation(google.maps.Animation.BOUNCE);
+        }
+    }
+
+    function anim_oiseau_2() {
+        if (rouge_gorge.getAnimation() !== null) {
+            rouge_gorge.setAnimation(null);
+        } else {
+            rouge_gorge.setAnimation(google.maps.Animation.BOUNCE);
+        }
+    }
+
+    /** Defines the Popup class. */
+    function definePopupClass() {
+        /**
+         * A customized popup on the map.
+         * @param {!google.maps.LatLng} position
+         * @param {!Element} content
+         * @constructor
+         * @extends {google.maps.OverlayView}
+         */
+        Popup = function(position, content) {
+            this.position = position;
+
+            content.classList.add('popup-bubble-content');
+
+            var pixelOffset = document.createElement('div');
+            pixelOffset.classList.add('popup-bubble-anchor');
+            pixelOffset.appendChild(content);
+
+            this.anchor = document.createElement('div');
+            this.anchor.classList.add('popup-tip-anchor');
+            this.anchor.appendChild(pixelOffset);
+
+            // Optionally stop clicks, etc., from bubbling up to the map.
+            this.stopEventPropagation();
+        };
+        // NOTE: google.maps.OverlayView is only defined once the Maps API has
+        // loaded. That is why Popup is defined inside initMap().
+        Popup.prototype = Object.create(google.maps.OverlayView.prototype);
+
+        /** Called when the popup is added to the map. */
+        Popup.prototype.onAdd = function() {
+            this.getPanes().floatPane.appendChild(this.anchor);
+        };
+
+        /** Called when the popup is removed from the map. */
+        Popup.prototype.onRemove = function() {
+            if (this.anchor.parentElement) {
+                this.anchor.parentElement.removeChild(this.anchor);
+            }
+        };
+
+        /** Called when the popup needs to draw itself. */
+        Popup.prototype.draw = function() {
+            var divPosition = this.getProjection().fromLatLngToDivPixel(this.position);
+            // Hide the popup when it is far out of view.
+            var display =
+                Math.abs(divPosition.x) < 4000 && Math.abs(divPosition.y) < 4000 ?
+                    'block' :
+                    'none';
+
+            if (display === 'block') {
+                this.anchor.style.left = divPosition.x + 'px';
+                this.anchor.style.top = divPosition.y + 'px';
+            }
+            if (this.anchor.style.display !== display) {
+                this.anchor.style.display = display;
+            }
+        };
+
+        /** Stops clicks/drags from bubbling up to the map. */
+        Popup.prototype.stopEventPropagation = function() {
+            var anchor = this.anchor;
+            anchor.style.cursor = 'auto';
+
+            ['click', 'dblclick', 'contextmenu', 'wheel', 'mousedown', 'touchstart',
+                'pointerdown']
+                .forEach(function(event) {
+                    anchor.addEventListener(event, function(e) {
+                        e.stopPropagation();
+                    });
+                });
+        };
+    }
+
+
+
+        initMap();
+
+
+    function view_oiseau(oiseau_cible){
+        var view_oiseau = $('#content').attr('data-name',oiseau_cible);
+        $('#content').css('display','none');
+        view_oiseau.css('display','block');
+        $('#cartes_oiseaux').css('display','block');
+        $('.carte_oiseau:not(#oiseau_'+oiseau_cible+')').css('display','none');
+        $('.carte_oiseau #oiseau_'+oiseau_cible).css('display','block');
+        map.setZoom(10);
+        map.setCenter(rouge_gorge.getPosition());
+    }
+
+    function hide_oiseau(oiseau_cible){
+        var view_oiseau = $('#content').attr('data-name',oiseau_cible);
+        $('#content').css('display','block');
+        view_oiseau.css('display','none');
+        $('#cartes_oiseaux').css('display','none');
+        $('.carte_oiseau:not(#oiseau_'+oiseau_cible+')').css('display','block');
+        $('.carte_oiseau #oiseau_'+oiseau_cible).css('display','none');
+        map.setZoom(7);
+        map.setCenter(center);
+    }
+
+</script>
 
 {% endblock %}

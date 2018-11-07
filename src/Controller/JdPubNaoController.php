@@ -19,6 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
+use App\Form\LwArticleType;
 
 class JdPubNaoController extends AbstractController
 {
@@ -84,7 +85,7 @@ class JdPubNaoController extends AbstractController
             $manager->flush();
             return $this->redirectToRoute('bird',['id'=>$oiseau->getId()]);
         }
-        return $this->render('lw/observation.html.twig',[
+        return $this->render('lw_pub_nao/lwObservation.html.twig',[
             'formObservation'=>$form->createView(),
             'oiseau'=>$oiseau
         ]);
@@ -121,6 +122,31 @@ class JdPubNaoController extends AbstractController
         return $this->render('jd_pub_nao/Public/lwArticle.html.twig',[
             'article'=>$article,
             'formComment'=>$form->createView()
+        ]);
+    }
+    /**
+     * @Route ("/lw/new_article", name="new_article")
+     */
+    public function create(Request $request,ObjectManager $manager, FileUploader $fileUploader) {
+
+        $article = new LwArticle();
+        $form = $this->createForm(LwArticleType::class, $article);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $article->setCreatedAt(new \DateTime());
+            $article->setAlive(1);
+            $file = $article->getPhoto();
+            dump($file);
+            die();
+            $fileName = $fileUploader->upload($file);
+            $article->setPhoto($fileName);
+            $manager->persist($article);
+            $manager->flush();
+            return $this->redirectToRoute('blog_show',['id'=>$article->getId()]);
+        }
+        return $this->render('lw_login_nao/lwCreate.html.twig',[
+            'form'=>$form->createView()
         ]);
     }
 

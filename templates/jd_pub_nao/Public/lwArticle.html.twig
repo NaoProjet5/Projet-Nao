@@ -1,12 +1,23 @@
 {% extends 'lwLayout.html.twig' %}
  {% block body %}
-     <div class="article">
+
+<section class="title_page">
+
+    <div class="section_content">
+
+        <h1>{{ article.title  }}</h1>
+
+    </div>
+
+</section>
+<div class="body_content">
+     <div class="content">
         <h2>{{ article.title  }}</h2>
         <div class="metadata">Ecrit le {{ article.createdAt | date('d/m/Y') }} à {{ article.createdAt | date('H:i') }}</div>
         <div class="content">
             {{ article.content }}
         </div>
-     </div>
+
      <hr />
      <h5> listes des commentaires</h5>
      <section id="commentaires">
@@ -38,7 +49,11 @@
      </div>
 
      {% else %}
-     Pour laisser un commentaire veuillez vous devez vous  <a href="{{ path('loginUsers') }}" class="btn btn-success">Connecter</a>
+         <div class="button_style_1" >
+     Pour laisser un commentaire vous devez vous  <a href="{{ path('loginUsers') }}" class="button_style_1">Connecter</a>
+         </div>
      {% endif %}
+     </div>
+</div>
 
 {% endblock %}

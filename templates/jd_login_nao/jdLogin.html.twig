@@ -1,11 +1,22 @@
-{% extends 'jdLayout.html.twig' %}
+{% extends 'lwLayout.html.twig' %}
 
 {% block body %}
-    <h1>Connexion</h1>
+
+    <section class="title_page">
+
+        <div class="section_content">
+
+            <h1>Connexion</h1>
+
+        </div>
+
+    </section>
+    <div class="body_content">
+    <div class="content">
     <div class="row">
         <div class="col-lg-12">
             <form action="{{ path('loginUsers') }}" method="post">
-                <div class="form-group">
+                <div class="form-group" >
                     <input type="text" placeholder="Adresse email ..." required name="_username" class="form-control col-lg-6 col-sm-6">
                 </div>
                 <div class="form-group">
@@ -16,5 +27,7 @@
                 </div>
             </form>
         </div>
+    </div>
+    </div>
     </div>
 {% endblock %}
