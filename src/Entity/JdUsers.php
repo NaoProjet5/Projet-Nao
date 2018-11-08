@@ -90,7 +90,7 @@ class JdUsers implements UserInterface
     /**
      * @ORM\Column(name="roles", type="array")
      */
-    private $roles = [];
+    private $roles =[];
      /**
      * @ORM\OneToMany(targetEntity="App\Entity\Observation", mappedBy="user", orphanRemoval=true)
      */
@@ -100,6 +100,11 @@ class JdUsers implements UserInterface
      * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="author")
      */
     private $comments;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $alive;
 
     /**
      * JdUsers constructor.
@@ -271,7 +276,8 @@ class JdUsers implements UserInterface
         $this->roles = $roles;
     }
 
-    function addRole($role) {
+    function addRole($role)
+    {
         $this->roles[] = $role;
     }
 
@@ -389,6 +395,18 @@ class JdUsers implements UserInterface
                 $comment->setAuthor(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAlive(): ?bool
+    {
+        return $this->alive;
+    }
+
+    public function setAlive(bool $alive): self
+    {
+        $this->alive = $alive;
 
         return $this;
     }

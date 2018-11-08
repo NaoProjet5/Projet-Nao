@@ -39,6 +39,11 @@ class JdLoginNaoController extends AbstractController
         ]);
     }
 
+    public function jdValueUsers()
+    {
+        
+    }
+
     /**
      * @Route("/login", name="loginUsers")
      * @return \Symfony\Component\HttpFoundation\Response

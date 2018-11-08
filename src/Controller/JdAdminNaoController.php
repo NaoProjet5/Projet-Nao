@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\JdUsers;
+use App\Form\JdAddAdminType;
+use App\Form\JdUpUsersType;
 use App\Form\JdUsersType;
 use App\Repository\JdUsersRepository;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -42,18 +44,18 @@ class JdAdminNaoController extends AbstractController
      * @Security("is_granted('ROLE_SUPER_ADMIN')")
      * @Route("/Update/user/{id}", name="jdUpDateUser" )
      */
-    public function jdUpDateUser(ObjectManager $manager, JdUsers $user, Request $request, JdAdminService $role, UserPasswordEncoderInterface $encoder)
+    public function jdUpDateUser(ObjectManager $manager, JdUsers $user, Request $request, UserPasswordEncoderInterface $encoder)
     {
         if ($user)
         {
-            $form = $this->createForm(JdUsersType::class, $user);
+            $form = $this->createForm(JdUpUsersType::class, $user);
             $form->handleRequest($request);
-            $roles = $role->jdRoles();
             if($form->isSubmitted() && $form->isValid())
             {
                 $hash = $encoder->encodePassword($user, $user->getPassword());
                 $user->setPassword($hash);
-                $user->setRoles($roles);
+                $role = $user->getRoles();
+                $user->setRoles($role);
                 $manager->flush();
                 return $this->redirectToRoute('jaAllUser',
                     [
@@ -62,38 +64,37 @@ class JdAdminNaoController extends AbstractController
             }
         }
 
-        return $this->render('jd_login_nao/TemplatesViews/jdAddUser.html.twig',
+        return $this->render('jd_login_nao/TemplatesViews/jdUpDateUser.html.twig',
             [
                 'form'          =>$form->createView(),
                 'user'          => $user->getId(),
             ]);
     }
+
     /**
      * @Security("is_granted('ROLE_SUPER_ADMIN')")
      * @Route("/add/user/nao", name="jdadduserNao")
      */
-    public function jdAddUser(Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder, JdAdminService $role)
+    public function jdAddUser(Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder)
     {
         $user =  new JdUsers();
-        $form = $this->createForm(JdUsersType::class, $user);
+        $form = $this->createForm(JdAddAdminType::class, $user);
         $form->handleRequest($request);
+
         if($form->isSubmitted() && $form->isValid())
         {
             $hash = $encoder->encodePassword($user, $user->getPassword());
             $user->setPassword($hash);
-            $roles = $role->jdRoles();
-            $user->setRoles($roles);
-
+            $role = $user->getRoles();
+            $user->setRoles($role);
             $manager->persist($user);
             $manager->flush();
 
             return $this->redirectToRoute('jaAllUser');
         }
 
-        $roles = $user->getRoles();
         return $this->render('jd_login_nao/TemplatesViews/jdAddUser.html.twig', [
             'form'          => $form->createView(),
-            'roles'         => $roles
         ]);
     }
 
