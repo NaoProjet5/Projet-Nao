@@ -15,7 +15,8 @@ class ObservationType extends AbstractType
     {
         $builder
             ->add('nom', TextType::class, array('label'=>'Nom de l\'observation'))
-            ->add('coordonneesGps', TextType::class, array('label'=>'Les coordonnées GPS'))
+            ->add('longitude', TextType::class, array('label'=>'Longitude'))
+            ->add('latitude', TextType::class, array('label'=>'Latitude'))
             ->add('photo', FileType::class, array('label'=>'Photo de l\'observation'))
         ;
     }

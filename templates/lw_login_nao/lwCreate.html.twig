@@ -1,0 +1,14 @@
+{% extends 'jdLayout.html.twig' %}
+{% block body %}
+    <h1> Création d'un article</h1>
+   <div class="col-lg-8">
+       {{ form_start(form) }}
+       {{ form_row(form.title) }}
+       {{ form_row(form.content) }}
+       {{ form_row(form.photo) }}
+       <button type="submit" class="btn btn-success">
+           Enregistrer l'article
+       </button>
+       {{ form_end(form) }}
+   </div>
+{% endblock %}

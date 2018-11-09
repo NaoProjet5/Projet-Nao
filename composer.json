@@ -8,6 +8,7 @@
         "geocoder-php/common-http": "^4.1",
         "geocoder-php/google-maps-provider": "^4.2",
         "guzzlehttp/psr7": "^1.4",
+        "knplabs/knp-paginator-bundle": "^2.8",
         "php-http/curl-client": "^1.7",
         "php-http/guzzle6-adapter": "^1.1",
         "php-http/message": "^1.7",
@@ -27,7 +28,8 @@
         "symfony/twig-bundle": "*",
         "symfony/validator": "*",
         "symfony/web-link": "*",
-        "symfony/yaml": "*"
+        "symfony/yaml": "*",
+        "welp/mailchimp-bundle": "^1.2"
     },
     "require-dev": {
         "symfony/debug-pack": "*",

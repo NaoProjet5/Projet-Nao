@@ -28,11 +28,6 @@ class Observation
     private $createdAt;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $coordonneesGps;
-
-    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\File(mimeTypes={ "image/jpeg","image/png" })
      */
@@ -54,6 +49,16 @@ class Observation
      * @ORM\JoinColumn(nullable=false)
      */
     private $oiseau;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $longitude = null;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $latitude = null;
 
 
     public function getId(): ?int
@@ -81,18 +86,6 @@ class Observation
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getCoordonneesGps(): ?string
-    {
-        return $this->coordonneesGps;
-    }
-
-    public function setCoordonneesGps(string $coordonneesGps): self
-    {
-        $this->coordonneesGps = $coordonneesGps;
 
         return $this;
     }
@@ -141,6 +134,30 @@ class Observation
     public function setOiseau(?Oiseau $oiseau): self
     {
         $this->oiseau = $oiseau;
+
+        return $this;
+    }
+
+    public function getLongitude(): ?string
+    {
+        return $this->longitude;
+    }
+
+    public function setLongitude(string $longitude): self
+    {
+        $this->longitude = $longitude;
+
+        return $this;
+    }
+
+    public function getLatitude(): ?string
+    {
+        return $this->latitude;
+    }
+
+    public function setLatitude(string $latitude): self
+    {
+        $this->latitude = $latitude;
 
         return $this;
     }

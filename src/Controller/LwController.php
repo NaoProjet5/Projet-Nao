@@ -7,12 +7,15 @@ use App\Form\LwArticleType;
 use App\Repository\LwArticleRepository;
 use App\Repository\ObservationRepository;
 use Doctrine\Common\Persistence\ObjectManager;
+use http\Env\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Geocoder\Query\GeocodeQuery;
 use Geocoder\Query\ReverseQuery;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use App\LwServices\FileUploader;
 
 class LwController extends AbstractController
 {
@@ -21,42 +24,18 @@ class LwController extends AbstractController
      */
     public function index()
     {
-        $httpClient = new \Http\Adapter\Guzzle6\Client();
-        $provider = new \Geocoder\Provider\GoogleMaps\GoogleMaps($httpClient);
-        $geocoder = new \Geocoder\StatefulGeocoder($provider, 'fr');
-        dump($provider);
-        die();
         return $this->render('lw/index.html.twig', [
             'controller_name' => 'LwController',
         ]);
     }
 
-    /**
-     * @Route ("/lw/new_article", name="new_article")
-     */
-    public function create(Request $request,ObjectManager $manager) {
 
-        $article = new LwArticle();
-        $form = $this->createForm(LwArticleType::class, $article);
-        $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid())
-        {
-            $article->setCreatedAt(new \DateTime());
-            $article->setAlive(1);
-            $manager->persist($article);
-            $manager->flush();
-            return $this->redirectToRoute('blog_show',['id'=>$article->getId()]);
-        }
-        return $this->render('lw/create.html.twig',[
-            'form'=>$form->createView()
-        ]);
-    }
 
     /**
      * @Route ("/lw/article/{id}",name="blog_show")
      */
     public function show_article(LwArticle $article){
-        return $this->render('lw/OneArticle.html.twig',[
+        return $this->render('lw_pub_nao/lwOneArticle.html.twig',[
             'article'=>$article
         ]);
 
@@ -72,7 +51,7 @@ class LwController extends AbstractController
         dump($paginator);
         dump($c);
         die();*/
-        return $this->render('lw/adminObservation.html.twig',[
+        return $this->render('lw_login_nao/lwAdminObservation.html.twig',[
             'observations'=>$observation
         ]);
 
@@ -82,7 +61,7 @@ class LwController extends AbstractController
      */
     public function adminArticle( LwArticleRepository $repos){
         $article = $repos->findAll();
-        return $this->render('lw/adminArticle.html.twig',[
+        return $this->render('lw_login_nao/lwAdminArticle.html.twig',[
             'articles' => $article
         ]);
     }
@@ -112,4 +91,34 @@ class LwController extends AbstractController
         $manager->flush();
         return $this->redirectToRoute('admin_observation');
     }
+
+    /**
+     * @route ("/lw/gpsdata", name="gpsdata" )
+     */
+    public function getDataObservation( ObservationRepository $repos, ObjectManager $manager, Request $request){
+
+        $oiseaux =  $request->request->get('bird_name');
+        $observation = $repos->getGpsData($oiseaux);
+        $dataLong = array();
+        $dataLat = array();
+        $dataId = array();
+
+        foreach ($observation as $key=>$valeur){
+            $dataLong[$key] = $valeur->getLongitude();
+            $dataLat[$key] = $valeur->getLatitude();
+            $dataId[$key] = $valeur->getOiseau()->getId();
+
+        }
+
+        return new JsonResponse(array($dataLong,$dataLat,$dataId));
+    }
+
+    /**
+     * @route ("/lw/contact", name="contactNao")
+     */
+    public function contactNao()
+    {
+        return $this->render('jd_pub_nao/Public/contact.html.twig');
+    }
+
 }
