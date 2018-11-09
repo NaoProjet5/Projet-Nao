@@ -136,9 +136,7 @@ class JdPubNaoController extends AbstractController
         {
             $article->setCreatedAt(new \DateTime());
             $article->setAlive(1);
-            $file = $article->getPhoto();
-            dump($file);
-            die();
+            $file = $form->get('photo')->getData();
             $fileName = $fileUploader->upload($file);
             $article->setPhoto($fileName);
             $manager->persist($article);

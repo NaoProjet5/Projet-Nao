@@ -35,7 +35,7 @@ class LwController extends AbstractController
      * @Route ("/lw/article/{id}",name="blog_show")
      */
     public function show_article(LwArticle $article){
-        return $this->render('lw/OneArticle.html.twig',[
+        return $this->render('lw_pub_nao/lwOneArticle.html.twig',[
             'article'=>$article
         ]);
 

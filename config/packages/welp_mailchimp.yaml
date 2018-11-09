@@ -1,0 +1,34 @@
+welp_mailchimp:
+  api_key: 1661d7cc9b23afcbef941681062b4d91-us19
+  list_provider: 'welp_mailchimp.list_provider'
+  lists:
+    listId1:
+      # provider used in full synchronization
+      subscriber_provider: 'yourapp.provider1'
+      # webhook secret to secure webhook between MailChimp & your app
+      webhook_secret: 'thisIsASecret'
+      # The webhook url to be registered to the MailChimp list
+      webhook_url: 'https://myapp.com/mailchimp/webhook/endpoint'
+      # optional merge tags you want to synchronize
+      merge_fields:
+      -
+        tag: FNAME
+        name: First Name
+        type: text
+        public: true
+      -
+        tag: LNAME
+        name: Last Name
+        type: text
+        public: true
+      -
+        tag: FIRSTTAG
+        name: My first tag
+        type: text
+        options:
+          size: 5
+      -
+        tag: SECONDTAG
+        name: My second tag
+        type: text
+        public: true

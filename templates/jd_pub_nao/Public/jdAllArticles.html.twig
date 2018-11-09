@@ -24,10 +24,15 @@
     <div class="last_article_item">
 
         <div class="image_last_article_item">
-
-            <a><img src="https://jardinage.lemonde.fr/images/dossiers/2018-05/mesange-bleue-1-055106.jpg" /></a>
+            <a>{% if article.photo == "" or article.photo is null  %}
+                    <img src="{{ asset('images_appli/no_photo_available.jpg') }}" alt="Bootstrap" class="img-thumbnail">
+                {% else %}
+                    <img src="{{ asset('images_appli/'~ article.photo) }}" alt="Bootstrap" class="img-thumbnail">
+                {% endif %}
 
         </div>
+
+
 
         <h3>{{ article.title  }}</h3>
 

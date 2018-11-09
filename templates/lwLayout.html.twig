@@ -179,8 +179,8 @@
 
             <div id="mon_compte">
 
-                <a href="{{ path('createdAtUser') }}" class="btn btn-outline-secondary btn-sm">Inscription</a>
                 {% if not app.user %}
+                    <a href="{{ path('createdAtUser') }}" class="btn btn-outline-secondary btn-sm">Inscription</a>
                     <a href="{{ path('loginUsers') }}" class="btn btn-outline-secondary btn-sm">Connexion</a>
                 {% else %}
                     <a href="{{ path('usersLogout') }}" class="btn btn-outline-secondary btn-sm">Déconnexion</a>

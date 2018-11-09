@@ -28,8 +28,6 @@ class LwArticleType extends AbstractType
                 'label'=>'Image de l\'article',
                 'attr'=>['placeholder'=>'image de l\'article']
             ])
-            ->add('save',SubmitType::class, ['label'=>'Enregistrer l\'article','attr'=>['class'=>'btn btn-success']
-            ])
         ;
     }
 
