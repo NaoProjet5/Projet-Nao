@@ -4,9 +4,9 @@
         <div class="col-lg-10">
 
         </div>
-    <div class="col-lg-2">
-        <a href="{{ path('new_article')}}" class="btn btn-success">Créer un article</a>
-    </div>
+        <div class="col-lg-2">
+            <a href="{{ path('new_article')}}" class="btn btn-success">Créer un article</a>
+        </div>
     </div>
     <table class="table table-striped">
 
@@ -21,15 +21,15 @@
         </thead>
         <tbody>
         {% for article in articles  %}
-        <tr>
-            <td></td>
-            <td>{{ article.title  }}</td>
-            <td>{{ article.createdAt | date('d/m/Y') }}</td>
-            <td></td>
-            <td> <a href="#" class="btn btn-info btn-lg">
-                    <span class="glyphicon glyphicon-remove"></span> Supprimer
-                </a></td>
-        </tr>
+            <tr>
+                <td></td>
+                <td>{{ article.title  }}</td>
+                <td>{{ article.createdAt | date('d/m/Y') }}</td>
+                <td></td>
+                <td> <a href="#" class="btn btn-info btn-lg">
+                        <span class="glyphicon glyphicon-remove"></span> Supprimer
+                    </a></td>
+            </tr>
         {% endfor %}
         </tbody>
     </table>

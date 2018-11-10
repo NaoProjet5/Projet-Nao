@@ -39,7 +39,6 @@ class JdAdminNaoController extends AbstractController
                 'users'      => $user
             ]);
     }
-
     /**
      * @Security("is_granted('ROLE_SUPER_ADMIN')")
      * @Route("/Update/user/{id}", name="jdUpDateUser" )

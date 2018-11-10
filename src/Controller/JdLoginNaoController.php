@@ -27,6 +27,7 @@ class JdLoginNaoController extends AbstractController
         {
             $hash = $encoder->encodePassword($user, $user->getPassword());
             $user->setPassword($hash);
+            $user->setAlive(0);
 
             $manager->persist($user);
             $manager->flush();

@@ -45,9 +45,9 @@
         </form>
         <div>
             {% if not app.user %}
-            <a href="{{ path('loginUsers') }}" class="btn btn-outline-secondary btn-sm">Connexion</a>
+                <a href="{{ path('loginUsers') }}" class="btn btn-outline-secondary btn-sm">Connexion</a>
             {% else %}
-            <a href="{{ path('usersLogout') }}" class="btn btn-outline-secondary btn-sm">Déconnexion</a>
+                <a href="{{ path('usersLogout') }}" class="btn btn-outline-secondary btn-sm">Déconnexion</a>
             {% endif %}
         </div>
     </div>
