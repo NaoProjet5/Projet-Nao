@@ -1,36 +1,69 @@
-{% extends "jdLayout.html.twig" %}
-{% block body %}
-    <div class="row">
-        <div class="col-lg-10">
+{% extends 'lwLayoutAdmin.html.twig' %}
 
-        </div>
-        <div class="col-lg-2">
-            <a href="{{ path('new_article')}}" class="btn btn-success">Créer un article</a>
+{% block contentPage %}
+    <div class="content">
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-10">
+
+                    </div>
+                    <div class="col-lg-2">
+                        <a href="{{ path('new_article')}}" class="btn btn-success">Créer un article</a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead class=" text-primary">
+                    <tr>
+                        <th>Image</th>
+                        <th>Titre</th>
+                        <th>Date de publication</th>
+                        <th>Commentaires</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for article in articles  %}
+                        <tr>
+                            <th></th>
+                            <th>{{ article.title  }}</th>
+                            <th>{{ article.createdAt | date('d/m/Y') }}</th>
+                            <th>{{ article.comments|length }}</th>
+                            <th>
+                                <a href="#" class="btn btn-info btn-link" rel="tooltip" data-placement="bottom" title="Modifier l'article">
+                                    <i class="material-icons">edit</i>
+                                </a>
+                                <button type="button" class="btn btn-danger btn-link" rel="tooltip" data-placement="bottom" title="Supprimer l'article">
+                                    <i class="material-icons">close</i>
+                                </button>
+                            </th>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                        <nav aria-label="...">
+                            <ul class="pagination">
+                                <li class="page-item disabled">
+                                    <span class="page-link">Previous</span>
+                                </li>
+                                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item active">
+      <span class="page-link">
+        2
+        <span class="sr-only">(current)</span>
+      </span>
+                                </li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">Next</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <table class="table table-striped">
-
-        <thead>
-        <tr>
-            <td>Image</td>
-            <td>Titre</td>
-            <td>Date de publication</td>
-            <td>Commentaires</td>
-            <td>Actions</td>
-        </tr>
-        </thead>
-        <tbody>
-        {% for article in articles  %}
-            <tr>
-                <td></td>
-                <td>{{ article.title  }}</td>
-                <td>{{ article.createdAt | date('d/m/Y') }}</td>
-                <td></td>
-                <td> <a href="#" class="btn btn-info btn-lg">
-                        <span class="glyphicon glyphicon-remove"></span> Supprimer
-                    </a></td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
 {% endblock %}

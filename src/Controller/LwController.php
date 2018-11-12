@@ -57,6 +57,26 @@ class LwController extends AbstractController
 
     }
     /**
+     * @route ("/lw/adminObservationAccept", name="observation_accept")
+     */
+    public function adminObservationValide(ObservationRepository $repos){
+        $observation = $repos->findBy(['valide'=>1]);
+        return $this->render('lw_login_nao/lwAdminObservationValide.html.twig',[
+            'observations'=>$observation
+        ]);
+
+    }
+    /**
+     * @route ("/lw/adminObservationRef", name="observation_ref")
+     */
+    public function adminObservationInvalide(ObservationRepository $repos){
+        $observation = $repos->findBy(['valide'=>0]);
+        return $this->render('lw_login_nao/lwAdminObservationInvalide.html.twig',[
+            'observations'=>$observation
+        ]);
+
+    }
+    /**
      * @route ("/lw/AdminArticle", name="admin_article")
      */
     public function adminArticle( LwArticleRepository $repos){
@@ -65,6 +85,7 @@ class LwController extends AbstractController
             'articles' => $article
         ]);
     }
+
     /**
      * @Route("/lw/valide/{id}",name="valide_observation")
      */

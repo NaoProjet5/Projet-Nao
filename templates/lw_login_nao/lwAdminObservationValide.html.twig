@@ -1,0 +1,57 @@
+{% extends "lwLayoutAdmin.html.twig" %}
+{% block contentPage %}
+    <div class="content">
+        <div class="content">
+            <div class="container-fluid">
+                <h3>Toutes les observations validées</h3>
+                <br>
+                <div class="row">
+                    {% if observations is null or observations is empty %}
+                        <div class="alert alert-info" role="alert">
+                            <strong>Nous avons pas d'observation validées pour l'instant !!! </strong>
+                        </div>
+                    {% endif %}
+                    {% for observation in observations %}
+                        <div class="col-md-4">
+                            <div class="card card-product">
+                                <div class="card-header card-header-image" data-header-animation="true">
+                                    <a href="#pablo">
+                                        <img class="img" src="{{ asset('images_appli/'~ observation.photo) }}">
+                                    </a>
+                                </div>
+                                <div class="card-body">
+                                    <div class="card-actions text-center">
+                                        </button>
+                                        {% if observation.valide == 0 %}
+                                            <a href="{{ path('valide_observation',{'id':observation.id}) }}"> <button type="button" class="btn btn-success btn-link" rel="tooltip" data-placement="bottom" title="Validé">
+                                                    <i class="material-icons">check</i>
+                                                </button></a>
+                                        {% else %}
+                                            <a href="{{ path('valide_observation',{'id':observation.id}) }}"><button type="button" class="btn btn-danger btn-link" rel="tooltip" data-placement="bottom" title="Invalidé">
+                                                    <i class="material-icons">close</i>
+                                                </button></a>
+                                        {% endif %}
+                                    </div>
+                                    <h4 class="card-title">
+                                        <a href="{{ path('bird',{'id':observation.oiseau.id}) }}">{{ observation.oiseau.lbNom }}</a>
+                                    </h4>
+                                    <div class="card-description">
+                                        {{ observation.nom }}
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="price">
+                                        <a href="{{ path('bird',{'id':observation.oiseau.id}) }}"><button class="btn">Voir l'oiseau<div class="ripple-container"></div></button></a>
+                                    </div>
+                                    <div class="stats">
+                                        <p class="card-category"><i class="material-icons">place</i> lat : {{ observation.latitude}}, lng : {{ observation.longitude}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div> <!--end of class row -->
+            </div> <!--end container-fluid -->
+        </div> <!-- end second div content-->
+    </div> <!-- end first div content-->
+{% endblock %}

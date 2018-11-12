@@ -1,21 +1,27 @@
-{% extends 'jdLayout.html.twig' %}
+{% extends 'lwLayoutAdmin.html.twig' %}
 
-{% block body %}
-    <div class="row">
-        <div class="col-lg-12 col-sm-12">
-            <h1>La Création de votre Compte Utilisateur</h1>
-            <div class="row">
-                <div class="center col-lg-12 col-sm-12">
-                    {{ form_start(form, {'attr': {'class': 'col-sm-6 col-sm-offset-6'}}) }}
-                    {{ form_errors(form) }}
-                    {% include ('jd_login_nao/TemplatesViews/jdFormLogin.html.twig') %}
-                    <div class="form-group">
-                        {{ form_label(form.roles, "Choisissez le type de Rôle") }}
-                        {{ form_errors(form.roles) }}
-                        {{ form_widget(form.roles, {'attr': {'class': 'form-control', 'id': 'roles'}}) }}
+{% block contentPage %}
+    <div class="content">
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12 col-sm-12">
+                        <h3>Formulaire de modification du compte de l'utilisateur</h3>
+                        <div class="row">
+                            <div class="center col-lg-12 col-sm-12">
+                                {{ form_start(form, {'attr': {'class': 'col-sm-6 col-sm-offset-6'}}) }}
+                                {{ form_errors(form) }}
+                                {% include ('jd_login_nao/TemplatesViews/jdFormLogin.html.twig') %}
+                                <div class="form-group">
+                                    {{ form_label(form.roles, "Choisissez le type de Rôle") }}
+                                    {{ form_errors(form.roles) }}
+                                    {{ form_widget(form.roles, {'attr': {'class': 'form-control', 'id': 'roles'}}) }}
+                                </div>
+                                {{ form_widget(form.Enregistrer, {'attr': {'class': 'btn btn-success'}}) }}
+                                {{ form_end(form) }}
+                            </div>
+                        </div>
                     </div>
-                    {{ form_widget(form.Enregistrer, {'attr': {'class': 'btn btn-primary'}}) }}
-                    {{ form_end(form) }}
                 </div>
             </div>
         </div>

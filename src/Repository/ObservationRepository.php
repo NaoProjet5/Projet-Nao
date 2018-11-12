@@ -45,7 +45,6 @@ class ObservationRepository extends ServiceEntityRepository
         return $qb->execute();
 
     }
-
     public function getGpsData($oiseau){
         $entityManager = $this->getEntityManager();
         $query = $entityManager->createQuery('SELECT ob FROM App\Entity\Observation ob JOIN ob.oiseau oi WHERE ob.valide = :valide AND oi.lbNom = :oiseau');
@@ -56,6 +55,8 @@ class ObservationRepository extends ServiceEntityRepository
         $data = $query->getResult();
         return $data;
     }
+
+
 //    /**
 //     * @return Observation[] Returns an array of Observation objects
 //     */
