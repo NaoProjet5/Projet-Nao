@@ -20,9 +20,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 use App\Form\LwArticleType;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 
-class JdPubNaoController extends AbstractController
+class JdPubNaoController extends Controller
 {
     /**
      * @Route("/", name="home")
@@ -48,11 +49,22 @@ class JdPubNaoController extends AbstractController
     /**
      * @Route("/mapBirds", name="birds")
      */
-    public function jdAllBirds(OiseauRepository $repos)
+    public function jdAllBirds(OiseauRepository $repos, Request $request)
     {
         $oiseau = $repos->findAll();
+        /* @var $paginator \Knp\Component\Pager\Paginator */
+        $paginator  = $this->get('knp_paginator');
+        // Paginate the results of the query
+        $appointments = $paginator->paginate(
+        // Doctrine Query, not results
+            $oiseau,
+            // Define the page parameter
+            $request->query->getInt('page', 1),
+            // Items per page
+            8
+        );
         return $this->render('jd_pub_nao/Public/jdMapBirds.html.twig',[
-            'oiseaux'=>$oiseau
+            'oiseaux'=>$appointments
         ]);
     }
 
@@ -95,11 +107,22 @@ class JdPubNaoController extends AbstractController
     /**
      * @Route("/allArticles", name="blog")
      */
-    public function jdAllArticles(LwArticleRepository $repos)
+    public function jdAllArticles(LwArticleRepository $repos,Request $request)
     {
         $article = $repos->findBy(['alive'=>1]);
+        /* @var $paginator \Knp\Component\Pager\Paginator */
+        $paginator  = $this->get('knp_paginator');
+        // Paginate the results of the query
+        $appointments = $paginator->paginate(
+        // Doctrine Query, not results
+            $article,
+            // Define the page parameter
+            $request->query->getInt('page', 1),
+            // Items per page
+            8
+        );
         return $this->render('jd_pub_nao/Public/jdAllArticles.html.twig',[
-            'articles'=>$article
+            'articles'=>$appointments
         ]);
     }
     /**

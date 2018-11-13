@@ -32,3 +32,8 @@ services:
     App\LwServices\FileUploader:
         arguments:
             $targetDirectory: '%kernel.project_dir%/public/images_appli'
+    twig.extension.text:
+        class: Twig_Extensions_Extension_Text
+        tags:
+        - { name: twig.extension }
+

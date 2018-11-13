@@ -95,13 +95,18 @@
 
                         </div>
                     {% endfor %}
+
                 </div>
+        <div class="navigation">
+            {{ knp_pagination_render(oiseaux) }}
+        </div>
 
             </div>
 
         </div>
 
     </div>
+
     <div id="databird"></div>
 
 {% endblock %}
@@ -289,6 +294,4 @@
     }
 
 </script>
-
->>>>>>> landdev
 {% endblock %}

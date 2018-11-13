@@ -29,6 +29,16 @@ class LwController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/lw/Home/Admin", name="lwHomeAdmin")
+     */
+    public function HomeAdmin()
+    {
+        return $this->render('lw_login_nao/HomeAdmin.html.twig', [
+
+        ]);
+    }
+
 
 
     /**
@@ -46,11 +56,6 @@ class LwController extends AbstractController
      */
     public function adminObservation(ObservationRepository $repos){
         $observation = $repos->findAll();
-        /*$paginator = new Paginator($observation);
-        $c = count($paginator);
-        dump($paginator);
-        dump($c);
-        die();*/
         return $this->render('lw_login_nao/lwAdminObservation.html.twig',[
             'observations'=>$observation
         ]);

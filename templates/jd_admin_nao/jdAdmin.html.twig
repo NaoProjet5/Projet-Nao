@@ -1,24 +1,180 @@
 {% extends 'lwLayoutAdmin.html.twig' %}
 
 {% block contentPage %}
-    <br/><br/><br/>
-        <div class="row">
-            <div class="col-4">
-                <div class="media">
-                    <img class="mr-3" src="{{ asset('web/images/placeimg_64_64_grayscale_arch.jpg') }}" alt="Generic placeholder image">
-                    <div class="media-body">
-                        <h5 class="mt-0">Le mon de utilsateur</h5>
+    <div class="content">
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card ">
+                            <div class="card-header card-header-success card-header-icon">
+                                <div class="card-icon">
+                                    <i class="material-icons"></i>
+                                </div>
+                                <h4 class="card-title">Les dernières observations validées</h4>
+                            </div>
+                            <div class="card-body ">
+                                <div class="row">
+                                    <div class="col-md-7">
+                                        {% if fiveObservations is null or fiveObservations is empty %}
+                                            <div class="alert alert-info" role="alert">
+                                                <strong>Nous avons pas d'observation qui n'ont pas été validées pour l'instant !!! </strong>
+                                            </div>
+                                        {% endif %}
+                                        <div class="table-responsive table-sales">
+                                            <table class="table">
+                                                <tbody>
+                                                {% for observation in fiveObservations %}
+                                                <tr>
+                                                    <td>{{ observation.nom }}</td>
+                                                    <td class="text-right">
+                                                        {{ observation.latitude }} / {{ observation.longitude }}
+                                                    </td>
+                                                    <td class="text-right">
+                                                        <button onclick="anim_oiseau_1();" class="btn btn-info btn-round btn-fab">
+                                                            <i class="material-icons">location_on</i>
+                                                            <div class="ripple-container"></div></button>
+                                                    </td>
+                                                </tr>
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <!--partie carte mapp -->
+                                    <div class="col-md-5 ml-auto mr-auto">
+                                        <div style="width : 100%; height : 100%;" id="map_canvas"></div>
+                                        <div id="content">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                </div> <!--end premier row pour la partie des observation-->
+                <!-- <button type="button" class="btn btn-round btn-default dropdown-toggle btn-link" data-toggle="dropdown">
+7 days
+</button> -->
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card card-chart">
+                            <div class="card-body">
+                                <div>
+                                    <a class="btn btn-info" href="">
+                      <span class="btn-label">
+                        <i class="material-icons">refresh</i>
+                      </span>
+                                        Rafraichir
+                                        <div class="ripple-container"></div></a>
+                                    <a href="{{ path('admin_observation') }}" class="btn btn-success">
+                      <span class="btn-label">
+                        <i class="material-icons">art_track</i>
+                      </span>
+                                        Voir tous les utilisateurs
+                                        <div class="ripple-container"></div></a>
+                                </div>
+                                <h4 class="card-title">Les derniers utilisateurs</h4>
+                                {% for user in users %}
+                                <p class="card-category">{{ user.firstname }} {{ user.name }} <span class="text-success"><i class="fa fa-clock-o"></i> {{ user.createdAt | date('d/m/Y') }} / {{ user.createdAt | date('H:i') }} </span></p>
+                                {% endfor %}
+                            </div>
+                            <div class="card-footer">
+                                <div class="stats">
+                                    {% if users is not empty %}
+                                    <i class="material-icons">access_time</i> Dernier utilisateur inscrit le {{ users[0].createdAt | date('d/m/Y') }} à {{ users[0].createdAt | date('H:i') }}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="card card-chart">
+                            <div class="card-body">
+                                <div>
+                                    <a class="btn btn-info" href="">
+                      <span class="btn-label">
+                        <i class="material-icons">refresh</i>
+                      </span>
+                                        Rafraichir
+                                        <div class="ripple-container"></div></a>
+                                    <button class="btn btn-success">
+                      <span class="btn-label">
+                        <i class="material-icons">art_track</i>
+                      </span>
+                                        Voir tous les commentaires
+                                        <div class="ripple-container"></div></button>
+                                </div>
+                                <h4 class="card-title">Les derniers commentaires</h4>
+                                {% for comment in comments %}
+                                <p class="card-category"> {{ comment.content | truncate(20, false, '...')}} <span class="text-success"><i class="fa fa-clock-o"></i>  {{ comment.createdAt | date('d/m/Y') }} / {{ comment.createdAt | date('H:i') }}</span></p>
+                                {% endfor %}
+                            </div>
+                            <div class="card-footer">
+                                <div class="stats">
+                                    {% if comments is not empty %}
+                                    <i class="material-icons">access_time</i> Dernier commentaire publié le {{ comments[0].createdAt | date('d/m/Y') }} à {{ comments[0].createdAt | date('H:i') }}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div> <!--end second row -->
+
+                <h3>les dernières observations validées</h3>
+                <br>
+                <div class="row">
+                    {% if treeObservations is null or treeObservations is empty %}
+                        <div class="alert alert-info" role="alert">
+                            <strong>Nous avons pas d'observation qui n'ont pas été validées pour l'instant !!! </strong>
+                        </div>
+                    {% endif %}
+                    {% for observation in treeObservations %}
+                    <div class="col-md-4">
+                        <div class="card card-product">
+                            <div class="card-header card-header-image" data-header-animation="true">
+                                <a href="#pablo">
+                                    <img class="img" src="{{ asset('images_appli/'~ observation.photo) }}">
+                                </a>
+                            </div>
+                            <div class="card-body">
+                                <div class="card-actions text-center">
+                                    </button>
+                                    {% if observation.valide == 0 %}
+                                    <a href="{{ path('valide_observation',{'id':observation.id}) }}" type="button" class="btn btn-success btn-link" rel="tooltip" data-placement="bottom" title="Valider">
+                                        <i class="material-icons">edit</i>
+                                    </a>
+                    {% else %}
+                                    <a href="{{ path('valide_observation',{'id':observation.id}) }}" type="button" class="btn btn-danger btn-link" rel="tooltip" data-placement="bottom" title="Invalider">
+                                        <i class="material-icons">close</i>
+                                    </a>
+                                    {% endif %}
+                                </div>
+                                <h4 class="card-title">
+                                    <a href="#pablo">{{ observation.oiseau.lbNom }}</a>
+                                </h4>
+                                <div class="card-description">
+                                    {{ observation.nom  }}
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <div class="price">
+                                    <a href="{{ path('bird',{'id':observation.oiseau.id}) }}" class="btn">Voir l'oiseau<div class="ripple-container"></div></a>
+                                </div>
+                                <div class="stats">
+                                    <p class="card-category"><i class="material-icons">place</i> lat : {{ observation.latitude }}, lng : {{ observation.longitude }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!--end one bird-->
+                    {% endfor %}
+
                 </div>
-                <ul>
-                    <li><a href="" class="btn btn-outline-secondary btn-sm">Tableau de bord</a></li>
-                    <li><a href="" class="btn btn-outline-secondary btn-sm">Les dernièrs observations</a></li>
-                    <li><a href="{{ path('jaAllUser') }}" class="btn btn-outline-secondary btn-sm">Les utilsateurs</a></li>
-                    <li><a href="" class="btn btn-outline-secondary btn-sm">Les articles</a></li>
-                    <li><a href="" class="btn btn-outline-secondary btn-sm">Les tickets</a></li>
-                    <li><a href="" class="btn btn-outline-secondary btn-sm">Les oiseaux</a></li>
-                </ul>
+
+
             </div>
-            <div class="col-8">col-8</div>
         </div>
+    </div>
 {% endblock %}

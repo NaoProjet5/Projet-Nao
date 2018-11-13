@@ -18,6 +18,17 @@ class JdUsersRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, JdUsers::class);
     }
+    public function getTreeUsers()
+    {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery(
+            'SELECT u
+            FROM App\Entity\JdUsers u
+            ORDER BY u.createdAt DESC'
+        )->setMaxResults(3);
+        // returns an array of users objects
+        return $query->execute();
+    }
 
 //    /**
 //     * @return JdUsers[] Returns an array of JdUsers objects

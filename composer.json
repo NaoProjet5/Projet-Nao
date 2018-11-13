@@ -29,6 +29,7 @@
         "symfony/validator": "*",
         "symfony/web-link": "*",
         "symfony/yaml": "*",
+        "twig/extensions": "^1.5",
         "welp/mailchimp-bundle": "^1.2"
     },
     "require-dev": {

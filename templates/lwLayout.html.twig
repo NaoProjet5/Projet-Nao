@@ -8,6 +8,7 @@
     {% block stylesheets %}
         <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
         <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet" />
+        <script src='https://www.google.com/recaptcha/api.js?render=6LfEjXoUAAAAADsEASNGt0ZrRWYcQ0HVBzk_nyIc'></script>
     {% endblock %}
 </head>
 
@@ -244,7 +245,14 @@
 
 </footer>
 {% block javascripts %}
-
+    <script>
+        grecaptcha.ready(function() {
+            grecaptcha.execute('6LfEjXoUAAAAADsEASNGt0ZrRWYcQ0HVBzk_nyIc', {action: 'action_name'})
+                .then(function(token) {
+// Verify the token on the server.
+                });
+        });
+    </script>
 {% endblock %}
 
 </body>

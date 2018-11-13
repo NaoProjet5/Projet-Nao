@@ -7,6 +7,8 @@ use App\Form\JdAddAdminType;
 use App\Form\JdUpUsersType;
 use App\Form\JdUsersType;
 use App\Repository\JdUsersRepository;
+use App\Repository\ObservationRepository;
+use App\Repository\CommentRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,9 +24,18 @@ class JdAdminNaoController extends AbstractController
      * @Security("is_granted('ROLE_SUPER_ADMIN')")
      * @Route("/admin/nao/", name="jdAdminNao")
      */
-    public function jdAdminNao()
+    public function jdAdminNao(ObservationRepository $reposO, JdUsersRepository $reposU, CommentRepository $reposC)
     {
-        return $this->render('jd_admin_nao/jdAdmin.html.twig');
+        $fiveObservation = $reposO->getFiveObservation();
+        $treeObservation = $reposO->getTreeObservation();
+        $user = $reposU->getTreeUsers();
+        $comment = $reposC->getTreeComments();
+        return $this->render('jd_admin_nao/jdAdmin.html.twig',[
+            'fiveObservations'=>$fiveObservation,
+            'treeObservations'=>$treeObservation,
+            'users'=>$user,
+            'comments'=>$comment
+        ]);
     }
 
     /**

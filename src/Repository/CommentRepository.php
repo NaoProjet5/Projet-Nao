@@ -18,6 +18,17 @@ class CommentRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Comment::class);
     }
+    public function getTreeComments()
+    {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery(
+            'SELECT c
+            FROM App\Entity\Comment c
+            ORDER BY c.createdAt DESC'
+        )->setMaxResults(3);
+        // returns an array of comment objects
+        return $query->execute();
+    }
 
 //    /**
 //     * @return Comment[] Returns an array of Comment objects

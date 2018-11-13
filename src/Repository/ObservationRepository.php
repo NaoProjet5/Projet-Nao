@@ -31,6 +31,18 @@ class ObservationRepository extends ServiceEntityRepository
         // returns an array of articles objects
         return $query->execute();
     }
+    public function getTreeObservation()
+    {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery(
+            'SELECT o
+            FROM App\Entity\Observation o
+            WHERE o.valide = 1
+            ORDER BY o.createdAt DESC'
+        )->setMaxResults(3);
+        // returns an array of articles objects
+        return $query->execute();
+    }
 
 
     public function getMyOwneObservation($id_user): array
