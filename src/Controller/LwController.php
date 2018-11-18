@@ -90,6 +90,33 @@ class LwController extends AbstractController
             'articles' => $article
         ]);
     }
+    /**
+     * @route ("/lw/UpdateArticle/{id}", name="update_article")
+     */
+    public function updateArticle(LwArticle $article, ObjectManager $manager, Request $request, FileUploader $fileUploader){
+
+        $form = $this->createForm(LwArticleType::class, $article);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $article->setCreatedAt(new \DateTime());
+            $article->setAlive(1);
+            if (!empty($form->get('photo')->getData())){
+                $file = $form->get('photo')->getData();
+                $fileName = $fileUploader->upload($file);
+                $article->setPhoto($fileName);
+            }
+            $manager->persist($article);
+            $manager->flush();
+            return $this->redirectToRoute('admin_article');
+        }
+        return $this->render('lw_login_nao/lwUpdateArticle.html.twig',
+            [
+                'form'          =>$form->createView(),
+                'article'          => $article->getId(),
+            ]);
+
+    }
 
     /**
      * @Route("/lw/valide/{id}",name="valide_observation")

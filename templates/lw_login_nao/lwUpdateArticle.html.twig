@@ -1,0 +1,21 @@
+{% extends 'lwLayoutAdmin.html.twig' %}
+
+{% block contentPage %}
+    <div class="content">
+        <div class="content">
+            <div class="container-fluid">
+                <h3> Création d'article</h3>
+                <div class="col-lg-8">
+                    {{ form_start(form) }}
+                    {{ form_row(form.title) }}
+                    {{ form_row(form.content) }}
+                    {{ form_row(form.photo) }}
+                    <button type="submit" class="btn btn-success">
+                        Enregistrer les modifications
+                    </button>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

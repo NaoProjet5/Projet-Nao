@@ -11,12 +11,10 @@
     </div>
 
 </section>
-<div class="body_content">
-    <div class="content">
-    <div class="row">
-        <div class="col-lg-12 col-sm-12">
-            <h1>La Création de votre Compte Utilisateur</h1>
-            <div class="row">
+<div class="body_content connexion">
+    <div id="connexion_form">
+
+        <h2 class="souligner">Creation de votre compte</h2>
                 <div class="center col-lg-12 col-sm-12">
                     {{ form_start(form, {'attr': {'class': 'col-sm-6 col-sm-offset-6'}}) }}
                     {{ form_errors(form) }}
@@ -47,12 +45,9 @@
                             {{ form_errors(form.passwordConfirm) }}
                             {{ form_widget(form.passwordConfirm, {'attr': {'class': 'form-control', 'id': 'prenom', 'placeholder': 'Repeter le mot de passe'}}) }}
                         </div>
-                            {{ form_widget(form.Enregistrer, {'attr': {'class': 'btn btn-primary'}}) }}
+                            {{ form_widget(form.Enregistrer, {'attr': {'class': 'submit'}}) }}
                     {{ form_end(form) }}
                 </div>
-            </div>
-        </div>
-    </div>
     </div>
 </div>
 {% endblock %}
