@@ -17,7 +17,7 @@ class ObservationType extends AbstractType
             ->add('nom', TextType::class, array('label'=>'Nom de l\'observation'))
             ->add('longitude', TextType::class, array('label'=>'Longitude'))
             ->add('latitude', TextType::class, array('label'=>'Latitude'))
-            ->add('photo', FileType::class, array('label'=>'Photo de l\'observation'))
+            ->add('photo', FileType::class, array('label'=>'Photo de l\'observation','required'=> false))
         ;
     }
 

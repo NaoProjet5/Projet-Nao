@@ -12,10 +12,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Geocoder\Query\GeocodeQuery;
-use Geocoder\Query\ReverseQuery;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use App\LwServices\FileUploader;
+use Welp\MailchimpBundle\Event\SubscriberEvent;
+use Welp\MailchimpBundle\Subscriber\Subscriber;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class LwController extends AbstractController
 {
@@ -101,6 +102,7 @@ class LwController extends AbstractController
         {
             $article->setCreatedAt(new \DateTime());
             $article->setAlive(1);
+            $article->setUsers($this->getUser());
             if (!empty($form->get('photo')->getData())){
                 $file = $form->get('photo')->getData();
                 $fileName = $fileUploader->upload($file);
@@ -172,6 +174,20 @@ class LwController extends AbstractController
     public function contactNao()
     {
         return $this->render('jd_pub_nao/Public/contact.html.twig');
+    }
+    /**
+     * @route("/lw/news_letter",name="newsLetter")
+     */
+    public function newsLetterNao(Request $request, EventDispatcherInterface $dispatcher ){
+        $subscriber = new Subscriber($request->request->get('email'),[
+            'language'=>'fr'
+        ]);
+
+        $dispatcher->dispatch(
+            SubscriberEvent::EVENT_SUBSCRIBE,
+            new SubscriberEvent("f547f5ff8f",$subscriber)
+        );
+        return $this->redirectToRoute('home');
     }
 
 

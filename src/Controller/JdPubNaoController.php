@@ -160,6 +160,7 @@ class JdPubNaoController extends Controller
         {
             $article->setCreatedAt(new \DateTime());
             $article->setAlive(1);
+            $article->setUsers($this->getUser());
             $file = $form->get('photo')->getData();
             $fileName = $fileUploader->upload($file);
             $article->setPhoto($fileName);
