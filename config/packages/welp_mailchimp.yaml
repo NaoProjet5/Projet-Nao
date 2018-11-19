@@ -1,5 +1,5 @@
 welp_mailchimp:
-  api_key: 1661d7cc9b23afcbef941681062b4d91-us19
+  api_key: 'your_api_key'
   list_provider: 'welp_mailchimp.list_provider'
   lists:
     listId1:
