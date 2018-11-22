@@ -38,7 +38,11 @@
                 </div>
             {% endfor %}
         </div><!--end div last observation -->
-
+        {% for message in app.flashes('notice') %}
+            <div class="alert alert-info" style="margin-top:1.5%;"><strong>
+                    {{ message }}
+                </strong></div>
+        {% endfor %}
             <div id="laisser_observation">
 
                 <h2 class="souligner">Laisser une observation sur cet oiseau</h2>

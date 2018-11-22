@@ -58,6 +58,7 @@ class LwController extends Controller
     }
 
     /**
+     * @Security("is_granted('ROLE_NATURALIST')")
      * @route ("/lw/AdminObservation", name="admin_observation")
      */
     public function adminObservation(ObservationRepository $repos){
@@ -68,7 +69,7 @@ class LwController extends Controller
 
     }
     /**
-     * @Security("is_granted('ROLE_SUPER_ADMIN')")
+     * @Security("is_granted('ROLE_NATURALIST')")
      * @route ("/lw/adminObservationAccept", name="observation_accept")
      */
     public function adminObservationValide(ObservationRepository $repos){
@@ -79,6 +80,7 @@ class LwController extends Controller
 
     }
     /**
+     * @Security("is_granted('ROLE_NATURALIST')")
      * @route ("/lw/adminObservationRef", name="observation_ref")
      */
     public function adminObservationInvalide(ObservationRepository $repos){
@@ -89,15 +91,28 @@ class LwController extends Controller
 
     }
     /**
+     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      * @route ("/lw/AdminArticle", name="admin_article")
      */
-    public function adminArticle( LwArticleRepository $repos){
+    public function adminArticle( LwArticleRepository $repos, Request $request){
         $article = $repos->findAll();
+        /* @var $paginator \Knp\Component\Pager\Paginator */
+        $paginator  = $this->get('knp_paginator');
+        // Paginate the results of the query
+        $appointments = $paginator->paginate(
+        // Doctrine Query, not results
+            $article,
+            // Define the page parameter
+            $request->query->getInt('page', 1),
+            // Items per page
+            5
+        );
         return $this->render('lw_login_nao/lwAdminArticle.html.twig',[
-            'articles' => $article
+            'articles' => $appointments
         ]);
     }
     /**
+     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      * @route ("/lw/UpdateArticle/{id}", name="update_article")
      */
     public function updateArticle(LwArticle $article, ObjectManager $manager, Request $request, FileUploader $fileUploader){
@@ -127,6 +142,7 @@ class LwController extends Controller
     }
 
     /**
+     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      * @Route("/lw/valide/{id}",name="valide_observation")
      */
     public function valideObservation($id, ObservationRepository $repos, ObjectManager $manager){
@@ -143,6 +159,7 @@ class LwController extends Controller
     }
 
     /**
+     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      * @route ("/lw/removeObservation/{id}", name="remove_observation")
      */
     public function removeObservation( $id, ObservationRepository $repos, ObjectManager $manager){
@@ -179,6 +196,7 @@ class LwController extends Controller
      */
     public function contactNao()
     {
+        $this->addFlash('notice','Merci pour votre message nous vous repondons dans un délais proche !!!');
         return $this->render('jd_pub_nao/Public/contact.html.twig');
     }
     /**
@@ -197,6 +215,7 @@ class LwController extends Controller
     }
 
     /**
+     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      * @route("/lw/admin_comment",name="AdminComment")
      */
     public function AdminComment( CommentRepository $repos, Request $request){
@@ -217,6 +236,7 @@ class LwController extends Controller
         ]);
     }
     /**
+     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      * @route("/lw/admin_commentSignal",name="AdminCommentSignal")
      */
     public function AdminCommentSignal( CommentRepository $repos, Request $request){
@@ -238,6 +258,7 @@ class LwController extends Controller
     }
 
     /**
+     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      * @route ("/lw/UpdateComment/{id}", name="update_comment")
      */
     public function updateComment(Comment $comment, ObjectManager $manager, Request $request){
@@ -259,6 +280,7 @@ class LwController extends Controller
     }
 
     /**
+     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      * @route ("/lw/removeComment/{id}", name="remove_comment")
      */
     public function removeComment( $id, CommentRepository $repos, ObjectManager $manager){
@@ -280,6 +302,7 @@ class LwController extends Controller
         return $this->redirectToRoute('adminComment');
     }
     /**
+     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      * @route ("/lw/changeArticle/{id}", name="change_article")
      */
     public function changeArticle( $id, lwArticleRepository $repos, ObjectManager $manager){
@@ -288,9 +311,10 @@ class LwController extends Controller
 
         $manager->persist($article);
         $manager->flush();
-        return $this->redirectToRoute('adminComment');
+        return $this->redirectToRoute('trashArticle');
     }
     /**
+     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      * @route ("/lw/removeArticle/{id}", name="comment_observation")
      */
     public function removeArticle( $id, lwArticleRepository $repos, ObjectManager $manager){
@@ -298,8 +322,52 @@ class LwController extends Controller
 
         $manager->remove($article);
         $manager->flush();
-        return $this->redirectToRoute('adminComment');
+        return $this->redirectToRoute('admin_article');
     }
+    /**
+     * @Security("is_granted('ROLE_SUPER_ADMIN')")
+     * @route("/lw/admin_publicArticle",name="publicArticle")
+     */
+    public function publicArticle( LwArticleRepository $repos, Request $request){
+        $article = $repos->findBy(['alive'=>1]);
+        /* @var $paginator \Knp\Component\Pager\Paginator */
+        $paginator  = $this->get('knp_paginator');
+        // Paginate the results of the query
+        $appointments = $paginator->paginate(
+        // Doctrine Query, not results
+            $article,
+            // Define the page parameter
+            $request->query->getInt('page', 1),
+            // Items per page
+            5
+        );
+        return $this->render('lw_login_nao/lwPublicArticle.html.twig',[
+            'articles' => $appointments
+        ]);
+    }
+    /**
+     * @Security("is_granted('ROLE_SUPER_ADMIN')")
+     * @route("/lw/admin_trashArticle",name="trashArticle")
+     */
+    public function trashArticle( LwArticleRepository $repos, Request $request){
+        $article = $repos->findBy(['alive'=>0]);
+        /* @var $paginator \Knp\Component\Pager\Paginator */
+        $paginator  = $this->get('knp_paginator');
+        // Paginate the results of the query
+        $appointments = $paginator->paginate(
+        // Doctrine Query, not results
+            $article,
+            // Define the page parameter
+            $request->query->getInt('page', 1),
+            // Items per page
+            5
+        );
+        return $this->render('lw_login_nao/lwTrashArticle.html.twig',[
+            'articles' => $appointments
+        ]);
+    }
+
+
 
 
 

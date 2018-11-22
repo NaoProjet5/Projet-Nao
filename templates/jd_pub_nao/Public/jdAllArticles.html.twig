@@ -13,42 +13,40 @@
     </section>
     <div class="body_content">
 
-    <div class="content">
+        <div class="content">
 
-    <div class="last_articles">
+            <div class="last_articles">
 
-        <h2 class="souligner">Les articles publiés</h2>
+                <h2 class="souligner">Les articles publiés</h2>
 
-    <div class="last_articles_content">
-        {% for article in articles  %}
-    <div class="last_article_item">
+                <div class="last_articles_content">
+                    {% for article in articles  %}
+                        <div class="last_article_item">
 
-        <div class="image_last_article_item">
-            <a>{% if article.photo == "" or article.photo is null  %}
-                    <img src="{{ asset('images_appli/no_photo_available.jpg') }}" alt="Bootstrap" class="img-thumbnail">
-                {% else %}
-                    <img src="{{ asset('images_appli/'~ article.photo) }}" alt="Bootstrap" class="img-thumbnail">
-                {% endif %}
+                            <div class="image_last_article_item">
+                                <a>{% if article.photo == "" or article.photo is null  %}
+                                        <img src="{{ asset('images_appli/no_photo_available.jpg') }}" alt="Bootstrap" class="img-thumbnail">
+                                    {% else %}
+                                        <img src="{{ asset('images_appli/'~ article.photo) }}" alt="Bootstrap" class="img-thumbnail">
+                                    {% endif %}
+
+                            </div>
+
+                            <h3>{{ article.title  }}</h3>
+
+                            <p>Ecrit le {{ article.createdAt | date('d/m/Y') }} à {{ article.createdAt | date('H:i') }}</p>
+
+                            <a class="action_view" href="{{ path('oneArticle',{'id':article.id}) }}">Voir l'article</a>
+
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="navigation">
+                    {{ knp_pagination_render(articles) }}
+                </div>
+            </div>
 
         </div>
-
-
-
-        <h3>{{ article.title  }}</h3>
-
-        <p>Ecrit le {{ article.createdAt | date('d/m/Y') }} à {{ article.createdAt | date('H:i') }}</p>
-
-        <a class="action_view" href="{{ path('oneArticle',{'id':article.id}) }}">Voir l'article</a>
-
-      </div>
-        {% endfor %}
-    </div>
-        <div class="navigation">
-            {{ knp_pagination_render(articles) }}
-        </div>
-    </div>
-
-    </div>
 
     </div>
 

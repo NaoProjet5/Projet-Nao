@@ -76,7 +76,7 @@
                         <p> Tableau de bord </p>
                     </a>
                 </li>
-                {% if is_granted("ROLE_SUPER_ADMIN") %}
+                {% if is_granted("ROLE_NATURALIST") %}
                 <li class="nav-item ">
                     <a class="nav-link" data-toggle="collapse" href="#pagesExamples">
                         <i class="material-icons">place</i>
@@ -104,6 +104,8 @@
                         </ul>
                     </div>
                 </li>
+                {% endif %}
+                {% if is_granted("ROLE_SUPER_ADMIN") %}
                 <li class="nav-item ">
                     <a class="nav-link"  href="{{ path('jaAllUser') }}">
                         <i class="material-icons">person</i>
@@ -111,7 +113,7 @@
                         </p>
                     </a>
                 </li>
-                {% endif %}
+
                 <li class="nav-item ">
                     <a class="nav-link" data-toggle="collapse" href="#formsExamples">
                         <i class="material-icons">content_paste</i>
@@ -127,12 +129,12 @@
                                 </a>
                             </li>
                             <li class="nav-item ">
-                                <a class="nav-link" href="examples/forms/extended.html">
+                                <a class="nav-link" href="{{ path('publicArticle') }}">
                                     <span class="sidebar-normal"> Les articles publiés </span>
                                 </a>
                             </li>
                             <li class="nav-item ">
-                                <a class="nav-link" href="examples/forms/validation.html">
+                                <a class="nav-link" href="{{ path('trashArticle') }}">
                                     <span class="sidebar-normal"> Les articles en brouillon  </span>
                                 </a>
                             </li>
@@ -160,6 +162,7 @@
                         </ul>
                     </div>
                 </li>
+                {% endif %}
             </ul>
         </div>
     </div>
