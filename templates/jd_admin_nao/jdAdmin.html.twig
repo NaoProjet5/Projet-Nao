@@ -99,12 +99,12 @@
                       </span>
                                         Rafraichir
                                         <div class="ripple-container"></div></a>
-                                    <button class="btn btn-success">
+                                    <a  href="{{ path('AdminComment') }}" class="btn btn-success">
                       <span class="btn-label">
                         <i class="material-icons">art_track</i>
                       </span>
                                         Voir tous les commentaires
-                                        <div class="ripple-container"></div></button>
+                                        <div class="ripple-container"></div></a>
                                 </div>
                                 <h4 class="card-title">Les derniers commentaires</h4>
                                 {% for comment in comments %}

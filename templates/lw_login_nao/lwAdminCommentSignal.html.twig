@@ -1,0 +1,46 @@
+{% extends 'lwLayoutAdmin.html.twig' %}
+
+{% block contentPage %}
+    <div class="content">
+        <div class="content">
+            <div class="container-fluid">
+                <h4 class="card-title ">Liste des Commentaires Signalé</h4>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead class=" text-primary">
+                            <tr>
+                                <th>Auteur commentaires</th>
+                                <th>Date publication</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for comment in comments  %}
+                                <tr>
+                                    <th>{{ comment.author.firstname  }} {{comment.author.name  }}</th>
+                                    <th>{{ comment.createdAt | date('d/m/Y') }}</th>
+                                    <th>
+                                        <a href="{{ path('update_comment',{'id':comment.id}) }}" class="btn btn-info btn-link" rel="tooltip" data-placement="bottom" title="Voir ou modifier le commentaire">
+                                            <i class="material-icons">edit</i>
+                                        </a>
+                                        <a href="{{ path('restore_comment',{'id':comment.id}) }}" class="btn btn-info btn-link" rel="tooltip" data-placement="bottom" title="Restaurer le commenatire">
+                                            <i class="material-icons">loop</i>
+                                        </a>
+                                        <a href="{{ path('remove_comment',{'id':comment.id}) }}" type="button" class="btn btn-danger btn-link" rel="tooltip" data-placement="bottom" title="Suprimer le commentaire">
+                                            <i class="material-icons">close </i>
+                                        </a>
+                                    </th>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="navigation">
+                        {{ knp_pagination_render(comments) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

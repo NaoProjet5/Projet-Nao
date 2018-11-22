@@ -10,10 +10,12 @@ use App\Entity\Oiseau;
 use App\Form\CommentType;
 use App\Form\ObservationType;
 use App\LwServices\FileUploader;
+use App\Repository\CommentRepository;
 use App\Repository\LwArticleRepository;
 use App\Repository\ObservationRepository;
 use App\Repository\OiseauRepository;
 use Doctrine\Common\Persistence\ObjectManager;
+use phpDocumentor\Reflection\Types\Null_;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -136,6 +138,7 @@ class JdPubNaoController extends Controller
             $comment->setCreatedAt(new \DateTime());
             $user = $security->getUser();
             $comment->setAuthor($user);
+            $comment->setSignale(0);
             $comment->setArticle($article);
             $manager->persist($comment);
             $manager->flush();
@@ -148,6 +151,19 @@ class JdPubNaoController extends Controller
             'formComment'=>$form->createView()
         ]);
     }
+
+    /**
+     * @Route("/comment/{id}", name="signalComment")
+     */
+    public function signalComment( ObjectManager $manager, $id, CommentRepository $repos){
+        $comment = $repos->find($id);
+        if ($comment->getSignale() == 0 || $comment->getSignale() == Null){
+            $comment->setSignale(1);
+        }
+        $manager->flush();
+            return $this->redirectToRoute('oneArticle',['id'=>$comment->getArticle()->getId()]);
+    }
+
     /**
      * @Route ("/lw/new_article", name="new_article")
      */

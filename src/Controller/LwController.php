@@ -2,8 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
 use App\Entity\LwArticle;
+use App\Form\CommentType;
 use App\Form\LwArticleType;
+use App\Repository\CommentRepository;
 use App\Repository\LwArticleRepository;
 use App\Repository\ObservationRepository;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -17,8 +20,10 @@ use App\LwServices\FileUploader;
 use Welp\MailchimpBundle\Event\SubscriberEvent;
 use Welp\MailchimpBundle\Subscriber\Subscriber;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class LwController extends AbstractController
+class LwController extends Controller
 {
     /**
      * @Route("/lw", name="lw")
@@ -63,6 +68,7 @@ class LwController extends AbstractController
 
     }
     /**
+     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      * @route ("/lw/adminObservationAccept", name="observation_accept")
      */
     public function adminObservationValide(ObservationRepository $repos){
@@ -189,6 +195,112 @@ class LwController extends AbstractController
         );
         return $this->redirectToRoute('home');
     }
+
+    /**
+     * @route("/lw/admin_comment",name="AdminComment")
+     */
+    public function AdminComment( CommentRepository $repos, Request $request){
+        $comment = $repos->findAll();
+        /* @var $paginator \Knp\Component\Pager\Paginator */
+        $paginator  = $this->get('knp_paginator');
+        // Paginate the results of the query
+        $appointments = $paginator->paginate(
+        // Doctrine Query, not results
+            $comment,
+            // Define the page parameter
+            $request->query->getInt('page', 1),
+            // Items per page
+            5
+        );
+        return $this->render('lw_login_nao/lwAdminAllComment.html.twig',[
+            'comments' => $appointments
+        ]);
+    }
+    /**
+     * @route("/lw/admin_commentSignal",name="AdminCommentSignal")
+     */
+    public function AdminCommentSignal( CommentRepository $repos, Request $request){
+        $comment = $repos->findBy(['signale'=>1]);
+        /* @var $paginator \Knp\Component\Pager\Paginator */
+        $paginator  = $this->get('knp_paginator');
+        // Paginate the results of the query
+        $appointments = $paginator->paginate(
+        // Doctrine Query, not results
+            $comment,
+            // Define the page parameter
+            $request->query->getInt('page', 1),
+            // Items per page
+            5
+        );
+        return $this->render('lw_login_nao/lwAdminCommentSignal.html.twig',[
+            'comments' => $appointments
+        ]);
+    }
+
+    /**
+     * @route ("/lw/UpdateComment/{id}", name="update_comment")
+     */
+    public function updateComment(Comment $comment, ObjectManager $manager, Request $request){
+
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $manager->persist($comment);
+            $manager->flush();
+            return $this->redirectToRoute('AdminComment');
+        }
+        return $this->render('lw_login_nao/lwUpdateComment.html.twig',
+            [
+                'form'          =>$form->createView(),
+                'comment'          => $comment->getId(),
+            ]);
+
+    }
+
+    /**
+     * @route ("/lw/removeComment/{id}", name="remove_comment")
+     */
+    public function removeComment( $id, CommentRepository $repos, ObjectManager $manager){
+        $comment = $repos->find($id);
+
+        $manager->remove($comment);
+        $manager->flush();
+        return $this->redirectToRoute('adminComment');
+    }
+
+    /**
+     * @route ("/lw/restoreComment/{id}", name="restore_comment")
+     */
+    public function restoreComment( $id, CommentRepository $repos, ObjectManager $manager){
+        $comment = $repos->find($id);
+        $comment->setSignale(0);
+        $manager->persist($comment);
+        $manager->flush();
+        return $this->redirectToRoute('adminComment');
+    }
+    /**
+     * @route ("/lw/changeArticle/{id}", name="change_article")
+     */
+    public function changeArticle( $id, lwArticleRepository $repos, ObjectManager $manager){
+        $article = $repos->find($id);
+        $article->setAlive(0);
+
+        $manager->persist($article);
+        $manager->flush();
+        return $this->redirectToRoute('adminComment');
+    }
+    /**
+     * @route ("/lw/removeArticle/{id}", name="comment_observation")
+     */
+    public function removeArticle( $id, lwArticleRepository $repos, ObjectManager $manager){
+        $article = $repos->find($id);
+
+        $manager->remove($article);
+        $manager->flush();
+        return $this->redirectToRoute('adminComment');
+    }
+
 
 
 }

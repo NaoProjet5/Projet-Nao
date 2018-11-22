@@ -36,6 +36,11 @@ class Comment
      */
     private $article;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $signale;
+
 
     public function getId(): ?int
     {
@@ -86,6 +91,18 @@ class Comment
     public function setArticle(?LwArticle $article): self
     {
         $this->article = $article;
+
+        return $this;
+    }
+
+    public function getSignale(): ?bool
+    {
+        return $this->signale;
+    }
+
+    public function setSignale(?bool $signale): self
+    {
+        $this->signale = $signale;
 
         return $this;
     }

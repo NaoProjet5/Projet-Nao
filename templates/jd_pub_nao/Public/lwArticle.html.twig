@@ -41,7 +41,7 @@
 
                 <span style="padding-top : 5px;padding-bottom : 5px; opacity : 0.4;">Commentaire laissé par<strong> {{ comment.author.firstname }} </strong> le <strong>{{  comment.createdAt | date('d/m/Y à H:i') }}</strong></span>
 
-                <p>{{ comment.content }}</p>
+                <p>{{ comment.content }}<a href="{{ path('signalComment',{'id':comment.id}) }}"><img src="{{ asset('assets/svg/si-glyph-circle-info.svg') }}" title="signaler le commentaire" width="7%" height="7%"></a></p>
 
             </div>
                 {% set i = i + 1 %}
