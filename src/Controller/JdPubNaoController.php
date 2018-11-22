@@ -96,6 +96,8 @@ class JdPubNaoController extends Controller
             $observation->setPhoto($fileName);
             $observation->setValide(0);
             $observation->setOiseau($oiseau);
+            dump($observation);
+            die();
             $manager->persist($observation);
             $manager->flush();
             $this->addFlash('notice','Merci pour votre observation nous allons vérifier pour valider !!!');

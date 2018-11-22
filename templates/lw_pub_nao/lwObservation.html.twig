@@ -38,11 +38,6 @@
                 </div>
             {% endfor %}
         </div><!--end div last observation -->
-        {% for message in app.flashes('notice') %}
-            <div class="alert alert-info" style="margin-top:1.5%;"><strong>
-                    {{ message }}
-                </strong></div>
-        {% endfor %}
             <div id="laisser_observation">
 
                 <h2 class="souligner">Laisser une observation sur cet oiseau</h2>
@@ -63,7 +58,7 @@
 
                             <h3>Cordonnées GPS</h3>
 
-                            <button onclick="locate()">Générer mes coordonnées GPS</button>
+                            <button onclick="locate()" >Générer mes coordonnées GPS</button>
 
                             <a>ou</a>
 
@@ -81,7 +76,7 @@
 
                         </div>
 
-                        <button class="submit">Envoyer l'observation</button>
+                        <button class="submit" type="submit">Envoyer l'observation</button>
 
                     </form>
                         {{ form_end(formObservation) }}
