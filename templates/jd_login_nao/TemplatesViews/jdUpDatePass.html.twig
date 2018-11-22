@@ -1,0 +1,29 @@
+{% extends 'lwLayoutAdmin.html.twig' %}
+
+{% block contentPage %}
+    <div class="content">
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12 col-sm-12">
+                        <h3>Formulaire de modification du compte de l'utilisateur</h3>
+                        <div class="row">
+                            <div class="center col-lg-12 col-sm-12">
+                                {{ form_start(form, {'attr': {'class': 'col-sm-6 col-sm-offset-6'}}) }}
+                                {{ form_errors(form) }}
+                                <div class="form-group">
+                                    {{ form_label(form.password, 'Mot de passe ') }}
+                                    {{ form_errors(form.password) }}
+                                    {{ form_widget(form.password, {'attr': {'class': 'form-control', 'id': 'prenom', 'placeholder': 'Mot de passe'}}) }}
+                                </div>
+                                {{ form_widget(form.Enregistrer, {'attr': {'class': 'btn btn-success'}}) }}
+                                {{ form_end(form) }}
+                            </div>
+                            <a href="{{ path('jdUpdatePass', {'id': user.id}) }}">Modifier le mot de passe</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

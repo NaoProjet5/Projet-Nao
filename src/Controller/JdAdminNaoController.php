@@ -4,8 +4,9 @@ namespace App\Controller;
 
 use App\Entity\JdUsers;
 use App\Form\JdAddAdminType;
+use App\Form\JdUpdatePassWordType;
+use App\Form\JdUpPasswordType;
 use App\Form\JdUpUsersType;
-use App\Form\JdUsersType;
 use App\Repository\JdUsersRepository;
 use App\Repository\ObservationRepository;
 use App\Repository\CommentRepository;
@@ -52,32 +53,56 @@ class JdAdminNaoController extends AbstractController
     }
     /**
      * @Security("is_granted('ROLE_SUPER_ADMIN')")
-     * @Route("/Update/user/{id}", name="jdUpDateUser" )
+     * @Route("/Update/user/{id}", name="jdUpDateUser")
      */
-    public function jdUpDateUser(ObjectManager $manager, JdUsers $user, Request $request, UserPasswordEncoderInterface $encoder)
+    public function jdUpDateUser(ObjectManager $manager, JdUsers $user, Request $request)
     {
-        if ($user)
+        $form = $this->createForm(JdUpUsersType::class, $user);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid())
         {
-            $form = $this->createForm(JdUpUsersType::class, $user);
-            $form->handleRequest($request);
-            if($form->isSubmitted() && $form->isValid())
-            {
-                $hash = $encoder->encodePassword($user, $user->getPassword());
-                $user->setPassword($hash);
-                $role = $user->getRoles();
-                $user->setRoles($role);
-                $manager->flush();
-                return $this->redirectToRoute('jaAllUser',
-                    [
-                        'id'            => $user->getId()
-                    ]);
-            }
+            $role = $user->getRoles();
+            $user->setRoles($role);
+            $manager->flush();
+            return $this->redirectToRoute('jaAllUser',
+                [
+                    'id'            => $user->getId()
+                ]);
         }
 
         return $this->render('jd_login_nao/TemplatesViews/jdUpDateUser.html.twig',
             [
                 'form'          =>$form->createView(),
                 'user'          => $user->getId(),
+            ]);
+    }
+
+    /**
+     * @Security("is_granted('ROLE_SUPER_ADMIN')")
+     * @Route("/admin/update/passwore/{id}", name="jdUpdatePass")
+     */
+    public function jdUpPassword(ObjectManager $manager, JdUsers $users, UserPasswordEncoderInterface $encoder, Request $request)
+    {
+        $user = $users;
+        $repo = $manager;
+        $form = $this->createForm(JdUpdatePassWordType::class, $user);
+        $form->handleRequest($request);
+
+        if($user->getId() && $user->getEmail())
+        {
+            if($form->isSubmitted() && $form->isValid())
+            {
+                $hash = $encoder->encodePassword($user, $user->getPassword());
+                $user->setPassword($hash);
+                $repo->flush();
+
+                return $this->redirectToRoute('jaAllUser');
+            }
+        }
+        return $this->render('jd_login_nao/TemplatesViews/jdUpDatePass.html.twig',
+            [
+                'form'      => $form->createView(),
+                'user'      => $user,
             ]);
     }
 
@@ -96,6 +121,7 @@ class JdAdminNaoController extends AbstractController
             $hash = $encoder->encodePassword($user, $user->getPassword());
             $user->setPassword($hash);
             $role = $user->getRoles();
+            $user->setValide(true);
             $user->setRoles($role);
             $manager->persist($user);
             $manager->flush();

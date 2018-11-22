@@ -1,0 +1,24 @@
+{% extends 'lwLayout.html.twig' %}
+
+{% block body %}
+
+    <section class="title_page">
+
+        <div class="section_content">
+
+            <h1>Valider votre inscrption!</h1>
+
+    </section>
+    <div class="body_content">
+        <div class="content">
+            <div class="row">
+                <div class="col-lg-12">
+                    <form action="{{ path('jdValueUsers', {'id': user.id}) }}" method="post">
+                        <div class="form-group"> <button type="submit" class="btn btn-success">Connexion</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

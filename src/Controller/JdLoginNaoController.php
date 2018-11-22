@@ -4,9 +4,11 @@ namespace App\Controller;
 
 use App\Entity\JdUsers;
 use App\Form\JdUsersType;
+use App\Form\JdValueType;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,8 +19,9 @@ class JdLoginNaoController extends AbstractController
     /**
      * @Route("/createLogin", name="createdAtUser")
      */
-    public function jdCreatedAtUser(Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder)
+    public function jdCreatedAtUser(Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder, Session $session)
     {
+        $session = new Session();
         $user =  new JdUsers();
         $form = $this->createForm(JdUsersType::class, $user);
         $form->handleRequest($request);
@@ -28,11 +31,16 @@ class JdLoginNaoController extends AbstractController
             $hash = $encoder->encodePassword($user, $user->getPassword());
             $user->setPassword($hash);
             $user->setAlive(0);
+            $session->set('user', $user);
 
             $manager->persist($user);
             $manager->flush();
 
-            return $this->redirectToRoute('home');
+
+            return $this->redirectToRoute('jdMailCofirme',
+                [
+                    'id'    => $session->get('user')->getId(),
+                ]);
         }
 
         return $this->render('jd_login_nao/jdCreatedAtLogin.html.twig', [
@@ -40,9 +48,57 @@ class JdLoginNaoController extends AbstractController
         ]);
     }
 
-    public function jdValueUsers()
+    /**
+     * @Route("/{id}/mail_confirm", name="jdMailCofirme")
+     */
+    public function jdMailComfir(\Swift_Mailer $mailer, Session $session)
     {
-        
+        $user = $session->get('user');
+        $message = (new \Swift_Message('NAO'))
+            ->setContentType('text/html')
+            ->setSubject('Confirmation de votre inscription')
+            ->setFrom('jobby00dev@gmail.com')
+            ->setTo($user->getEmail())
+            ->setBody(
+                $this->render('jd_Emails/emailConfirm.html.twig',
+                    [
+                        'id'        => $user->getId(),
+                        'email'     => $user->getEmail(),
+                        'user'      => $user,
+
+                    ])
+            );
+        $mailer->send($message);
+
+        $this->get('session')->clear();
+
+        return $this->render('jd_Emails/jdMessage.html.twig',
+            [
+                'id'    => $user->getId(),
+                'user'  => $user,
+            ]);
+    }
+
+    /**
+     * @Route("/jd_Value_Users/{id}", name="jdValueUsers")
+     */
+
+    public function jdValueUsers( JdUsers $user, ObjectManager $manager)
+    {
+        $repo = $manager;
+        if($user->getId() && $user->getEmail())
+        {
+            $user->setValide(true);
+            $repo->flush();
+
+            return $this->redirectToRoute('loginUsers');
+        }
+
+        return $this->render('jd_login_nao/TemplatesViews/jdValueUser.html.twig',
+            [
+                'user'      => $user,
+            ]
+        );
     }
 
     /**

@@ -40,7 +40,7 @@ class JdUsers implements UserInterface
     /**
      * @ORM\Column(name="firstname", type="string", length=30)
      * @Assert\Length(
-     *      min = 4,
+     *      min = 3,
      *      max = 30,
      *      minMessage = "Votre nom ne peut faire moins de {{ limit }} caractères.",
      *      maxMessage = "Votre nom ne peut faire plus de {{ limit }} caractères."
@@ -52,7 +52,7 @@ class JdUsers implements UserInterface
      * @ORM\Column(name="email", type="string", length=75)
      * @Assert\Email()
      * @Assert\Length(
-     *      min = 4,
+     *      min = 3,
      *      max = 75,
      *      minMessage = "Votre Votre adress email ne peut faire moins de {{ limit }} caractères.",
      *      maxMessage = "Votre Votre adress email ne peut faire plus de {{ limit }} caractères."
@@ -104,7 +104,7 @@ class JdUsers implements UserInterface
     /**
      * @ORM\Column(type="boolean")
      */
-    private $alive;
+    private $alive = false;
 
     /**
      * JdUsers constructor.
