@@ -17,9 +17,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use App\LwServices\FileUploader;
-use Welp\MailchimpBundle\Event\SubscriberEvent;
+/*use Welp\MailchimpBundle\Event\SubscriberEvent;
 use Welp\MailchimpBundle\Subscriber\Subscriber;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;*/
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -202,15 +202,15 @@ class LwController extends Controller
     /**
      * @route("/lw/news_letter",name="newsLetter")
      */
-    public function newsLetterNao(Request $request, EventDispatcherInterface $dispatcher ){
-        $subscriber = new Subscriber($request->request->get('email'),[
+    public function newsLetterNao(Request $request/*, EventDispatcherInterface $dispatcher */){
+        /*$subscriber = new Subscriber($request->request->get('email'),[
             'language'=>'fr'
         ]);
 
         $dispatcher->dispatch(
             SubscriberEvent::EVENT_SUBSCRIBE,
             new SubscriberEvent("f547f5ff8f",$subscriber)
-        );
+        );*/
         return $this->redirectToRoute('home');
     }
 

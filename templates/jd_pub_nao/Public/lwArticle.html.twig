@@ -63,7 +63,7 @@
 
                     <h3>Commentaire</h3>
 
-                    {{ form_start(formComment) }}
+                    {{ form_start(formComment,{'action': path('oneArticle',{'id':article.id}), 'method': 'POST'}) }}
                     {{ form_row(formComment.content) }}
                     {{ form_end(formComment) }}
 
