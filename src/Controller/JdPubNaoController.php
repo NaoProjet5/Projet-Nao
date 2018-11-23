@@ -82,8 +82,9 @@ class JdPubNaoController extends Controller
     /**
      * @Route("/oneBird/{id}", name="bird")
      */
-    public function oneBird(Request $request, ObjectManager $manager, Oiseau $oiseau, FileUploader $fileUploader, Security $security){
+    public function oneBird(Request $request, ObjectManager $manager, Oiseau $oiseau, FileUploader $fileUploader, Security $security, ObservationRepository $repos_obs){
         $observation = new Observation();
+        $data = $repos_obs->findBy(['valide'=>1,'oiseau'=>$oiseau]);
         $form = $this->createForm(ObservationType::class, $observation);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid())
@@ -98,11 +99,13 @@ class JdPubNaoController extends Controller
             $observation->setOiseau($oiseau);
             $manager->persist($observation);
             $manager->flush();
+            $this->addFlash('notice_obs','Merci pour votre observation pour rendre publique nos spécialistes vont étudier pour une validation !!!');
             return $this->redirectToRoute('bird',['id'=>$oiseau->getId()]);
         }
         return $this->render('lw_pub_nao/lwObservation.html.twig',[
             'formObservation'=>$form->createView(),
-            'oiseau'=>$oiseau
+            'oiseau'=>$oiseau,
+            'observations'=>$data
         ]);
     }
 

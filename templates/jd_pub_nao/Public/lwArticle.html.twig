@@ -29,8 +29,14 @@
     </div>
 
     <div class="commentaires">
+        {% for message in app.flashes('notice_com') %}
+            <div class="alert alert-danger" style="margin-top:1.5%;"><strong>
+                    {{ message }}
+                </strong></div>
+        {% endfor %}
 
         <h2 class="souligner">Liste des commentaires</h2>
+
 
         <div class="last_observations_content">
             {% set i = 1 %}

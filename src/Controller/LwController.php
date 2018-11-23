@@ -381,6 +381,7 @@ class LwController extends Controller
             $comment->setArticle($article);
             $manager->persist($comment);
             $manager->flush();
+            $this->addFlash('notice_com','Nous vous remercions pour votre commentaire !!!');
             return $this->redirectToRoute('oneArticle',['id'=>$article->getId()]);
         }
 

@@ -25,8 +25,13 @@
 
         <div class="last_observations">
         <h2 class="souligner">Les dernières observations de cet oiseau</h2>
+            {% for message in app.flashes('notice_obs') %}
+                <div class="alert alert-danger" style="margin-top:1.5%;"><strong>
+                        {{ message }}
+                    </strong></div>
+            {% endfor %}
         <div class="last_observations_content">
-            {% for observation in oiseau.observation %}
+            {% for observation in observations %}
                 <div class="last_observation_item">
 
                     <h3 style="color : #08ACDE;">{{ observation.nom  }}</h3>
