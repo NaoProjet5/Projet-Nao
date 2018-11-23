@@ -205,9 +205,22 @@ class LwController extends Controller
     /**
      * @route ("/lw/contact", name="contactNao")
      */
-    public function contactNao()
+    public function contactNao(\Swift_Mailer $mailer,Request $request)
     {
-        $this->addFlash('notice','Merci pour votre message nous vous repondons dans un délais proche !!!');
+
+       /* $request->request->get('name');
+        dump($request->request->get('name'));
+        die();
+        $message = (new \Swift_Message('CONTACT NAO'))
+            ->setFrom('send@example.com')
+            ->setTo('landrywabo8@gmail.com')
+            ->setBody('',
+
+                'text/html'
+            );
+
+        $mailer->send($message);
+        $this->addFlash('notice','Merci pour votre message nous vous repondons dans un délais proche !!!');*/
         return $this->render('jd_pub_nao/Public/contact.html.twig');
     }
     /**
