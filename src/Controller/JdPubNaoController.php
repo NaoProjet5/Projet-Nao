@@ -98,6 +98,7 @@ class JdPubNaoController extends Controller
             $observation->setOiseau($oiseau);
             $manager->persist($observation);
             $manager->flush();
+            return $this->redirectToRoute('bird',['id'=>$oiseau->getId()]);
         }
         return $this->render('lw_pub_nao/lwObservation.html.twig',[
             'formObservation'=>$form->createView(),
