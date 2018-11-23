@@ -61,10 +61,21 @@ class LwController extends Controller
      * @Security("is_granted('ROLE_NATURALIST')")
      * @route ("/lw/AdminObservation", name="admin_observation")
      */
-    public function adminObservation(ObservationRepository $repos){
+    public function adminObservation(ObservationRepository $repos,Request $request){
         $observation = $repos->findAll();
+        /* @var $paginator \Knp\Component\Pager\Paginator */
+        $paginator  = $this->get('knp_paginator');
+        // Paginate the results of the query
+        $appointments = $paginator->paginate(
+        // Doctrine Query, not results
+            $observation,
+            // Define the page parameter
+            $request->query->getInt('page', 1),
+            // Items per page
+            3
+        );
         return $this->render('lw_login_nao/lwAdminObservation.html.twig',[
-            'observations'=>$observation
+            'observations'=>$appointments
         ]);
 
     }
@@ -288,7 +299,7 @@ class LwController extends Controller
 
         $manager->remove($comment);
         $manager->flush();
-        return $this->redirectToRoute('adminComment');
+        return $this->redirectToRoute('AdminComment');
     }
 
     /**
@@ -299,7 +310,7 @@ class LwController extends Controller
         $comment->setSignale(0);
         $manager->persist($comment);
         $manager->flush();
-        return $this->redirectToRoute('adminComment');
+        return $this->redirectToRoute('AdminComment');
     }
     /**
      * @Security("is_granted('ROLE_SUPER_ADMIN')")
