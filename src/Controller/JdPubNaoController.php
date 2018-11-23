@@ -148,6 +148,7 @@ class JdPubNaoController extends Controller
             return $this->redirectToRoute('oneArticle',['id'=>$article->getId()]);
 
         }
+       // dump($form->getErrors());die;
 
         return $this->render('jd_pub_nao/Public/lwArticle.html.twig',[
             'article'=>$article,
