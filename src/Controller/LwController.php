@@ -17,9 +17,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use App\LwServices\FileUploader;
-/*use Welp\MailchimpBundle\Event\SubscriberEvent;
+use Welp\MailchimpBundle\Event\SubscriberEvent;
 use Welp\MailchimpBundle\Subscriber\Subscriber;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;*/
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -202,15 +202,15 @@ class LwController extends Controller
     /**
      * @route("/lw/news_letter",name="newsLetter")
      */
-    public function newsLetterNao(Request $request/*, EventDispatcherInterface $dispatcher */){
-        /*$subscriber = new Subscriber($request->request->get('email'),[
+    public function newsLetterNao(Request $request, EventDispatcherInterface $dispatcher ){
+        $subscriber = new Subscriber($request->request->get('email'),[
             'language'=>'fr'
         ]);
 
         $dispatcher->dispatch(
             SubscriberEvent::EVENT_SUBSCRIBE,
             new SubscriberEvent("f547f5ff8f",$subscriber)
-        );*/
+        );
         return $this->redirectToRoute('home');
     }
 
@@ -364,6 +364,29 @@ class LwController extends Controller
         );
         return $this->render('lw_login_nao/lwTrashArticle.html.twig',[
             'articles' => $appointments
+        ]);
+    }
+    /**
+     * @Route("/article/{id}", name="oneArticle")
+     */
+    public function lwOneArticle(Request $request, ObjectManager $manager, LwArticle $article){
+        $comment = new Comment();
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()){
+            $comment->setCreatedAt(new \DateTime());
+            $user = $this->getUser();
+            $comment->setAuthor($user);
+            $comment->setSignale(0);
+            $comment->setArticle($article);
+            $manager->persist($comment);
+            $manager->flush();
+            return $this->redirectToRoute('oneArticle',['id'=>$article->getId()]);
+        }
+
+        return $this->render('jd_pub_nao/Public/lwArticle.html.twig',[
+            'article'=>$article,
+            'formComment'=>$form->createView()
         ]);
     }
 

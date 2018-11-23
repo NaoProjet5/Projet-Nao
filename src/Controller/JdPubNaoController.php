@@ -96,12 +96,8 @@ class JdPubNaoController extends Controller
             $observation->setPhoto($fileName);
             $observation->setValide(0);
             $observation->setOiseau($oiseau);
-            dump($observation);
-            die();
             $manager->persist($observation);
             $manager->flush();
-            $this->addFlash('notice','Merci pour votre observation nous allons vérifier pour valider !!!');
-            return $this->redirectToRoute('bird',['id'=>$oiseau->getId()]);
         }
         return $this->render('lw_pub_nao/lwObservation.html.twig',[
             'formObservation'=>$form->createView(),
@@ -130,31 +126,7 @@ class JdPubNaoController extends Controller
             'articles'=>$appointments
         ]);
     }
-    /**
-     * @Route("/article/{id}", name="oneArticle")
-     */
-    public function lwOneArticle(Request $request, ObjectManager $manager, LwArticle $article, Security $security){
-        $comment = new Comment();
-        $form = $this->createForm(CommentType::class, $comment);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()){
-            $comment->setCreatedAt(new \DateTime());
-            $user = $security->getUser();
-            $comment->setAuthor($user);
-            $comment->setSignale(0);
-            $comment->setArticle($article);
-            $manager->persist($comment);
-            $manager->flush();
-            return $this->redirectToRoute('oneArticle',['id'=>$article->getId()]);
 
-        }
-       // dump($form->getErrors());die;
-
-        return $this->render('jd_pub_nao/Public/lwArticle.html.twig',[
-            'article'=>$article,
-            'formComment'=>$form->createView()
-        ]);
-    }
 
     /**
      * @Route("/comment/{id}", name="signalComment")
@@ -168,7 +140,7 @@ class JdPubNaoController extends Controller
             return $this->redirectToRoute('oneArticle',['id'=>$comment->getArticle()->getId()]);
     }
 
-    /**
+     /**
      * @Route ("/lw/new_article", name="new_article")
      */
     public function create(Request $request,ObjectManager $manager, FileUploader $fileUploader) {

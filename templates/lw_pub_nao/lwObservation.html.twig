@@ -10,8 +10,20 @@
 
     </section>
     <div class="body_content observations">
+        <div class="content map">
 
-    <div class="last_observations">
+            <div id="map_canvas"></div>
+
+            <div id="do_observation" class="">
+
+                <a href="#laisser_observation">Faire une observation sur cet oiseau</a>
+
+            </div>
+
+        </div>
+
+
+        <div class="last_observations">
         <h2 class="souligner">Les dernières observations de cet oiseau</h2>
         <div class="last_observations_content">
             {% for observation in oiseau.observation %}
@@ -23,7 +35,7 @@
                         Lat : {{ observation.latitude }}, LNG : {{ observation.longitude }}
                     </p>
 
-                    <a class="action_view" href="#map_canvas" onclick="anim_rouge_gorge();view_oiseau('rouge_gorge');">Voir l'oiseau sur la carte</a>
+                    <a class="action_view" href="#map_canvas" onclick="afficher_oiseau('{{ observation.latitude }}','{{ observation.longitude }}');">Voir l'oiseau sur la carte</a>
 
                 </div>
             {% endfor %}
@@ -34,7 +46,6 @@
                 <div class="form_obs">
                     {% if app.user %}
                         {{ form_start(formObservation) }}
-                        <form>
 
                         <div>
 
@@ -67,8 +78,6 @@
                         </div>
 
                         <button class="submit" type="submit">Envoyer l'observation</button>
-
-                    </form>
                         {{ form_end(formObservation) }}
                     {% else %}
                         Pour laisser une observation vous devez vous  <a href="{{ path('loginUsers') }}" class="button_style_1">Connecter</a>
@@ -80,6 +89,12 @@
 
     </div><!--end of body content observation -->
 
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
     <script src="https://maps.google.com/maps/api/js?sensor=true" type="text/javascript"></script>
     <script>
 
@@ -89,5 +104,175 @@
                 document.querySelector(".long").value = position.coords.longitude;
             });
         }
+    </script>
+    <script
+            src="https://code.jquery.com/jquery-3.3.1.js"
+            integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+            crossorigin="anonymous"></script>
+
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC1_2otoK8H-gpWeExPvPD-pK7V2CDWNwE"></script>
+
+    <script>
+        function afficher_oiseau(lat,lng){
+            var longitude = Number(lng);
+
+            var latitude = Number(lat);
+
+            var oiseau_display;
+
+            oiseau_display = new google.maps.Marker({
+                map: map,
+                icon: '../assets/img/marker_carte.png',
+                position: {lat: latitude, lng: longitude}
+            });
+
+                map.setZoom(10);
+                map.setCenter({lat: latitude, lng: longitude});
+        }
+
+        var map, popup, Popup;
+
+        var rouge_gorge;
+
+        /** Initializes the map and the custom popup. */
+        function initMap() {
+
+            definePopupClass();
+            var center = {lat: 46.102079,lng: -0.076303};
+
+            map = new google.maps.Map(document.getElementById('map_canvas'), {
+                zoom: 7,
+                center: {lat: 46.102079,lng: -0.076303 }
+            });
+
+            popup = new Popup(
+                new google.maps.LatLng(46.102079, -0.076303),
+                document.getElementById('content'));
+            popup.setMap(map);
+
+
+
+
+        }
+
+
+
+        function anim_rouge_gorge() {
+            if (rouge_gorge.getAnimation() !== null) {
+                rouge_gorge.setAnimation(null);
+            } else {
+                rouge_gorge.setAnimation(google.maps.Animation.BOUNCE);
+            }
+        }
+
+        function anim_oiseau_2() {
+            if (rouge_gorge.getAnimation() !== null) {
+                rouge_gorge.setAnimation(null);
+            } else {
+                rouge_gorge.setAnimation(google.maps.Animation.BOUNCE);
+            }
+        }
+
+        /** Defines the Popup class. */
+        function definePopupClass() {
+            /**
+             * A customized popup on the map.
+             * @param {!google.maps.LatLng} position
+             * @param {!Element} content
+             * @constructor
+             * @extends {google.maps.OverlayView}
+             */
+            Popup = function(position, content) {
+                this.position = position;
+
+                content.classList.add('popup-bubble-content');
+
+                var pixelOffset = document.createElement('div');
+                pixelOffset.classList.add('popup-bubble-anchor');
+                pixelOffset.appendChild(content);
+
+                this.anchor = document.createElement('div');
+                this.anchor.classList.add('popup-tip-anchor');
+                this.anchor.appendChild(pixelOffset);
+
+                // Optionally stop clicks, etc., from bubbling up to the map.
+                this.stopEventPropagation();
+            };
+            // NOTE: google.maps.OverlayView is only defined once the Maps API has
+            // loaded. That is why Popup is defined inside initMap().
+            Popup.prototype = Object.create(google.maps.OverlayView.prototype);
+
+            /** Called when the popup is added to the map. */
+            Popup.prototype.onAdd = function() {
+                this.getPanes().floatPane.appendChild(this.anchor);
+            };
+
+            /** Called when the popup is removed from the map. */
+            Popup.prototype.onRemove = function() {
+                if (this.anchor.parentElement) {
+                    this.anchor.parentElement.removeChild(this.anchor);
+                }
+            };
+
+            /** Called when the popup needs to draw itself. */
+            Popup.prototype.draw = function() {
+                var divPosition = this.getProjection().fromLatLngToDivPixel(this.position);
+                // Hide the popup when it is far out of view.
+                var display =
+                    Math.abs(divPosition.x) < 4000 && Math.abs(divPosition.y) < 4000 ?
+                        'block' :
+                        'none';
+
+                if (display === 'block') {
+                    this.anchor.style.left = divPosition.x + 'px';
+                    this.anchor.style.top = divPosition.y + 'px';
+                }
+                if (this.anchor.style.display !== display) {
+                    this.anchor.style.display = display;
+                }
+            };
+
+            /** Stops clicks/drags from bubbling up to the map. */
+            Popup.prototype.stopEventPropagation = function() {
+                var anchor = this.anchor;
+                anchor.style.cursor = 'auto';
+
+                ['click', 'dblclick', 'contextmenu', 'wheel', 'mousedown', 'touchstart',
+                    'pointerdown']
+                    .forEach(function(event) {
+                        anchor.addEventListener(event, function(e) {
+                            e.stopPropagation();
+                        });
+                    });
+            };
+        }
+
+
+
+        initMap();
+
+
+        function view_oiseau(oiseau_cible){
+            var view_oiseau = $('#content').attr('data-name',oiseau_cible);
+            $('#content').css('display','none');
+            view_oiseau.css('display','block');
+            $('#cartes_oiseaux').css('display','block');
+            $('.carte_oiseau:not(#oiseau_'+oiseau_cible+')').css('display','none');
+            $('.carte_oiseau #oiseau_'+oiseau_cible).css('display','block');
+            map.setZoom(10);
+            map.setCenter(rouge_gorge.getPosition());
+        }
+
+        function hide_oiseau(oiseau_cible){
+            var view_oiseau = $('#content').attr('data-name',oiseau_cible);
+            $('#content').css('display','block');
+            view_oiseau.css('display','none');
+            $('#cartes_oiseaux').css('display','none');
+            $('.carte_oiseau:not(#oiseau_'+oiseau_cible+')').css('display','block');
+            $('.carte_oiseau #oiseau_'+oiseau_cible).css('display','none');
+            map.setZoom(7);
+            map.setCenter(center);
+        }
+
     </script>
 {% endblock %}
