@@ -1,0 +1,17 @@
+{% extends 'lwLayoutAdmin.html.twig' %}
+
+{% block contentPage %}
+    <div class="content">
+        <div class="content">
+            <div class="container-fluid">
+                <h3> Modification du commentaire</h3>
+                <div class="col-lg-8">
+                    {{ form_start(form) }}
+                    {{ form_row(form.content) }}
+                    {{ form_end(form) }}
+                </div>
+                <a href="{{ path('AdminComment') }}"> Retour aux commentaires</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

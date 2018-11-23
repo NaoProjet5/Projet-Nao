@@ -107,6 +107,11 @@ class JdUsers implements UserInterface
     private $alive = false;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\LwArticle", mappedBy="users")
+     */
+    private $lwArticles;
+
+    /**
      * JdUsers constructor.
      * @param $createdAt
      */
@@ -116,6 +121,7 @@ class JdUsers implements UserInterface
         $this->roles = ['ROLE_USER'];
         $this->observations = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->lwArticles = new ArrayCollection();
     }
 
     /**
@@ -407,6 +413,37 @@ class JdUsers implements UserInterface
     public function setAlive(bool $alive): self
     {
         $this->alive = $alive;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|LwArticle[]
+     */
+    public function getLwArticles(): Collection
+    {
+        return $this->lwArticles;
+    }
+
+    public function addLwArticle(LwArticle $lwArticle): self
+    {
+        if (!$this->lwArticles->contains($lwArticle)) {
+            $this->lwArticles[] = $lwArticle;
+            $lwArticle->setUsers($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLwArticle(LwArticle $lwArticle): self
+    {
+        if ($this->lwArticles->contains($lwArticle)) {
+            $this->lwArticles->removeElement($lwArticle);
+            // set the owning side to null (unless already changed)
+            if ($lwArticle->getUsers() === $this) {
+                $lwArticle->setUsers(null);
+            }
+        }
 
         return $this;
     }

@@ -50,6 +50,11 @@ class LwArticle
      */
     private $comments;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\JdUsers", inversedBy="lwArticles")
+     */
+    private $users;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -147,6 +152,18 @@ class LwArticle
                 $comment->setArticle(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUsers(): ?JdUsers
+    {
+        return $this->users;
+    }
+
+    public function setUsers(?JdUsers $users): self
+    {
+        $this->users = $users;
 
         return $this;
     }

@@ -10,50 +10,77 @@
     </div>
 
 </section>
-<div class="body_content">
-     <div class="content">
-        <h2>{{ article.title  }}</h2>
-        <div class="metadata">Ecrit le {{ article.createdAt | date('d/m/Y') }} à {{ article.createdAt | date('H:i') }}</div>
-        <div class="content">
+<div class="body_content article">
+    <div class="image" style="background-image : url('{{ asset('images_appli/'~ article.photo) }}');"></div>
+
+    <div class="article_info">
+
+        <h2 class="souligner">{{ article.title  }}</h2>
+
+        <p>Article créé par <strong>{{article.users.firstname }} {{ article.users.name}}</strong> le <strong>{{ article.createdAt | date('d/m/Y') }} à {{ article.createdAt | date('H:i') }}</strong></p>
+
+    </div>
+    <div class="content_paragraphe">
+
+        <p>
             {{ article.content }}
+        </p>
+
+    </div>
+
+    <div class="commentaires">
+        {% for message in app.flashes('notice_com') %}
+            <div class="alert alert-danger" style="margin-top:1.5%;"><strong>
+                    {{ message }}
+                </strong></div>
+        {% endfor %}
+
+        <h2 class="souligner">Liste des commentaires</h2>
+
+
+        <div class="last_observations_content">
+            {% set i = 1 %}
+            {% for comment in article.comments %}
+            <div class="last_observation_item">
+
+                <h3 style="color : #08ACDE;">Commentaire {{ i }}</h3>
+
+                <span style="padding-top : 5px;padding-bottom : 5px; opacity : 0.4;">Commentaire laissé par<strong> {{ comment.author.firstname }} </strong> le <strong>{{  comment.createdAt | date('d/m/Y à H:i') }}</strong></span>
+
+                <p>{{ comment.content }}<a href="{{ path('signalComment',{'id':comment.id}) }}"><img src="{{ asset('assets/svg/si-glyph-circle-info.svg') }}" title="signaler le commentaire" width="7%" height="7%"></a></p>
+
+            </div>
+                {% set i = i + 1 %}
+            {% endfor %}
+
         </div>
 
-     <hr />
-     <h5> listes des commentaires</h5>
-     <section id="commentaires">
-         {% for comment in article.comments %}
-             <div class="comment">
-                 <div class="row">
-                     <div class="col-3">
-                         {{ comment.author.firstname }} (<small> {{  comment.createdAt | date('d/m/Y à H:i') }}</small>)
-                     </div>
-                     <div class="col">
-                         {{ comment.content | raw }}
+    </div>
+
+    <div id="laisser_commentaire">
+
+        <h2 class="souligner">Laisser un commentaire sur cet article</h2>
+        {% if app.user %}
+        <div class="form_obs">
+
+                    <h3>Commentaire</h3>
+
+                    {{ form_start(formComment,{'action': path('oneArticle',{'id':article.id}), 'method': 'POST'}) }}
+                    {{ form_row(formComment.content) }}
+                    {{ form_end(formComment) }}
+
+                </div>
 
 
-                     </div>
+        </div>
+        {% else %}
+            <p>
+                Pour laisser un commentaire vous devez vous  <a href="{{ path('loginUsers') }}" class="button_style_1">Connecter</a>
+            </p>
+        {% endif %}
 
-                 </div>
+    </div>
 
-             </div>
-             <hr/>
-         {% endfor %}
-     </section>
-
-{% if app.user %}
-     <p>Formulaire de création d'un commentaire</p>
-     <div class="col-lg-8">
-         {{ form_start(formComment) }}
-         {{ form_row(formComment.content) }}
-         {{ form_end(formComment) }}
-     </div>
-
-     {% else %}
-         <div class="button_style_1" >
-     Pour laisser un commentaire vous devez vous  <a href="{{ path('loginUsers') }}" class="button_style_1">Connecter</a>
-         </div>
-     {% endif %}
-     </div>
 </div>
 
 {% endblock %}

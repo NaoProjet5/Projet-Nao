@@ -1,0 +1,49 @@
+{% extends 'lwLayoutAdmin.html.twig' %}
+
+{% block contentPage %}
+    <div class="content">
+        <div class="content">
+            <div class="container-fluid">
+                <h4 class="card-title ">Liste des articles dans la Corbeille </h4>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead class=" text-primary">
+                            <tr>
+                                <th>Image</th>
+                                <th>Titre</th>
+                                <th>Date de publication</th>
+                                <th>Commentaires</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for article in articles  %}
+                                <tr>
+                                    <th width="20%">
+                                        <img class="img-rounded" src="{{ asset('images_appli/'~ article.photo) }}" alt="{{ article.title }}"  height="20%"/></th>
+                                    <th>{{ article.title  }}</th>
+                                    <th>{{ article.createdAt | date('d/m/Y') }}</th>
+                                    <th >{{ article.comments|length }}</th>
+                                    <th width="20%">
+                                        <a href="{{ path('update_article',{'id':article.id}) }}" class="btn btn-info btn-link" rel="tooltip" data-placement="bottom" title="Modifier l'article">
+                                            <i class="material-icons">edit</i>
+                                        </a>
+                                        <button type="button" class="btn btn-danger btn-link" rel="tooltip" data-placement="bottom" title="Mettre à la corbeille">
+                                            <i class="material-icons">delete </i>
+                                        </button>
+                                    </th>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <div class="navigation">
+                        {{ knp_pagination_render(articles) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

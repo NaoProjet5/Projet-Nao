@@ -28,7 +28,7 @@ class Observation
     private $createdAt;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
      * @Assert\File(mimeTypes={ "image/jpeg","image/png" })
      */
     private $photo;

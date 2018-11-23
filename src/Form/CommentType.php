@@ -18,7 +18,7 @@ class CommentType extends AbstractType
                 'label'=>'le contenu du commentaire',
                 'attr'=>['placeholder'=>'contenu du commentaire']
             ])
-            ->add('save',SubmitType::class, ['label'=>'Enregistrer le commentaire','attr'=>['class'=>'btn btn-success']
+            ->add('save',SubmitType::class, ['label'=>'Enregistrer le commentaire','attr'=>['class'=>'submit']
             ])
         ;
     }
