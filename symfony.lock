@@ -83,6 +83,9 @@
     "egulias/email-validator": {
         "version": "2.1.6"
     },
+    "excelwebzone/recaptcha-bundle": {
+        "version": "v1.5.11"
+    },
     "facebook/webdriver": {
         "version": "1.6.0"
     },
@@ -94,6 +97,15 @@
     },
     "geocoder-php/google-maps-provider": {
         "version": "4.2.0"
+    },
+    "google/recaptcha": {
+        "version": "1.1",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "1.1",
+            "ref": "155d19cc6b4fddd9393064f553bdbe3f2f16c918"
+        }
     },
     "guzzlehttp/guzzle": {
         "version": "6.3.3"
