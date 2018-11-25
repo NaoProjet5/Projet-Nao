@@ -12,6 +12,10 @@ use App\Repository\ObservationRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 use http\Env\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -208,20 +212,48 @@ class LwController extends Controller
     public function contactNao(\Swift_Mailer $mailer,Request $request)
     {
 
-       /* $request->request->get('name');
-        dump($request->request->get('name'));
-        die();
-        $message = (new \Swift_Message('CONTACT NAO'))
-            ->setFrom('send@example.com')
-            ->setTo('landrywabo8@gmail.com')
-            ->setBody('',
+        $form = $this->createFormBuilder()
+            ->add('nom', TextType::class,[
+                'attr'=>['placeholder'=>'Entrez votre nom','id'=>'name']
+            ])
+            ->add('prenom', TextType::class,[
+                'attr'=>['placeholder'=>'Entrez votre prénom','id'=>'surname']
+            ])
+            ->add('email', EmailType::class,[
+                'attr'=>['placeholder'=>'Entrez votre email','id'=>'email']
+            ])
+            ->add('telephone', IntegerType::class,['required' => false,
+                'attr'=>['placeholder'=>'Entrez votre numéro de téléphone (facultatif)','id'=>'phone']
+            ])
+            ->add('subject', TextType::class,[
+                'attr'=>['placeholder'=>'Entrez l\'objet de votre message','id'=>'subject']
+            ])
+            ->add('message', TextareaType::class,[
+                'attr'=>['placeholder'=>'Entrez votre message','id'=>'message']
+            ])
+            ->getForm();
 
-                'text/html'
-            );
+        $form->handleRequest($request);
 
-        $mailer->send($message);
-        $this->addFlash('notice','Merci pour votre message nous vous repondons dans un délais proche !!!');*/
-        return $this->render('jd_pub_nao/Public/contact.html.twig');
+        if ($form->isSubmitted() && $form->isValid()) {
+            // data is an array with "name", "email", and "message" keys
+            $message = (new \Swift_Message('CONTACT NAO'))
+                ->setFrom($request->request->get('email'))
+                ->setTo('dulanguiced.p5@gmail.com')
+                ->setBody('M/Mme'.$request->request->get('nom').' '.$request->request->get('prenom').
+                    'Au numero de téléphone'.$request->request->get('telephone').
+                    $request->request->get('email').'<p> Sujet du message '.$request->request->get('subject').
+                    '</p><p> CONTENU:'.$request->request->get('message').'</p>',
+
+                    'text/html'
+                );
+
+            $mailer->send($message);
+            $this->addFlash('notice_contact','Merci pour votre message nous vous repondons dans un délais proche !!!');
+            return $this->redirectToRoute('contactNao');
+
+        }
+        return $this->render('jd_pub_nao/Public/contact.html.twig',array('form'=>$form->createView()));
     }
     /**
      * @route("/lw/news_letter",name="newsLetter")
@@ -233,7 +265,7 @@ class LwController extends Controller
 
         $dispatcher->dispatch(
             SubscriberEvent::EVENT_SUBSCRIBE,
-            new SubscriberEvent("f547f5ff8f",$subscriber)
+            new SubscriberEvent("24298baca3",$subscriber)
         );
         return $this->redirectToRoute('home');
     }
