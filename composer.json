@@ -33,6 +33,7 @@
         "welp/mailchimp-bundle": "^1.2"
     },
     "require-dev": {
+        "symfony/apache-pack": "^1.0",
         "symfony/debug-pack": "*",
         "symfony/dotenv": "*",
         "symfony/maker-bundle": "^1.0",
