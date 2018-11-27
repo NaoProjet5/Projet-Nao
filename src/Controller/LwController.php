@@ -26,6 +26,8 @@ use Welp\MailchimpBundle\Subscriber\Subscriber;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use EWZ\Bundle\RecaptchaBundle\Form\Type\EWZRecaptchaType;
+use EWZ\Bundle\RecaptchaBundle\Validator\Constraints\IsTrue as RecaptchaTrue;
 
 class LwController extends Controller
 {
@@ -211,6 +213,10 @@ class LwController extends Controller
      */
     public function contactNao(\Swift_Mailer $mailer,Request $request)
     {
+        /**
+         * @Recaptcha\IsTrue
+         */
+         $recaptcha;
 
         $form = $this->createFormBuilder()
             ->add('nom', TextType::class,[
@@ -231,6 +237,20 @@ class LwController extends Controller
             ->add('message', TextareaType::class,[
                 'attr'=>['placeholder'=>'Entrez votre message','id'=>'message']
             ])
+            ->add('recaptcha', EWZRecaptchaType::class, array('required' => true,
+                'attr' => array(
+                    'options' => array(
+                        'theme' => 'light',
+                        'type'  => 'image',
+                        'size'  => 'normal',
+                        'defer' => true,
+                        'async' => true,
+                    ),
+                    'mapped'      => false,
+                    'constraints' => array(
+                        new RecaptchaTrue()
+                    )
+                )))
             ->getForm();
 
         $form->handleRequest($request);

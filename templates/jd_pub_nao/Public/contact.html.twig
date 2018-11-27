@@ -60,6 +60,9 @@
                         {{ form_widget(form.message) }}
 
                     </div>
+
+                {{ form_widget(form.recaptcha, { 'attr': {'options' : {'theme': 'light','type': 'image','size': 'normal'},} }) }}
+
                     <div id="submit">
 
                         <button type="submit">Envoyer</button>
