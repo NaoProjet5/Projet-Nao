@@ -57,9 +57,9 @@ html,body{
 		padding-bottom : 5px;
 		padding-left : 20px;
 		padding-right : 20px;
-		color : white;
+		color : black;
+		background : white;
 		border-radius : 30px;
-		border : solid 2px white;
 		text-decoration : none;
 		position : relative;
 		top : 7px;
@@ -121,10 +121,10 @@ html,body{
 		padding-bottom : 7px;
 		padding-left : 20px;
 		padding-right : 20px;
-		background : rgba(255,255,255,0.2);
+		background : #08ACDE;
 		border-radius : 20px;
 		text-transform: uppercase;
-		font-weight : 500;
+		font-weight : 600;
 		cursor : pointer;
 	}
 
@@ -276,6 +276,45 @@ html,body{
 		background : #c6c6c6;
 		transition : all 0.5s;
 	}
+	
+	.button_style_2{
+		padding-left : 20px;
+		padding-right : 20px;
+		padding-top : 7px;
+		padding-bottom : 7px;
+		border-radius : 20px;
+		background : #08ACDE;
+		font-size : 19px;
+		color : white;
+		font-weight : 600;
+		margin-top : 10px;
+		transition : all 0.5s;
+		cursor : pointer;
+	}
+
+	.button_style_2:hover{
+		background : #088FAF;
+		transition : all 0.5s;
+	}
+	
+	.button_style_3{
+		padding-left : 20px;
+		padding-right : 20px;
+		padding-top : 7px;
+		padding-bottom : 7px;
+		border-radius : 20px;
+		background : white;
+		font-size : 17px;
+		color : black;
+		margin-top : 10px;
+		transition : all 0.5s;
+		cursor : pointer;
+	}
+
+	.button_style_3:hover{
+		background : #E5E5E5;
+		transition : all 0.5s;
+	}
 
 	#short_presentation{
 		width : 90%;
@@ -313,30 +352,9 @@ html,body{
 		font-weight : 400;
 		padding : 0;
 		margin : 0;
-		text-align: justify;
+		text-align: left;
 		padding-bottom : 20px;
 	}
-
-	.paragraphe_presentation a{
-		font-size : 17px;
-		color : white;
-		padding-left : 20px;
-		padding-right : 20px;
-		padding-top : 7px;
-		padding-bottom : 7px;
-		border-radius : 30px;
-		background : #08ACDE;
-		box-shadow : 0px 3px 6px rgba(0,0,0,0.2);
-		transition : all 0.5s;
-		cursor : pointer;
-	}
-
-	.paragraphe_presentation a:hover{
-		transition : all 0.5s;
-		background : #0593bf;
-		box-shadow : 0px 7px 15px rgba(0,0,0,0.2);
-	}
-
 
 	.last_articles{
 		width : 90%;
@@ -362,7 +380,7 @@ html,body{
 		left : 50%;
 		transform : translateX(-50%);
 		height : 3px;
-		top : 60px;
+		top : 100%;
 		width : 200px;
 		background : #08ACDE;
 		border-radius : 10px;
@@ -424,7 +442,6 @@ html,body{
 		color : #8c8c8c;
 		padding-left : 5px;
 		padding-right : 5px;
-		max-height : 150px;
 		text-align: justify;
 		overflow: hidden;
 	}
@@ -496,9 +513,46 @@ html,body{
 	footer #footer_2{
 		width : 100%;
 		background : black;
-		height : 250px;
+	}
+	
+	footer #footer_2 .footer_2_content{
+		width : 1280px;
+		margin : auto;
+		display : flex;
+		padding-top : 20px;
+		padding-bottom : 20px;
+	}
+	
+	footer #footer_2 .footer_2_content div{
+		width : 25%;
+		text-align : center;
+	}
+	
+	footer #footer_2 .footer_2_content div span{
+		color : white;
+		font-size : 23px;
+		font-weight : 600;
+	}
+	
+	footer #footer_2 .footer_2_content div ul{
+		padding : 0;
+		margin : 0;
+		width : 100%;
+		padding-top : 15px;
+	}
+	
+	footer #footer_2 .footer_2_content div ul li{
 		padding-top : 10px;
 		padding-bottom : 10px;
+		width : 100%;
+		text-align : center;
+	}
+	
+	footer #footer_2 .footer_2_content div ul li a{
+		color : white;
+		text-decoration : none;
+		cursor : pointer;
+		font-size : 17px;
 	}
 
 	section.title_page{
@@ -529,14 +583,9 @@ html,body{
 	.content{
 		width : 90%;
 		margin : auto;
+		text-align : center;
 		padding-top : 15px;
 		padding-bottom : 15px;
-	}
-
-	.content h2{
-		color : black;
-		font-size : 23px;
-		font-weight : 300;
 	}
 
 	.content p{
@@ -544,6 +593,8 @@ html,body{
 		width : 100%;
 		text-align: justify;
 		margin : 0;
+		padding-top : 20px;
+		padding-bottom : 20px;
 	}
 
 	.content p.decallage{
@@ -1195,7 +1246,7 @@ html,body{
 		padding-bottom : 5px;
 		padding-left : 20px;
 		padding-right : 20px;
-		color : white;
+		color : black;
 		border-radius : 30px;
 		border : solid 2px white;
 		text-decoration : none;
@@ -1249,10 +1300,10 @@ html,body{
 		padding-bottom : 7px;
 		padding-left : 20px;
 		padding-right : 20px;
-		background : rgba(255,255,255,0.2);
+		background : #08ACDE;
 		border-radius : 20px;
 		text-transform: uppercase;
-		font-weight : 500;
+		font-weight : 600;
 		cursor : pointer;
 	}
 
@@ -1302,10 +1353,30 @@ html,body{
 
 	.view_observation{
 		background : white;
+		padding-left : 20px;
+		padding-right : 20px;
+		padding-top : 10px;
+		padding-bottom : 10px;
+	}
+	
+	.view_observation_2{
+		background : grey;
+		padding-left : 20px;
+		padding-right : 20px;
+		padding-top : 10px;
+		padding-bottom : 10px;
 	}
 	
 	.do_observation{
 		background : #08ACDE;
+		color : white;
+		font-weight : 600;
+		margin-right : 20px;
+		font-size : 18px;
+		padding-left : 20px;
+		padding-right : 20px;
+		padding-top : 10px;
+		padding-bottom : 10px;
 	}
 
 	.body_content{
@@ -1345,6 +1416,11 @@ html,body{
 		overflow : hidden;
 		top : 0;
 	}
+	
+	.last_observation_item p{
+		padding-bottom : 50px;
+		padding-top : 5px;
+	}
 
 	.last_observation_item:hover{
 		box-shadow: 0px 6px 6px rgba(0,0,0,0.16);
@@ -1377,7 +1453,7 @@ html,body{
 		padding-bottom : 10px;
 	}
 
-	.last_observation_item a.action_view{
+	a.action_view{
 		display : block;
 		width : 100%;
 		text-align: center;
@@ -1389,6 +1465,8 @@ html,body{
 		padding-bottom : 7px;
 		cursor : pointer;
 		text-decoration : none;
+		position : absolute;
+		bottom : 0;
 	}
 
 	.button_style_1{
@@ -1446,28 +1524,10 @@ html,body{
 		font-weight : 400;
 		padding : 0;
 		margin : 0;
-		text-align: justify;
-		padding-bottom : 20px;
-	}
-
-	.paragraphe_presentation a{
-		font-size : 17px;
-		color : white;
-		padding-left : 20px;
-		padding-right : 20px;
-		padding-top : 7px;
-		padding-bottom : 7px;
-		border-radius : 30px;
-		background : #08ACDE;
-		box-shadow : 0px 3px 6px rgba(0,0,0,0.2);
-		transition : all 0.5s;
-		cursor : pointer;
-	}
-
-	.paragraphe_presentation a:hover{
-		transition : all 0.5s;
-		background : #0593bf;
-		box-shadow : 0px 7px 15px rgba(0,0,0,0.2);
+		text-align: left;
+		padding-bottom : 10px;
+		padding-top : 10px;
+		line-height : 2.2;
 	}
 
 
@@ -1619,7 +1679,6 @@ html,body{
 	footer #footer_2{
 		width : 100%;
 		background : black;
-		height : 250px;
 		padding-top : 10px;
 		padding-bottom : 10px;
 	}
@@ -1652,30 +1711,9 @@ html,body{
 	.content{
 		width : 90%;
 		margin : auto;
+		text-align : center;
 		padding-top : 15px;
 		padding-bottom : 15px;
-	}
-
-	.content h2{
-		color : black;
-		font-size : 23px;
-		font-weight : 300;
-	}
-
-	.content p{
-		color : #9E9E9E;
-		width : 100%;
-		text-align: justify;
-		margin : 0;
-	}
-
-	.content p.decallage{
-		color : #9E9E9E;
-		margin-left : 30px;
-		width : calc(100% - 40px);
-		border-left : solid 3px #9E9E9E;
-		padding-left : 15px;
-		text-align: justify;
 	}
 
 	#contact{
@@ -1801,6 +1839,12 @@ html,body{
 		box-shadow : 0px 6px 15px rgba(0,0,0,0.16);
 		transition : all 0.5s;
 	}
+	
+	.buttons_box{
+		text-align: center;
+		padding-top : 30px;
+		padding-bottom : 30px;
+	}
 
 }
 
@@ -1819,12 +1863,28 @@ html,body{
 		width : 860px;
 	}
 	
+	.menu_box ul li.appel_action{
+		display : block;
+		width : 100%;
+		margin : auto;
+		text-align : right;
+		padding-top : 20px;
+	}
+	
 	#menu_burger{
 		display : none;
 	}
 	
 	#menu_close{
 		display : none;
+	}
+	
+	#do_observation {
+		width: 100%;
+		position: absolute;
+		top: 60px;
+		text-align: center;
+		transition: all 0.5s;
 	}
 
 	section#short_desc .section_content{
@@ -1833,6 +1893,9 @@ html,body{
 
 	section#short_desc .buttons_box{
 		width : 960px;
+	}
+	
+	.buttons_box{
 		text-align: center;
 		padding-top : 30px;
 	}
@@ -1862,6 +1925,39 @@ html,body{
 		padding-top : 25px;
 		padding-bottom : 20px;
 	}
+	
+	.last_observation_item p{
+		padding-top : 5px;
+		padding-bottom : 50px;
+	}
+	
+	.content p{
+		padding-bottom : 50px;
+	}
+	
+	a.action_view{
+		display : block;
+		width : 100%;
+		text-align: center;
+		font-size : 17px;
+		font-weight : 600;
+		color : black;
+		background : #f4f4f4;
+		padding-top : 7px;
+		padding-bottom : 7px;
+		cursor : pointer;
+		text-decoration : none;
+		position : absolute;
+		bottom : 0;
+	}
+	
+	footer #footer_2 .footer_2_content{
+		width : 960px;
+		margin : auto;
+		display : flex;
+		padding-top : 20px;
+		padding-bottom : 20px;
+	}
 
 }
 
@@ -1881,6 +1977,14 @@ html,body{
 		width : 630px;
 	}
 	
+	.menu_box ul li.appel_action{
+		display : block;
+		width : 100%;
+		margin : auto;
+		text-align : center;
+		padding-top : 20px;
+	}
+	
 	#menu_burger{
 		display : none;
 	}
@@ -1891,6 +1995,7 @@ html,body{
 
 	section#short_desc .section_content{
 		width : 680px;
+		padding-top : 200px;
 	}
 
 	section#short_desc .buttons_box{
@@ -1931,12 +2036,40 @@ html,body{
 		height: 300px;
 		overflow: hidden;
 	}
+	
+	.last_observation_item p{
+		padding-bottom : 50px;
+	}
+	
+	a.action_view{
+		display : block;
+		width : 100%;
+		text-align: center;
+		font-size : 17px;
+		font-weight : 600;
+		color : black;
+		background : #f4f4f4;
+		padding-top : 7px;
+		padding-bottom : 7px;
+		cursor : pointer;
+		text-decoration : none;
+		position : absolute;
+		bottom : 0;
+	}
 
 	.menu_box .btn_primary{
 		display : block;
 		margin-top : 10px;
 	}
 
+	#do_observation {
+		width: 100%;
+		position: absolute;
+		top: 60px;
+		text-align: center;
+		transition: all 0.5s;
+	}
+	
 	#short_presentation {
 		width: 90%;
 		margin: auto;
@@ -1957,6 +2090,34 @@ html,body{
 
 	.image_last_article_item {
 		height: 300px;
+	}
+	
+	#footer_1 input{
+		margin-top : 10px;
+		display : block;
+		text-align : center;
+		margin : auto;
+	}
+	
+	#footer_1 button{
+		margin-top : 10px;
+	}
+	
+	footer #footer_2 .footer_2_content{
+		width : 680px;
+		margin : auto;
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		grid-gap: 20px;
+		padding-top : 20px;
+		padding-bottom : 20px;
+	}
+	
+	footer #footer_2 .footer_2_content div{
+		width : 100%;
+		text-align : center;
+		padding-top : 15px;
+		padding-bottom : 15px;
 	}
 
 }
@@ -2120,13 +2281,12 @@ html,body{
 		padding-top : 30px;
 	}
 	
-	section#short_desc .buttons_box a{
+	.buttons_box a{
 		display : block;
 		width : 80%;
-		margin : auto;
+		margin : 0 auto !important;
 		top : 0;
-		color : black;
-		margin-bottom : 10px;
+		margin-bottom : 10px !important;
 		padding : 10px;
 		border-radius : 25px;
 	}
@@ -2166,11 +2326,16 @@ html,body{
 		padding-top : 25px;
 		padding-bottom : 20px;
 	}
+	
+	.last_observation_item p{
+		padding-top : 5px;
+		padding-bottom : 50px;
+	}
 
 	.image_last_observation_item {
 		position: relative;
 		width: 100%;
-		height: 300px;
+		height: 150px;
 		overflow: hidden;
 	}
 
@@ -2198,7 +2363,12 @@ html,body{
 	}
 
 	.image_last_article_item {
-		height: 300px;
+		height: 150px;
+	}
+	
+	.last_article_item p{
+		padding-top : 5px;
+		padding-bottom : 50px;
 	}
 	
 	.header_content #mon_compte a#icon_user{
@@ -2207,6 +2377,23 @@ html,body{
 
 	.header_content #mon_compte a.button_inscription_connexion{
 		display : none;
+	}
+	
+	#do_observation {
+		width: 100%;
+		position: absolute;
+		top: 60px;
+		text-align: center;
+		transition: all 0.5s;
+	}
+	
+	#do_observation input{
+		width: calc(90% - 100px) !important;
+		margin : 0 auto !important;
+		text-align: center;
+		position : relative;
+		display : block;
+		margin-bottom : 10px !important;
 	}
 	
 	#do_observation a{
@@ -2252,5 +2439,93 @@ html,body{
 		background : #08ACDE;
 		border-radius : 10px;
 	}
+	
+	
+	
+	a.action_view{
+		display : block;
+		width : 100%;
+		text-align: center;
+		font-size : 17px;
+		font-weight : 600;
+		color : black;
+		background : #f4f4f4;
+		padding-top : 7px;
+		padding-bottom : 7px;
+		cursor : pointer;
+		text-decoration : none;
+		position : absolute;
+		bottom : 0;
+	}
+	
+	footer #footer_1 a{
+		padding-bottom : 10px;
+		display : block;
+		width : 90%;
+		margin : auto;
+		text-align : center;
+	}
+	
+	footer #footer_1 input{
+		display : block;
+		width : 70%;
+		margin : auto;
+		margin-bottom : 15px;
+		text-align : center;
+	}
+	
+	footer #footer_1 button{
+		width : 50%;
+		margin : auto;
+		display : block;
+	}
+	
+	footer #footer_2 .footer_2_content{
+		width : 100%;
+		margin : auto;
+		display : block;
+		padding-top : 20px;
+		padding-bottom : 20px;
+	}
+	
+	footer #footer_2 .footer_2_content div{
+		width : 100%;
+		text-align : center;
+		padding-top : 15px;
+		padding-bottom : 15px;
+	}
 
+}
+
+.pagination span.current {
+    padding: 10px;
+    background: #08ACDE;
+    margin-left: 10px;
+    border-radius: 30px;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+}
+
+.pagination span.previous a {
+    background: #bfbfbf;
+}
+.pagination span.first a {
+    background: #bfbfbf;
+}
+
+.pagination span.last a {
+    background: #bfbfbf;
+}
+.pagination span.next a {
+    background: #bfbfbf;
+}
+.pagination span a {
+    padding: 10px;
+    background: #e0e0e0;
+    margin-left: 10px;
+    border-radius: 30px;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
 }
