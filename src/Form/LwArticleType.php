@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use EWZ\Bundle\RecaptchaBundle\Form\Type\EWZRecaptchaType;
 
 class LwArticleType extends AbstractType
 {
@@ -27,6 +28,17 @@ class LwArticleType extends AbstractType
                 'data_class' => null,'required' => false,
                 'label'=>'Image de l\'article',
                 'attr'=>['placeholder'=>'image de l\'article']
+            ])
+            ->add('recaptcha', EWZRecaptchaType::class, [
+                'attr' => [
+                    'options' => [
+                        'theme' => 'light',
+                        'type'  => 'image',
+                        'size'  => 'normal',
+                        'defer' => true,
+                        'async' => true,
+                    ]
+                ]
             ])
         ;
     }

@@ -81,6 +81,10 @@
                             {{ form_row(formObservation.photo,{'attr':{'placeholder':"la photo de l'observation",'required':'false'}}) }}
 
                         </div>
+                        <div>
+                            {{ form_label(formObservation.recaptcha,'Je ne suis pas un robot') }}
+                            {{ form_widget(formObservation.recaptcha) }}
+                        </div>
 
                         <button class="submit" type="submit">Envoyer l'observation</button>
                         {{ form_end(formObservation) }}

@@ -26,6 +26,12 @@
                     {{ form_label(form.photo,'Photo de l\'article') }}
                         {{ form_widget(form.photo, {'attr': {'class': 'form-control-file'}}) }}
                     </div>
+                        <div class="row">
+                            {{ form_label(form.recaptcha,'Je ne suis pas un robot') }}
+                            <div class="col-sm-10">
+                            {{ form_widget(form.recaptcha) }}
+                            </div>
+                        </div>
                     <button type="submit" class="btn btn-success">
                         Enregistrer l'article
                     </button>

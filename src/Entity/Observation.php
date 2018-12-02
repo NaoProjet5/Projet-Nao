@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use EWZ\Bundle\RecaptchaBundle\Validator\Constraints as Recaptcha;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ObservationRepository")
@@ -59,6 +60,11 @@ class Observation
      * @ORM\Column(type="string", length=255)
      */
     private $latitude = null;
+
+    /**
+     * @Recaptcha\IsTrue
+     */
+    public $recaptcha;
 
 
     public function getId(): ?int

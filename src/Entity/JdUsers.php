@@ -9,6 +9,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use DateTime;
+use EWZ\Bundle\RecaptchaBundle\Validator\Constraints as Recaptcha;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\JdUsersRepository")
@@ -79,6 +80,12 @@ class JdUsers implements UserInterface
      * @ORM\Column(type="datetime")
      * @Assert\DateTime()
      */
+
+    /**
+     * @Recaptcha\IsTrue
+     */
+    public $recaptcha;
+
     private $createdAt;
 
     /**
