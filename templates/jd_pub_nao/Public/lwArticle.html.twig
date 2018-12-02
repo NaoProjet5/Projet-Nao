@@ -67,6 +67,9 @@
 
                     {{ form_start(formComment,{'action': path('oneArticle',{'id':article.id}), 'method': 'POST'}) }}
                     {{ form_row(formComment.content) }}
+                {{ form_label(formComment.recaptcha, 'Je ne suis pas un robot') }}
+                {{ form_errors(formComment.recaptcha) }}
+                {{ form_widget(formComment.recaptcha) }}
                     {{ form_end(formComment) }}
 
                 </div>

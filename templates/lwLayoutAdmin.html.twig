@@ -16,6 +16,8 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
     <!-- CSS Files -->
     <link href="{{ asset('assets/css/material-dashboard.css') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/css/material-dashboard.css.map') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/css/material-dashboard.min.css') }}" rel="stylesheet" />
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link href="{{ asset('assets/demo/demo.css') }}" rel="stylesheet" />
     {% endblock %}
@@ -30,11 +32,11 @@
           Tip 2: you can also add an image using data-image tag
       -->
         <div class="logo">
-            <a href="http://www.creative-tim.com" class="simple-text logo-mini">
-                NAO
+            <a href="#" class="simple-text logo-mini" >
+
             </a>
-            <a href="http://www.creative-tim.com" class="simple-text logo-normal">
-                Tableau de bord
+            <a href="#" class="simple-text logo-normal">
+               NAO SEARCH
             </a>
         </div>
         <div class="sidebar-wrapper">
@@ -80,7 +82,7 @@
                 <li class="nav-item ">
                     <a class="nav-link" data-toggle="collapse" href="#pagesExamples">
                         <i class="material-icons">place</i>
-                        <p> Les observations
+                        <p> Observations
                             <b class="caret"></b>
                         </p>
                     </a>
@@ -93,12 +95,12 @@
                             </li>
                             <li class="nav-item ">
                                 <a class="nav-link" href="{{ path('observation_accept') }}">
-                                    <span class="sidebar-normal"> Les observations validées </span>
+                                    <span class="sidebar-normal"> Observations validées </span>
                                 </a>
                             </li>
                             <li class="nav-item ">
                                 <a class="nav-link" href="{{ path('observation_ref') }}">
-                                    <span class="sidebar-normal"> Les observations invalidéés </span>
+                                    <span class="sidebar-normal"> Observations invalidéés </span>
                                 </a>
                             </li>
                         </ul>
@@ -109,7 +111,7 @@
                 <li class="nav-item ">
                     <a class="nav-link"  href="{{ path('jaAllUser') }}">
                         <i class="material-icons">person</i>
-                        <p> Les utilisateurs
+                        <p> Utilisateurs
                         </p>
                     </a>
                 </li>
@@ -117,7 +119,7 @@
                 <li class="nav-item ">
                     <a class="nav-link" data-toggle="collapse" href="#formsExamples">
                         <i class="material-icons">content_paste</i>
-                        <p> Les articles
+                        <p> Articles
                             <b class="caret"></b>
                         </p>
                     </a>
@@ -130,12 +132,12 @@
                             </li>
                             <li class="nav-item ">
                                 <a class="nav-link" href="{{ path('publicArticle') }}">
-                                    <span class="sidebar-normal"> Les articles publiés </span>
+                                    <span class="sidebar-normal"> Articles publiés </span>
                                 </a>
                             </li>
                             <li class="nav-item ">
                                 <a class="nav-link" href="{{ path('trashArticle') }}">
-                                    <span class="sidebar-normal"> Les articles en brouillon  </span>
+                                    <span class="sidebar-normal"> Articles en brouillon  </span>
                                 </a>
                             </li>
                         </ul>
@@ -151,12 +153,12 @@
                         <ul class="nav">
                             <li class="nav-item ">
                                 <a class="nav-link" href="{{ path('AdminComment') }}">
-                                    <span class="sidebar-normal"> Tous les commentaires </span>
+                                    <span class="sidebar-normal"> Commentaires </span>
                                 </a>
                             </li>
                             <li class="nav-item ">
                                 <a class="nav-link" href="{{ path('AdminCommentSignal') }}">
-                                    <span class="sidebar-normal"> Les Commentaires signalés </span>
+                                    <span class="sidebar-normal"> Commentaires signalés </span>
                                 </a>
                             </li>
                         </ul>

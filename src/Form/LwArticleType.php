@@ -17,8 +17,7 @@ class LwArticleType extends AbstractType
     {
         $builder
             ->add('title', TextType::class, [
-                'label'=>'Titre de l\'article',
-                'attr'=>['placeholder'=>'titre de l\'article']
+                'label'=>'Titre de l\'article'
             ])
             ->add('content', TextareaType::class,[
                 'label'=>'le contenu de l\'article',

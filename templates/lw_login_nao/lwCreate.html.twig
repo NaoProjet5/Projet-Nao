@@ -4,17 +4,25 @@
     <div class="content">
         <div class="content">
             <div class="container-fluid">
-                <h3> Création d'article</h3>
-                    {{ form_start(form) }}
-                    <div class="form-group">
-                    {{ form_label(form.title,'Titre de l\'article') }}
-                        {{ form_widget(form.title, {'attr': {'class': 'form-control','type':'text'}}) }}
+                <div class="card ">
+                    <div class="card-header card-header-rose card-header-text">
+                        <div class="card-text">
+                            <h4 class="card-title">Création d'article</h4>
+                        </div>
                     </div>
-                    <div class="form-group">
+                    <div class="card-body ">
+                    {{ form_start(form,{'attr':{'class':'form-horizontal' }}) }}
+                    <div class="row">
+                    {{ form_label(form.title,'Titre de l\'article', {'attr': {'class': 'col-sm-2 col-form-label'}})}}
+                        <div class="col-sm-10">
+                        {{ form_widget(form.title, {'attr': {'class': 'form-control','type':'text'}}) }}
+                        </div>
+                    </div>
+                    <div class="row">
                     {{ form_label(form.content,'Contenu de l\'article') }}
                         {{ form_widget(form.content, {'attr': {'class': 'form-control','type':'textarea'}}) }}
                     </div>
-                    <div class="form-group">
+                    <div class="row">
                     {{ form_label(form.photo,'Photo de l\'article') }}
                         {{ form_widget(form.photo, {'attr': {'class': 'form-control-file'}}) }}
                     </div>
@@ -23,6 +31,7 @@
                     </button>
                     {{ form_end(form) }}
             </div>
+                </div>
         </div>
     </div>
 {% endblock %}

@@ -8,15 +8,26 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use EWZ\Bundle\RecaptchaBundle\Form\Type\EWZRecaptchaType;
 
 class CommentType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('content',TextareaType::class,[
+        $builder->add('content',TextareaType::class,[
                 'label'=>'le contenu du commentaire',
                 'attr'=>['placeholder'=>'contenu du commentaire']
+            ]);
+            $builder->add('recaptcha', EWZRecaptchaType::class, [
+                'attr' => [
+                    'options' => [
+                        'theme' => 'light',
+                        'type'  => 'image',
+                        'size'  => 'normal',
+                        'defer' => true,
+                        'async' => true,
+                    ]
+                ]
             ])
             ->add('save',SubmitType::class, ['label'=>'Enregistrer le commentaire','attr'=>['class'=>'submit']
             ])
