@@ -80,12 +80,6 @@ class JdUsers implements UserInterface
      * @ORM\Column(type="datetime")
      * @Assert\DateTime()
      */
-
-    /**
-     * @Recaptcha\IsTrue
-     */
-    public $recaptcha;
-
     private $createdAt;
 
     /**
@@ -122,6 +116,11 @@ class JdUsers implements UserInterface
      * JdUsers constructor.
      * @param $createdAt
      */
+
+    /**
+     * @Recaptcha\IsTrue
+     */
+    public $recaptcha;
     public function __construct()
     {
         $this->createdAt = new DateTime( 'now', new \DateTimeZone('Europe/Paris'));
