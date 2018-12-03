@@ -2,26 +2,33 @@
 
 {% block contentPage %}
     <div class="content">
-        <div class="content">
             <div class="container-fluid">
-                <h4 class="card-title ">Liste des Commentaires Signalés</h4>
+                <div class="card">
+                    <div class="card-header card-header-rose card-header-icon">
+                        <div class="card-icon">
+                            <i class="material-icons">assignment</i>
+                        </div>
+                        <h4 class="card-title">Liste des Commentaires Signalés</h4>
+                    </div>
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table">
                             <thead class=" text-primary">
                             <tr>
                                 <th>Auteur commentaires</th>
+                                <th>Contenus du commentaire</th>
                                 <th>Date publication</th>
-                                <th>Actions</th>
+                                <th class="text-right">Actions</th>
                             </tr>
                             </thead>
                             <tbody>
                             {% for comment in comments  %}
                                 <tr>
                                     <th>{{ comment.author.firstname  }} {{comment.author.name  }}</th>
+                                    <th>{{ comment.content }}</th>
                                     <th>{{ comment.createdAt | date('d/m/Y') }}</th>
-                                    <th>
-                                        <a href="{{ path('update_comment',{'id':comment.id}) }}" class="btn btn-info btn-link" rel="tooltip" data-placement="bottom" title="Voir ou modifier le commentaire">
+                                    <th class="td-actions text-right">
+                                        <a href="{{ path('update_comment',{'id':comment.id}) }}" class="btn btn-info btn-link" rel="tooltip" data-placement="bottom" title="modifier le commentaire">
                                             <i class="material-icons">edit</i>
                                         </a>
                                         <a href="{{ path('restore_comment',{'id':comment.id}) }}" class="btn btn-info btn-link" rel="tooltip" data-placement="bottom" title="Restaurer le commentaire">

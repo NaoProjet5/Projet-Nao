@@ -6,6 +6,23 @@
                 <h3>Toutes les observations</h3>
                 <br>
                 <div class="row">
+                    <div class="col-md-12">
+                        <div class="card ">
+                            <div class="card-header card-header-text card-header-rose">
+                                <div class="card-text">
+                                    <h4 class="card-title">Localisation des oiseaux sur la carte</h4>
+                                </div>
+                            </div>
+                            <div class="card-body ">
+                                <h4 class="card-title"></h4>
+                                <div id="map_canvas" class="map map-big">
+                                    <div id="content">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     {% for observation in observations %}
                         <div class="col-md-4">
                             <div class="card card-product">
