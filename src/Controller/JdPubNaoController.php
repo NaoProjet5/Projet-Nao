@@ -162,7 +162,7 @@ class JdPubNaoController extends Controller
             $article->setPhoto($fileName);
             $manager->persist($article);
             $manager->flush();
-            return $this->redirectToRoute('blog_show',['id'=>$article->getId()]);
+            return $this->redirectToRoute('admin_article');
         }
         return $this->render('lw_login_nao/lwCreate.html.twig',[
             'form'=>$form->createView()

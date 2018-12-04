@@ -21,13 +21,11 @@ class LwArticleType extends AbstractType
                 'label'=>'Titre de l\'article'
             ])
             ->add('content', TextareaType::class,[
-                'label'=>'le contenu de l\'article',
-                'attr'=>['placeholder'=>'contenu de l\'article']
+                'label'=>'le contenu de l\'article'
             ])
             ->add('photo', FileType::class,[
                 'data_class' => null,'required' => false,
-                'label'=>'Image de l\'article',
-                'attr'=>['placeholder'=>'image de l\'article']
+                'label'=>'Image de l\'article'
             ])
             ->add('recaptcha', EWZRecaptchaType::class, [
                 'attr' => [

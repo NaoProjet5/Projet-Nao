@@ -19,6 +19,7 @@ class CommentType extends AbstractType
                 'attr'=>['placeholder'=>'contenu du commentaire']
             ]);
             $builder->add('recaptcha', EWZRecaptchaType::class, [
+                'label'=>'Je ne suis pas un robot',
                 'attr' => [
                     'options' => [
                         'theme' => 'light',
