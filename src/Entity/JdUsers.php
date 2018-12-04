@@ -57,6 +57,9 @@ class JdUsers implements UserInterface
      *      minMessage = "Votre Votre adress email ne peut faire moins de {{ limit }} caractères.",
      *      maxMessage = "Votre Votre adress email ne peut faire plus de {{ limit }} caractères."
      * )
+     * @Assert\IdenticalTo(propertyPath="email",
+     *     message="Cette adresse email nexist pas, vous pouvez vous créer votre compte"
+     * )
      */
     private $email;
 
@@ -84,6 +87,9 @@ class JdUsers implements UserInterface
     /**
      * @ORM\Column(name="valide", type="boolean")
      * @Assert\Type(type="boolean")
+     * @Assert\IdenticalTo(value = 1,
+     *     message="Votre compte n'a pas été valider, Nous vous avons envoyé un mail"
+     * )
      */
     private $valide = false;
 

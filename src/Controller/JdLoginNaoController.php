@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\JdUsers;
 use App\Form\JdUsersType;
 use App\Form\JdValueType;
+use App\Repository\JdUsersRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -70,8 +71,6 @@ class JdLoginNaoController extends AbstractController
             );
         $mailer->send($message);
 
-        $this->get('session')->clear();
-
         return $this->render('jd_Emails/jdMessage.html.twig',
             [
                 'id'    => $user->getId(),
@@ -83,12 +82,13 @@ class JdLoginNaoController extends AbstractController
      * @Route("/jd_Value_Users/{id}", name="jdValueUsers")
      */
 
-    public function jdValueUsers( JdUsers $user, ObjectManager $manager)
+    public function jdValueUsers( JdUsers $user, ObjectManager $manager, Session $session)
     {
         $repo = $manager;
         if($user->getId() && $user->getEmail())
         {
             $user->setValide(true);
+            $session->set('user', $user);
             $repo->flush();
 
             return $this->redirectToRoute('loginUsers');
@@ -102,22 +102,40 @@ class JdLoginNaoController extends AbstractController
     }
 
     /**
-     * @Route("/login", name="loginUsers")
+     * @Route("/login/", name="loginUsers")
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function jdLoginUsers(AuthenticationUtils $authenticationUtils)
+    public function jdLoginUsers(AuthenticationUtils $authenticationUtils, JdUsersRepository $repo, JdUsers $users)
     {
-        $error = $authenticationUtils->getLastAuthenticationError();
-        $lastUsername = $authenticationUtils->getLastUsername();
+        $useres = $repo->findBy([
+            'email'     => $users->getEmail(),
+            'valide'    => $users->getValide(),
+        ]);
 
-        return $this->render('jd_login_nao/jdLogin.html.twig', [
-                'last_username' => $lastUsername,
-                'error'         => $error,
-            ]);
+        foreach ($useres as  $user)
+        {
+            $email = $user->getEmail();
+            $valide = $user->getValide();
+
+            if(isset($email) && isset($valide))
+            {
+                $error = $authenticationUtils->getLastAuthenticationError();
+                $lastUsername = $authenticationUtils->getLastUsername();
+
+                return $this->render('jd_login_nao/jdLogin.html.twig', [
+                    'last_username' => $lastUsername,
+                    'error'         => $error,
+                ]);
+
+            }
+        }
     }
 
     /**
      * @Route("/logoutUser", name="usersLogout")
      */
-    public function jdLogoutUsers(){}
+    public function jdLogoutUsers()
+    {
+        //$this->get('session')->clear();
+    }
 }
