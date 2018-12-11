@@ -27,12 +27,7 @@ class Observation
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\File(mimeTypes={ "image/jpeg","image/png" })
-     */
-    private $photo;
+    
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\JdUsers", inversedBy="observations")
@@ -66,6 +61,13 @@ class Observation
      */
     public $recaptcha;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\File(mimeTypes={ "image/jpeg","image/png" })
+     */
+    private $photo;
+
+
 
     public function getId(): ?int
     {
@@ -96,17 +98,7 @@ class Observation
         return $this;
     }
 
-    public function getPhoto()
-    {
-        return $this->photo;
-    }
 
-    public function setPhoto($photo): self
-    {
-        $this->photo = $photo;
-
-        return $this;
-    }
 
     public function getUser(): ?JdUsers
     {
@@ -167,5 +159,31 @@ class Observation
 
         return $this;
     }
+
+    public function getPhoto(): ?string
+    {
+        return $this->photo;
+    }
+
+    public function setPhoto(?string $photo): self
+    {
+        $this->photo = $photo;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): self
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+
 
 }
