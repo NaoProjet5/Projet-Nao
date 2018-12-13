@@ -25,6 +25,7 @@ class LwArticleType extends AbstractType
                 'attr'=>['placeholder'=>'contenu de l\'article']
             ])
             ->add('photo', FileType::class,[
+                'data_class' => null,'required' => false,
                 'label'=>'Image de l\'article',
                 'attr'=>['placeholder'=>'image de l\'article']
             ])

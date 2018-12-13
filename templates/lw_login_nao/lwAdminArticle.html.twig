@@ -4,6 +4,7 @@
     <div class="content">
         <div class="content">
             <div class="container-fluid">
+                <h4 class="card-title ">Liste des articles </h4>
                 <div class="row">
                     <div class="col-lg-10">
 
@@ -27,40 +28,26 @@
                     <tbody>
                     {% for article in articles  %}
                         <tr>
-                            <th></th>
+                            <th width="20%">
+                                <img class="img-rounded" src="{{ asset('images_appli/'~ article.photo) }}" alt="{{ article.title }}"  height="20%"/></th>
                             <th>{{ article.title  }}</th>
                             <th>{{ article.createdAt | date('d/m/Y') }}</th>
-                            <th>{{ article.comments|length }}</th>
-                            <th>
-                                <a href="#" class="btn btn-info btn-link" rel="tooltip" data-placement="bottom" title="Modifier l'article">
+                            <th >{{ article.comments|length }}</th>
+                            <th width="20%">
+                                <a href="{{ path('update_article',{'id':article.id}) }}" class="btn btn-info btn-link" rel="tooltip" data-placement="bottom" title="Modifier l'article">
                                     <i class="material-icons">edit</i>
                                 </a>
-                                <button type="button" class="btn btn-danger btn-link" rel="tooltip" data-placement="bottom" title="Supprimer l'article">
-                                    <i class="material-icons">close</i>
+                                <button type="button" class="btn btn-danger btn-link" rel="tooltip" data-placement="bottom" title="Mettre à la corbeille">
+                                    <i class="material-icons">delete </i>
                                 </button>
                             </th>
                         </tr>
                     {% endfor %}
                     </tbody>
                 </table>
-                        <nav aria-label="...">
-                            <ul class="pagination">
-                                <li class="page-item disabled">
-                                    <span class="page-link">Previous</span>
-                                </li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item active">
-      <span class="page-link">
-        2
-        <span class="sr-only">(current)</span>
-      </span>
-                                </li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">Next</a>
-                                </li>
-                            </ul>
-                        </nav>
+                    </div>
+                    <div class="navigation">
+                        {{ knp_pagination_render(articles) }}
                     </div>
                 </div>
             </div>

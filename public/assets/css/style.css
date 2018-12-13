@@ -6,6 +6,10 @@ html,body{
 		background : #F3F3F3;
 		font-family : 'Roboto';
 	}
+	
+	a{
+		text-decoration : none;
+	}
 
 	header{
 		width : 100%;
@@ -18,7 +22,8 @@ html,body{
 		width : 100%;
 		padding-top : 7px;
 		padding-bottom : 7px;
-		background : #08ACDE;
+		background : rgba(255,255,255,0.2);
+		border-top : solid 3px #08ACDE;
 	}
 
 	.header_content{
@@ -42,8 +47,12 @@ html,body{
 		width : 50%;
 		text-align : right;
 	}
+	
+	.header_content #mon_compte a#icon_user{
+		display : none;
+	}
 
-	.header_content #mon_compte a{
+	.header_content #mon_compte a.button_inscription_connexion{
 		padding-top : 5px;
 		padding-bottom : 5px;
 		padding-left : 20px;
@@ -68,6 +77,16 @@ html,body{
 	.logo_box a img{
 		width : 100%;
 		height : auto;
+	}
+	
+	#menu_burger{
+		display : none;
+		cursor : pointer;
+	}
+	
+	#menu_close{
+		display : none;
+		cursor : pointer;
 	}
 
 	.menu_box{
@@ -102,7 +121,7 @@ html,body{
 		padding-bottom : 7px;
 		padding-left : 20px;
 		padding-right : 20px;
-		background : #08ACDE;
+		background : rgba(255,255,255,0.2);
 		border-radius : 20px;
 		text-transform: uppercase;
 		font-weight : 500;
@@ -111,10 +130,11 @@ html,body{
 
 	section#short_desc{
 		width : 100%;
-		height : 500px;
+		height : auto;
 		background-image : url('img/bg_bird.png');
 		background-size : cover;
 		background-position : center;
+		padding-bottom : 130px;
 	}
 
 	section#short_desc .section_content{
@@ -151,30 +171,17 @@ html,body{
 		text-align: center;
 		padding-top : 30px;
 	}
-
-	section#short_desc .buttons_box a.view_observation{
-		color : white;
-		padding-top : 7px;
-		padding-bottom : 7px;
-		padding-left : 20px;
-		padding-right : 20px;
-		border-radius : 30px;
-		border : solid 2px white;
-		margin-right : 20px;
-		cursor : pointer;
-	}
-
-	section#short_desc .buttons_box a.do_observation{
-		color : #08ACDE;
-		padding-top : 7px;
-		padding-bottom : 7px;
-		padding-left : 20px;
-		padding-right : 20px;
-		border-radius : 30px;
+	
+	.view_observation{
 		background : white;
-		border : solid 2px white;
-		margin-right : 20px;
-		cursor : pointer;
+		padding : 10px;
+		border-radius : 25px;
+	}
+	
+	.do_observation{
+		background : #08ACDE;
+		padding : 10px;
+		border-radius : 25px;
 	}
 
 	.body_content{
@@ -190,6 +197,7 @@ html,body{
 
 	.body_content.observations{
 		padding-top : 15px;
+		text-align : center;
 	}
 
 	.last_observations{
@@ -197,29 +205,6 @@ html,body{
 		margin : auto;
 		text-align: center;
 		padding-bottom : 40px;
-	}
-
-	.last_observations h2{
-		font-size : 25px;
-		color : black;
-		font-weight: 500;
-		padding : 0;
-		margin : 0;
-		text-transform: uppercase;
-		padding-top : 30px;
-		position : relative;
-	}
-
-	.last_observations h2:after{
-		content : "";
-		position : absolute;
-		left : 50%;
-		transform : translateX(-50%);
-		height : 3px;
-		top : 60px;
-		width : 200px;
-		background : #08ACDE;
-		border-radius : 10px;
 	}
 
 	.last_observations_content{
@@ -271,19 +256,6 @@ html,body{
 		color : #929292;
 		padding-top : 10px;
 		padding-bottom : 10px;
-	}
-
-	.last_observation_item a.action_view{
-		display : block;
-		width : 100%;
-		text-align: center;
-		font-size : 17px;
-		font-weight : 600;
-		color : white;
-		background : #08ACDE;
-		padding-top : 7px;
-		padding-bottom : 7px;
-		cursor : pointer;
 	}
 
 	.button_style_1{
@@ -373,7 +345,7 @@ html,body{
 		padding-bottom : 40px;
 	}
 
-	.last_articles h2{
+	h2.souligner{
 		font-size : 25px;
 		color : black;
 		font-weight: 500;
@@ -384,7 +356,7 @@ html,body{
 		position : relative;
 	}
 
-	.last_articles h2:after{
+	h2.souligner:after{
 		content : "";
 		position : absolute;
 		left : 50%;
@@ -455,19 +427,6 @@ html,body{
 		max-height : 150px;
 		text-align: justify;
 		overflow: hidden;
-	}
-
-	.last_article_item a.action_view{
-		display : block;
-		width : 100%;
-		text-align: center;
-		font-size : 17px;
-		font-weight : 600;
-		color : white;
-		background : #08ACDE;
-		padding-top : 7px;
-		padding-bottom : 7px;
-		cursor : pointer;
 	}
 
 	footer{
@@ -682,16 +641,14 @@ html,body{
 
 	#contact form #input_nom_prenom{
 		width : 100%;
-		display : flex;
 	}
 
 	#contact form #input_nom_prenom input{
-		width : 240px;
+		width : 100%;
 	}
 
 	#contact form #input_nom_prenom input:nth-child(2){
-		width : 240px;
-		margin-left : 20px;
+		width : 100%;
 	}
 
 	#contact form #submit{
@@ -846,16 +803,27 @@ html,body{
 		padding-top : 0;
 		padding-bottom : 0;
 		overflow : hidden;
+		margin-top : 30px;
 		position : relative;
 		box-shadow : 0px 15px 50px rgba(0,0,0,0.16);
 	}
 
 	#do_observation{
-		width : calc(100% - 350px);
+		width : 100%;
 		position : absolute;
-		bottom : 30px;
-		left : 0;
-		padding-left : 20px;
+		top : 15px;
+		text-align : center;
+		transition : all 0.5s;
+	}
+	
+	#do_observation.active{
+		width : 100%;
+		height : 100%;
+		padding : 0;
+		top : 0;
+		background : rgba(0,0,0,0.7);
+		padding-top : 35vh;
+		transition : all 0.5s;
 	}
 
 	#do_observation input{
@@ -881,6 +849,23 @@ html,body{
 		padding-top : 10px;
 		padding-bottom : 10px;
 		border-radius : 30px;
+		outline : none;
+		color : white;
+		cursor : pointer;
+		font-size : 17px;
+		box-shadow : 0px 3px 6px rgba(0,0,0,0.16);
+	}
+	
+	#do_observation a{
+		background : #08ACDE;
+		border : none;
+		padding-left : 50px;
+		padding-right : 50px;
+		padding-top : 10px;
+		padding-bottom : 10px;
+		border-radius : 30px;
+		position : relative;
+		top : 10px;
 		outline : none;
 		color : white;
 		font-size : 17px;
@@ -966,6 +951,216 @@ html,body{
 		cursor : pointer;
 		color : white;
 	}
+	
+	.form_obs{
+		width : 60%;
+		margin : auto;
+	}
+	
+	form{
+		width : 100%;
+	}
+	
+	form div{
+		width : 100%;
+		padding-top : 20px;
+		padding-bottom : 15px;
+		text-align : center !important;
+	}
+	
+	form div h3{
+		padding : 0;
+		margin : 0;
+		padding-bottom : 10px;
+		font-size : 20px;
+		color : #08ACDE;
+	}
+	
+	form div h3 span{
+		font-weight : 300;
+		color : #939393;
+		font-size : 16px;
+	}
+	
+	form div label{
+		width : 100%;
+		text-align : center;
+		padding-top : 20px;
+		padding-bottom : 10px;
+	}
+	
+	form div button{
+		display : block;
+		margin : auto;
+		background : black;
+		color : white !important;
+		padding-top : 5px;
+		padding-bottom : 5px;
+		padding-left : 10px;
+		padding-right : 10px;
+		border : none;
+		outline : none;
+		color : black;
+		border-radius : 20px;
+		margin-top : 10px;
+		margin-bottom : 10px;
+		cursor : pointer;
+	}
+	
+	form div a{
+		display : block;
+		margin : auto;
+		margin-bottom : 30px;
+		margin-top : 20px;
+		width : 40px;
+		height : 30px;
+		background : #08ACDE;
+		color : white;
+		border-radius : 25px;
+		padding-top : 10px;
+	}
+	
+	form div textarea{
+		width : calc(100% - 40px);
+		display : block;
+		height : 150px;
+		background : #eeeeee;
+		padding-top : 10px;
+		padding-bottom : 10px;
+		padding-left : 20px;
+		padding-right : 20px;
+		border : none;
+		outline : none;
+		color : black;
+		border-radius : 20px;
+		margin-top : 10px;
+		margin-bottom : 10px;
+	}
+	
+	form div input:not([type=file]){
+		width : calc(100% - 40px);
+		display : block;
+		background : #eeeeee;
+		padding-top : 10px;
+		padding-bottom : 10px;
+		padding-left : 20px;
+		padding-right : 20px;
+		border : none;
+		outline : none;
+		color : black;
+		border-radius : 20px;
+		margin-top : 10px;
+		margin-bottom : 10px;
+	}
+	
+	form div input[type=file] {
+	  cursor: pointer;
+	  width: 180px;
+	  height: 34px;
+	  overflow: hidden;
+	}
+
+	form div input[type=file]:before {
+	  width: 158px;
+	  height: 32px;
+	  font-size: 16px;
+	  line-height: 32px;
+	  content: 'Choisir une photo';
+	  display: inline-block;
+	  background: white;
+	  border: 1px solid #000;
+	  padding: 0 10px;
+	  text-align: center;
+	  font-family: Helvetica, Arial, sans-serif;
+	}
+
+	form div input[type=file]::-webkit-file-upload-button {
+	  visibility: hidden;
+	}
+	
+	form button.submit{
+		display : block;
+		width : 100%;
+		margin : auto;
+		background : #08ACDE;
+		color : white;
+		padding-top : 10px;
+		padding-bottom : 10px;
+		border : none;
+		outline : none;
+		border-radius : 20px;
+		margin-top : 10px;
+		margin-bottom : 10px;
+		cursor : pointer;
+	}
+	
+	form button.submit:hover{
+		background : #03779b;
+	}
+	
+	#connexion_form a.submit{
+		background : #bcbcbc;
+		color : black;
+		padding-top : 10px;
+		padding-bottom : 10px;
+		padding-left : 30px;
+		padding-right : 30px;
+		border : none;
+		outline : none;
+		border-radius : 20px;
+		margin-top : 10px;
+		margin-bottom : 10px;
+		cursor : pointer;
+	}
+	
+	#connexion_form a.submit:hover{
+		background : #9b9b9b;
+	}
+	
+	.article .image{
+		width : 100%;
+		height : 300px;
+		background-size : cover;
+		background-position : center;
+		border-top-left-radius : 13px;
+		border-top-right-radius : 13px;
+	}
+	
+	.article .article_info{
+		width : 100%;
+		text-align : center;
+	}
+	
+	.article .content_paragraphe{
+		width : 90%;
+		margin : auto;
+	}
+	
+	.article .content_paragraphe p{
+		text-align : justify;
+		line-height : 2;
+		font-size : 18px;
+		color : #666666;
+	}
+	
+	.article .commentaires{
+		width : 90%;
+		margin : auto;
+		text-align : center;
+	}
+	
+	#laisser_commentaire{
+		width : 100%;
+		padding-bottom : 60px;
+		text-align : center;
+	}
+	
+	#connexion_form{
+		width : 90%;
+		margin : auto;
+		text-align : center;
+		padding-bottom : 60px;
+	}
 
 @media only screen and (min-width: 1280px) {
 
@@ -990,8 +1185,12 @@ html,body{
 		width : 50%;
 		text-align : right;
 	}
+	
+	.header_content #mon_compte a#icon_user{
+		display : none;
+	}
 
-	.header_content #mon_compte a{
+	.header_content #mon_compte a.button_inscription_connexion{
 		padding-top : 5px;
 		padding-bottom : 5px;
 		padding-left : 20px;
@@ -1050,7 +1249,7 @@ html,body{
 		padding-bottom : 7px;
 		padding-left : 20px;
 		padding-right : 20px;
-		background : #08ACDE;
+		background : rgba(255,255,255,0.2);
 		border-radius : 20px;
 		text-transform: uppercase;
 		font-weight : 500;
@@ -1059,7 +1258,8 @@ html,body{
 
 	section#short_desc{
 		width : 100%;
-		height : 500px;
+		height : auto;
+		padding-bottom : 130px;
 		background-image : url('img/bg_bird.png');
 		background-size : cover;
 		background-position : center;
@@ -1100,29 +1300,12 @@ html,body{
 		padding-top : 30px;
 	}
 
-	section#short_desc .buttons_box a.view_observation{
-		color : white;
-		padding-top : 7px;
-		padding-bottom : 7px;
-		padding-left : 20px;
-		padding-right : 20px;
-		border-radius : 30px;
-		border : solid 2px white;
-		margin-right : 20px;
-		cursor : pointer;
-	}
-
-	section#short_desc .buttons_box a.do_observation{
-		color : #08ACDE;
-		padding-top : 7px;
-		padding-bottom : 7px;
-		padding-left : 20px;
-		padding-right : 20px;
-		border-radius : 30px;
+	.view_observation{
 		background : white;
-		border : solid 2px white;
-		margin-right : 20px;
-		cursor : pointer;
+	}
+	
+	.do_observation{
+		background : #08ACDE;
 	}
 
 	.body_content{
@@ -1141,29 +1324,6 @@ html,body{
 		margin : auto;
 		text-align: center;
 		padding-bottom : 40px;
-	}
-
-	.last_observations h2{
-		font-size : 25px;
-		color : black;
-		font-weight: 500;
-		padding : 0;
-		margin : 0;
-		text-transform: uppercase;
-		padding-top : 30px;
-		position : relative;
-	}
-
-	.last_observations h2:after{
-		content : "";
-		position : absolute;
-		left : 50%;
-		transform : translateX(-50%);
-		height : 3px;
-		top : 60px;
-		width : 200px;
-		background : #08ACDE;
-		border-radius : 10px;
 	}
 
 	.last_observations_content{
@@ -1223,8 +1383,8 @@ html,body{
 		text-align: center;
 		font-size : 17px;
 		font-weight : 600;
-		color : white;
-		background : #08ACDE;
+		color : black;
+		background : #f4f4f4;
 		padding-top : 7px;
 		padding-bottom : 7px;
 		cursor : pointer;
@@ -1318,29 +1478,6 @@ html,body{
 		padding-bottom : 40px;
 	}
 
-	.last_articles h2{
-		font-size : 25px;
-		color : black;
-		font-weight: 500;
-		padding : 0;
-		margin : 0;
-		text-transform: uppercase;
-		padding-top : 30px;
-		position : relative;
-	}
-
-	.last_articles h2:after{
-		content : "";
-		position : absolute;
-		left : 50%;
-		transform : translateX(-50%);
-		height : 3px;
-		top : 60px;
-		width : 200px;
-		background : #08ACDE;
-		border-radius : 10px;
-	}
-
 	.last_articles_content{
 		width : 100%;
 		display : grid;
@@ -1397,19 +1534,19 @@ html,body{
 		color : #8c8c8c;
 		padding-left : 5px;
 		padding-right : 5px;
-		max-height : 150px;
 		text-align: justify;
 		overflow: hidden;
 	}
 
 	.last_article_item a.action_view{
 		display : block;
+		margin-top : 10px;
 		width : 100%;
 		text-align: center;
 		font-size : 17px;
 		font-weight : 600;
-		color : white;
-		background : #08ACDE;
+		color : black;
+		background : #f4f4f4;
 		padding-top : 7px;
 		padding-bottom : 7px;
 		cursor : pointer;
@@ -1627,16 +1764,14 @@ html,body{
 
 	#contact form #input_nom_prenom{
 		width : 100%;
-		display : flex;
 	}
 
 	#contact form #input_nom_prenom input{
-		width : 240px;
+		width : 100%;
 	}
 
 	#contact form #input_nom_prenom input:nth-child(2){
-		width : 240px;
-		margin-left : 20px;
+		width : 100%;
 	}
 
 	#contact form #submit{
@@ -1682,6 +1817,14 @@ html,body{
 
 	.menu_box{
 		width : 860px;
+	}
+	
+	#menu_burger{
+		display : none;
+	}
+	
+	#menu_close{
+		display : none;
 	}
 
 	section#short_desc .section_content{
@@ -1736,6 +1879,14 @@ html,body{
 
 	.menu_box{
 		width : 630px;
+	}
+	
+	#menu_burger{
+		display : none;
+	}
+	
+	#menu_close{
+		display : none;
 	}
 
 	section#short_desc .section_content{
@@ -1806,6 +1957,300 @@ html,body{
 
 	.image_last_article_item {
 		height: 300px;
+	}
+
+}
+
+@media only screen and (max-width: 679px) {
+
+	.header_content{
+		width : 100%;
+	}
+
+	.logo_box{
+		width : 150px;
+		padding-top : 15px;
+	}
+
+	.menu_box{
+		width : 630px;
+	}
+	
+	#menu_burger{
+		display : none;
+	}
+	
+	#menu_close{
+		display : none;
+	}
+
+	section#short_desc .section_content{
+		width : 100%;
+	}
+
+	section#short_desc .buttons_box{
+		width : 100%;
+		text-align: center;
+		padding-top : 30px;
+	}
+
+	.body_content{
+		width : 100%;
+	}
+
+	section.title_page .section_content{
+		width : 100%;
+	}
+
+	.last_articles_content{
+		width : 100%;
+		display : grid;
+		grid-template-columns: repeat(1, 1fr);
+		grid-gap : 20px;
+		padding-top : 25px;
+		padding-bottom : 20px;
+	}
+
+	.last_observations_content{
+		width : 100%;
+		display : grid;
+		grid-template-columns: repeat(1, 1fr);
+		grid-gap : 20px;
+		padding-top : 25px;
+		padding-bottom : 20px;
+	}
+
+	.image_last_observation_item {
+		position: relative;
+		width: 100%;
+		height: 300px;
+		overflow: hidden;
+	}
+
+	.menu_box .btn_primary{
+		display : block;
+		margin-top : 10px;
+	}
+
+	#short_presentation {
+		width: 90%;
+		margin: auto;
+		padding-top: 15px;
+		display : block;
+	}
+
+	.image_presentation {
+		width: 60%;
+		margin : auto;
+	}
+
+	.paragraphe_presentation {
+		width: 90%;
+		margin : auto;
+		text-align : center;
+	}
+
+	.image_last_article_item {
+		height: 300px;
+	}
+
+}
+
+
+@media only screen and (max-width: 679px) and (orientation: portrait){
+
+	.header_content{
+		width : 90%;
+		margin : auto;
+	}
+
+	.logo_box{
+		width : 30%;
+		padding-top : 15px;
+	}
+
+	.menu_box{
+		width : 70%;
+		padding-top : 15px;
+	}
+	
+	#menu_burger{
+		display : inline-block;
+	}
+	
+	#menu_close{
+		display : none;
+	}
+	
+	.menu_box ul{
+		display : none;
+		background : rgba(0,0,0,0.95);
+		position : fixed;
+		top : 120px;
+		width : 90%;
+		left : 0;
+		height : calc(100vh - 120px);
+		padding-top : 20px;
+		text-align : center;
+		padding-left : 5%;
+		padding-right : 5%;
+		z-index : 999999999999999999;
+	}
+	
+	.menu_box ul li{
+		display : block;
+		padding : 0;
+		margin : 0;
+		padding-top : 15px;
+		padding-bottom : 15px;
+	}
+	
+	section#short_desc{
+		padding-bottom : 0;
+	}
+		
+	section#short_desc .section_content{
+		width : 90%;
+		margin : auto;
+	}
+
+	section#short_desc .buttons_box{
+		width : 100%;
+		text-align: center;
+		padding-top : 30px;
+	}
+	
+	section#short_desc .buttons_box a{
+		display : block;
+		width : 80%;
+		margin : auto;
+		top : 0;
+		color : black;
+		margin-bottom : 10px;
+		padding : 10px;
+		border-radius : 25px;
+	}
+	
+	.view_observation{
+		background : white;
+	}
+	
+	.do_observation{
+		background : #08ACDE;
+	}
+
+	.body_content{
+		width : 100%;
+		top : 0;
+		margin-top : 0;
+	}
+
+	section.title_page .section_content{
+		width : 100%;
+	}
+
+	.last_articles_content{
+		width : 100%;
+		display : grid;
+		grid-template-columns: repeat(1, 1fr);
+		grid-gap : 20px;
+		padding-top : 25px;
+		padding-bottom : 20px;
+	}
+
+	.last_observations_content{
+		width : 100%;
+		display : grid;
+		grid-template-columns: repeat(1, 1fr);
+		grid-gap : 20px;
+		padding-top : 25px;
+		padding-bottom : 20px;
+	}
+
+	.image_last_observation_item {
+		position: relative;
+		width: 100%;
+		height: 300px;
+		overflow: hidden;
+	}
+
+	.menu_box .btn_primary{
+		display : block;
+		margin-top : 10px;
+	}
+
+	#short_presentation {
+		width: 90%;
+		margin: auto;
+		padding-top: 15px;
+		display : block;
+	}
+
+	.image_presentation {
+		width: 60%;
+		margin : auto;
+	}
+
+	.paragraphe_presentation {
+		width: 90%;
+		margin : auto;
+		text-align : center;
+	}
+
+	.image_last_article_item {
+		height: 300px;
+	}
+	
+	.header_content #mon_compte a#icon_user{
+		display : block;
+	}
+
+	.header_content #mon_compte a.button_inscription_connexion{
+		display : none;
+	}
+	
+	#do_observation a{
+		background : #08ACDE;
+		border : none;
+		padding-left : 20px;
+		padding-right : 20px;
+		padding-top : 10px;
+		padding-bottom : 10px;
+		border-radius : 30px;
+		position : relative;
+		top : 60px;
+		outline : none;
+		color : white;
+		font-size : 13px;
+		box-shadow : 0px 3px 6px rgba(0,0,0,0.16);
+	}
+	
+	.form_obs{
+		width : 90%;
+		margin : auto;
+	}
+	
+	h2.souligner{
+		font-size : 22px;
+		color : black;
+		font-weight: 500;
+		padding : 0;
+		margin : 0;
+		text-transform: uppercase;
+		padding-top : 30px;
+		position : relative;
+	}
+
+	h2.souligner:after{
+		content : "";
+		position : absolute;
+		left : 50%;
+		transform : translateX(-50%),translateY(50%);
+		height : 3px;
+		top : 100%;
+		width : 200px;
+		background : #08ACDE;
+		border-radius : 10px;
 	}
 
 }

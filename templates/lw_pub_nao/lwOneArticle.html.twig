@@ -5,7 +5,8 @@
         <div class="metadata">Ecrit le {{ article.createdAt | date('d/m/Y') }} à {{ article.createdAt | date('H:i') }}</div>
         <div class="content">
             <img src="{{  article.photo }}" alt="">
-            {{ article.content | raw }}
+            {{ article.content | raw }}<img src="{{ asset('assets/svg/si-glyph-circle-info.svg') }}" alt="signaler le commentaire"><svg-icon><src href="sprite.svg#si-glyph-circle-info" /></svg-icon>
+
 
         </div>
     </article>

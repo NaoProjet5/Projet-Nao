@@ -16,51 +16,62 @@
 
             <div id="contact">
 
-                <p>Contactez-nous au <span>00.00.00.00.00</span>, par mail à <span>contact@nao-app.fr</span> ou en utilisant notre <span>formulaire de contact</span> ci-dessous</p>
+                <p>Contactez-nous au <span>33.12.74.49.00</span>, par mail à <span>contact@nao-app.fr</span> ou en utilisant notre <span>formulaire de contact</span> ci-dessous</p>
+                {% for message in app.flashes('notice_contact') %}
+                    <div class="alert alert-danger" style="margin-top:1.5%;"><strong>
+                            {{ message }}
+                        </strong></div>
+                {% endfor %}
 
-                <form>
+               {{ form_start(form) }}
 
-                    <div id="input_nom_prenom">
+                    <div id="input_nom">
 
-                        <input type="text" name="name" id="name" placeholder="Entrez votre nom" />
+                        {{ form_widget(form.nom) }}
 
-                        <input type="text" name="surname" id="surname" placeholder="Entrez votre prénom" />
+                    </div>
+
+                    <div id="input_prenom">
+
+                        {{ form_widget(form.prenom) }}
 
                     </div>
 
                     <div id="input_email">
 
-                        <input type="email" name="email" id="email" placeholder="Entrez votre email" />
+                        {{ form_widget(form.email) }}
 
                     </div>
 
                     <div id="input_telephone">
 
-                        <input type="phone" name="phone" id="phone" placeholder="Entrez votre numéro de téléphone (facultatif)" />
+                        {{ form_widget(form.telephone) }}
 
                     </div>
 
                     <div id="input_sujet">
 
-                        <input type="text" name="subject" id="subject" placeholder="Entrez l'objet de votre message" />
+                        {{ form_widget(form.subject) }}
 
                     </div>
 
                     <div id="input_message">
 
-                        <textarea name="message" id="message" placeholder="Entrez votre message"></textarea>
+                        {{ form_widget(form.message) }}
 
                     </div>
-                    <div class="g-recaptcha" data-sitekey="6LfEjXoUAAAAADsEASNGt0ZrRWYcQ0HVBzk_nyIc"></div>
+
+                {{ form_widget(form.recaptcha, { 'attr': {'options' : {'theme': 'light','type': 'image','size': 'normal'},} }) }}
+
                     <div id="submit">
 
                         <button type="submit">Envoyer</button>
 
                     </div>
 
-                </form>
+                {{ form_end(form) }}
 
-            </div>
+            </div><!--end of id_content-->
 
         </div>
 

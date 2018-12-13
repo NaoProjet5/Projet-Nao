@@ -10,10 +10,12 @@ use App\Entity\Oiseau;
 use App\Form\CommentType;
 use App\Form\ObservationType;
 use App\LwServices\FileUploader;
+use App\Repository\CommentRepository;
 use App\Repository\LwArticleRepository;
 use App\Repository\ObservationRepository;
 use App\Repository\OiseauRepository;
 use Doctrine\Common\Persistence\ObjectManager;
+use phpDocumentor\Reflection\Types\Null_;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -80,8 +82,9 @@ class JdPubNaoController extends Controller
     /**
      * @Route("/oneBird/{id}", name="bird")
      */
-    public function oneBird(Request $request, ObjectManager $manager, Oiseau $oiseau, FileUploader $fileUploader, Security $security){
+    public function oneBird(Request $request, ObjectManager $manager, Oiseau $oiseau, FileUploader $fileUploader, Security $security, ObservationRepository $repos_obs){
         $observation = new Observation();
+        $data = $repos_obs->findBy(['valide'=>1,'oiseau'=>$oiseau]);
         $form = $this->createForm(ObservationType::class, $observation);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid())
@@ -96,11 +99,13 @@ class JdPubNaoController extends Controller
             $observation->setOiseau($oiseau);
             $manager->persist($observation);
             $manager->flush();
+            $this->addFlash('notice_obs','Merci pour votre observation pour rendre publique nos spécialistes vont étudier pour une validation !!!');
             return $this->redirectToRoute('bird',['id'=>$oiseau->getId()]);
         }
         return $this->render('lw_pub_nao/lwObservation.html.twig',[
             'formObservation'=>$form->createView(),
-            'oiseau'=>$oiseau
+            'oiseau'=>$oiseau,
+            'observations'=>$data
         ]);
     }
 
@@ -125,30 +130,21 @@ class JdPubNaoController extends Controller
             'articles'=>$appointments
         ]);
     }
+
+
     /**
-     * @Route("/article/{id}", name="oneArticle")
+     * @Route("/comment/{id}", name="signalComment")
      */
-    public function lwOneArticle(Request $request, ObjectManager $manager, LwArticle $article, Security $security){
-        $comment = new Comment();
-        $form = $this->createForm(CommentType::class, $comment);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()){
-            $comment->setCreatedAt(new \DateTime());
-            $user = $security->getUser();
-            $comment->setAuthor($user);
-            $comment->setArticle($article);
-            $manager->persist($comment);
-            $manager->flush();
-            return $this->redirectToRoute('oneArticle',['id'=>$article->getId()]);
-
+    public function signalComment( ObjectManager $manager, $id, CommentRepository $repos){
+        $comment = $repos->find($id);
+        if ($comment->getSignale() == 0 || $comment->getSignale() == Null){
+            $comment->setSignale(1);
         }
-
-        return $this->render('jd_pub_nao/Public/lwArticle.html.twig',[
-            'article'=>$article,
-            'formComment'=>$form->createView()
-        ]);
+        $manager->flush();
+            return $this->redirectToRoute('oneArticle',['id'=>$comment->getArticle()->getId()]);
     }
-    /**
+
+     /**
      * @Route ("/lw/new_article", name="new_article")
      */
     public function create(Request $request,ObjectManager $manager, FileUploader $fileUploader) {
@@ -160,6 +156,7 @@ class JdPubNaoController extends Controller
         {
             $article->setCreatedAt(new \DateTime());
             $article->setAlive(1);
+            $article->setUsers($this->getUser());
             $file = $form->get('photo')->getData();
             $fileName = $fileUploader->upload($file);
             $article->setPhoto($fileName);

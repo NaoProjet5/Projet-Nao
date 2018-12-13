@@ -83,6 +83,9 @@
     "egulias/email-validator": {
         "version": "2.1.6"
     },
+    "excelwebzone/recaptcha-bundle": {
+        "version": "v1.5.11"
+    },
     "facebook/webdriver": {
         "version": "1.6.0"
     },
@@ -94,6 +97,15 @@
     },
     "geocoder-php/google-maps-provider": {
         "version": "4.2.0"
+    },
+    "google/recaptcha": {
+        "version": "1.1",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "1.1",
+            "ref": "155d19cc6b4fddd9393064f553bdbe3f2f16c918"
+        }
     },
     "guzzlehttp/guzzle": {
         "version": "6.3.3"
@@ -173,6 +185,9 @@
     "psr/simple-cache": {
         "version": "1.0.1"
     },
+    "ralouphie/getallheaders": {
+        "version": "2.0.5"
+    },
     "sensio/framework-extra-bundle": {
         "version": "5.2",
         "recipe": {
@@ -214,6 +229,9 @@
             "version": "3.3",
             "ref": "e3868d2f4a5104f19f844fe551099a00c6562527"
         }
+    },
+    "symfony/contracts": {
+        "version": "v1.0.1"
     },
     "symfony/css-selector": {
         "version": "v4.1.4"
@@ -371,6 +389,18 @@
             "ref": "f8a63faa0d9521526499c0a8f403c9964ecb0527"
         }
     },
+    "symfony/security-core": {
+        "version": "v4.2.0"
+    },
+    "symfony/security-csrf": {
+        "version": "v4.2.0"
+    },
+    "symfony/security-guard": {
+        "version": "v4.2.0"
+    },
+    "symfony/security-http": {
+        "version": "v4.2.0"
+    },
     "symfony/serializer": {
         "version": "v4.1.4"
     },
@@ -424,6 +454,9 @@
     },
     "symfony/var-dumper": {
         "version": "v4.1.4"
+    },
+    "symfony/var-exporter": {
+        "version": "v4.2.0"
     },
     "symfony/web-link": {
         "version": "v4.1.4"

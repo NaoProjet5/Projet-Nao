@@ -26,6 +26,9 @@
                                                     <i class="material-icons">close</i>
                                                 </button></a>
                                         {% endif %}
+                                        <a href="{{ path('remove_observation',{'id':observation.id}) }}"><button type="button" class="btn btn-danger btn-link" rel="tooltip" data-placement="bottom" title="Supprimé l'observation">
+                                                <i class="material-icons">delete</i>
+                                            </button></a>
                                     </div>
                                     <h4 class="card-title">
                                         <a href="{{ path('bird',{'id':observation.oiseau.id}) }}">{{ observation.oiseau.lbNom }}</a>
@@ -46,6 +49,9 @@
                         </div>
                     {% endfor %}
                 </div> <!--end of class row -->
+                <div class="navigation">
+                    {{ knp_pagination_render(observations) }}
+                </div>
             </div> <!--end container-fluid -->
         </div> <!-- end second div content-->
     </div> <!-- end first div content-->

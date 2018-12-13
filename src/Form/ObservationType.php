@@ -6,6 +6,7 @@ use App\Entity\Observation;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -17,7 +18,7 @@ class ObservationType extends AbstractType
             ->add('nom', TextType::class, array('label'=>'Nom de l\'observation'))
             ->add('longitude', TextType::class, array('label'=>'Longitude'))
             ->add('latitude', TextType::class, array('label'=>'Latitude'))
-            ->add('photo', FileType::class, array('label'=>'Photo de l\'observation'))
+            ->add('photo', FileType::class, array('label'=>'Photo de l\'observation','required'=> false))
         ;
     }
 
