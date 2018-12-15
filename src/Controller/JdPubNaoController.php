@@ -92,6 +92,8 @@ class JdPubNaoController extends Controller
             $observation->setCreatedAt(new \DateTime());
             $user = $security->getUser();
             $observation->setUser($user);
+            dump($observation);
+            die();
             $file = $observation->getPhoto();
             $fileName = $fileUploader->upload($file);
             $observation->setPhoto($fileName);

@@ -28,7 +28,7 @@ class Observation
     private $createdAt;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=false)
      * @Assert\File(mimeTypes={ "image/jpeg","image/png" })
      */
     private $photo;
@@ -59,6 +59,11 @@ class Observation
      * @ORM\Column(type="string", length=255)
      */
     private $latitude = null;
+
+    public function __construct()
+    {
+        $this->photo = $photo = "";
+    }
 
 
     public function getId(): ?int
