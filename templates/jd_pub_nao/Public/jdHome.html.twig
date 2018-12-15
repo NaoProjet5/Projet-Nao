@@ -1,8 +1,7 @@
 {% extends "lwLayout.html.twig" %}
+    {% block body %}
 
-{% block body %}
     <section id="short_desc">
-
         <div class="section_content">
 
             <h1>NAO, C'EST QUOI ?</h1>
@@ -23,7 +22,14 @@
     </section>
 
 <div class="body_content">
-
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>{{ message }}</strong>.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <a href=""><span aria-hidden="true">&times;</span></a>
+                </button>
+            </div>
+        {% endfor %}
     <div class="last_observations">
     {%  if observations is null  %}
         <p class="souligner">Pas d'observation enregistrées pour l'instant</p>

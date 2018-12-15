@@ -54,7 +54,7 @@ class LwController extends Controller
 
 
     /**
-     * @Route ("/lw/article/{id}",name="blog_show")
+     * @Route ("/lw/article/{id}", name="blog_show")
      */
     public function show_article(LwArticle $article){
         return $this->render('lw_pub_nao/lwOneArticle.html.twig',[

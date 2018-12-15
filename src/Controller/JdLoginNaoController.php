@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\JdUsers;
 use App\Form\JdUsersType;
 use App\Form\JdValueType;
+use App\Repository\JdUsersRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,7 +37,7 @@ class JdLoginNaoController extends AbstractController
             $manager->persist($user);
             $manager->flush();
 
-
+            $this->addFlash('success', 'Un Email vous a été envoyer, consultez votre adresse email pour terminer votre inscription.Merci.');
             return $this->redirectToRoute('jdMailCofirme',
                 [
                     'id'    => $session->get('user')->getId(),
@@ -51,7 +52,7 @@ class JdLoginNaoController extends AbstractController
     /**
      * @Route("/{id}/mail_confirm", name="jdMailCofirme")
      */
-    public function jdMailComfir(\Swift_Mailer $mailer, Session $session)
+    public function jdMailComfir(\Swift_Mailer $mailer, Session $session, Request $request)
     {
         $user = $session->get('user');
         $message = (new \Swift_Message('NAO'))
@@ -69,26 +70,20 @@ class JdLoginNaoController extends AbstractController
                     ])
             );
         $mailer->send($message);
-
-        $this->get('session')->clear();
-
-        return $this->render('jd_Emails/jdMessage.html.twig',
-            [
-                'id'    => $user->getId(),
-                'user'  => $user,
-            ]);
+        return $this->redirectToRoute('home');
     }
 
     /**
      * @Route("/jd_Value_Users/{id}", name="jdValueUsers")
      */
 
-    public function jdValueUsers( JdUsers $user, ObjectManager $manager)
+    public function jdValueUsers( JdUsers $user, ObjectManager $manager, Session $session)
     {
         $repo = $manager;
         if($user->getId() && $user->getEmail())
         {
             $user->setValide(true);
+            $session->set('user', $user);
             $repo->flush();
 
             return $this->redirectToRoute('loginUsers');
@@ -102,22 +97,47 @@ class JdLoginNaoController extends AbstractController
     }
 
     /**
-     * @Route("/login", name="loginUsers")
+     * @Route("/login/", name="loginUsers")
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function jdLoginUsers(AuthenticationUtils $authenticationUtils)
+    public function jdLoginUsers(AuthenticationUtils $authenticationUtils, JdUsersRepository $repo)
     {
-        $error = $authenticationUtils->getLastAuthenticationError();
-        $lastUsername = $authenticationUtils->getLastUsername();
+        $values = $repo->findBy(['valide' => true]);
 
-        return $this->render('jd_login_nao/jdLogin.html.twig', [
-                'last_username' => $lastUsername,
+        $error = $authenticationUtils->getLastAuthenticationError();
+
+        foreach ($values as $value)
+        {
+            $value->getValide();
+            $value->getEmail();
+        }
+        if(isset($value))
+        {
+
+            if ($value->getEmail() && $value->getValide() === true)
+            {
+                $lastUsername = $authenticationUtils->getLastUsername();
+                $error = $authenticationUtils->getLastAuthenticationError();
+                return $this->render('jd_login_nao/jdLogin.html.twig',
+                    [
+                        'last_username' => $lastUsername,
+                        'error'         => $error,
+                    ]);
+            }
+        }
+
+        return $this->render('jd_login_nao/jdLogin.html.twig',
+            [
                 'error'         => $error,
             ]);
     }
 
+
     /**
      * @Route("/logoutUser", name="usersLogout")
      */
-    public function jdLogoutUsers(){}
+    public function jdLogoutUsers()
+    {
+        //$this->get('session')->clear();
+    }
 }

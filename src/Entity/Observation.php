@@ -30,6 +30,7 @@ class Observation
     /**
      * @ORM\Column(type="string", length=255, nullable=false)
      * @Assert\File(mimeTypes={ "image/jpeg","image/png" })
+     * @ORM\JoinColumn(nullable=true)
      */
     private $photo;
 

@@ -57,6 +57,9 @@ class JdUsers implements UserInterface
      *      minMessage = "Votre Votre adress email ne peut faire moins de {{ limit }} caractères.",
      *      maxMessage = "Votre Votre adress email ne peut faire plus de {{ limit }} caractères."
      * )
+     * @Assert\IdenticalTo(propertyPath="email",
+     *     message="Cette adresse email nexist pas, vous pouvez vous créer votre compte"
+     * )
      */
     private $email;
 
