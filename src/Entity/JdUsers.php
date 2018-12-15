@@ -95,12 +95,12 @@ class JdUsers implements UserInterface
      */
     private $roles =[];
      /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Observation", mappedBy="user", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Observation", mappedBy="user", orphanRemoval=true, cascade={"persist", "remove"})
      */
     private $observations;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="author")
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="author", cascade={"persist", "remove"})
      */
     private $comments;
 
@@ -110,7 +110,7 @@ class JdUsers implements UserInterface
     private $alive = false;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\LwArticle", mappedBy="users")
+     * @ORM\OneToMany(targetEntity="App\Entity\LwArticle", mappedBy="users", cascade={"persist", "remove"})
      */
     private $lwArticles;
 
