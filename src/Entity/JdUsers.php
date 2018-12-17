@@ -27,7 +27,7 @@ class JdUsers implements UserInterface
     private $id;
 
     /**
-     * @ORM\Column(name="name", type="string", length=30)
+     * @ORM\Column(name="name", type="string", length=30, nullable=true)
      * @Assert\Length(
      *      min = 4,
      *      max = 30,
@@ -38,7 +38,7 @@ class JdUsers implements UserInterface
     private $name;
 
     /**
-     * @ORM\Column(name="firstname", type="string", length=30)
+     * @ORM\Column(name="firstname", type="string", length=30, nullable=true)
      * @Assert\Length(
      *      min = 3,
      *      max = 30,
