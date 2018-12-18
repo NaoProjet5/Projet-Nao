@@ -30,6 +30,7 @@ security:
             logout:
                 path: usersLogout
                 target: home
+            access_denied_handler: App\LwServices\AccessDeniedHandler
             # activate different ways to authenticate
 
             # http_basic: true

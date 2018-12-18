@@ -120,4 +120,6 @@ class JdLoginNaoController extends AbstractController
      * @Route("/logoutUser", name="usersLogout")
      */
     public function jdLogoutUsers(){}
+
+
 }
