@@ -237,7 +237,7 @@ class LwController extends Controller
             ->add('message', TextareaType::class,[
                 'attr'=>['placeholder'=>'Entrez votre message','id'=>'message']
             ])
-            ->add('recaptcha', EWZRecaptchaType::class, array('required' => true,
+            ->add('recaptcha', EWZRecaptchaType::class, array(
                 'attr' => array(
                     'options' => array(
                         'theme' => 'light',

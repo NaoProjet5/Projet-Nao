@@ -4,22 +4,25 @@
     <div class="content">
         <div class="content">
             <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-12 col-sm-12">
-                        <h3>Formulaire de modification du compte de l'utilisateur</h3>
-                        <div class="row">
+                <div class="card">
+                    <div class="card-header card-header-rose card-header-text">
+                        <div class="card-text">
+                            <h4 class="card-title">Formulaire de modification du compte de l'utilisateur</h4>
+                        </div>
+                    </div>
+                    <div class="card-body ">
                             <div class="center col-lg-12 col-sm-12">
                                 {{ form_start(form, {'attr': {'class': 'col-sm-6 col-sm-offset-6'}}) }}
                                 {{ form_errors(form) }}
                                 <div class="form-group">
                                     {{ form_label(form.password, 'Mot de passe ') }}
                                     {{ form_errors(form.password) }}
-                                    {{ form_widget(form.password, {'attr': {'class': 'form-control', 'id': 'prenom', 'placeholder': 'Mot de passe'}}) }}
+                                    {{ form_widget(form.password, {'attr': {'class': 'form-control', 'id': 'prenom'}}) }}
                                 </div>
+                                {{ form_widget(form.recaptcha) }}
                                 {{ form_widget(form.Enregistrer, {'attr': {'class': 'btn btn-success'}}) }}
                                 {{ form_end(form) }}
                             </div>
-                            <a href="{{ path('jdUpdatePass', {'id': user.id}) }}">Modifier le mot de passe</a>
                         </div>
                     </div>
                 </div>
