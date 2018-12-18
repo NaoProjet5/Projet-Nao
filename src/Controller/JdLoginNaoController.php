@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\JdUsers;
+use App\Form\JdCompleteType;
 use App\Form\JdUsersType;
 use App\Form\JdValueType;
 use App\Repository\JdUsersRepository;
@@ -77,21 +78,29 @@ class JdLoginNaoController extends AbstractController
      * @Route("/jd_Value_Users/{id}", name="jdValueUsers")
      */
 
-    public function jdValueUsers( JdUsers $user, ObjectManager $manager, Session $session)
+    public function jdValueUsers( JdUsers $user, ObjectManager $manager, Session $session, Request $request)
     {
         $repo = $manager;
-        if($user->getId() && $user->getEmail())
-        {
-            $user->setValide(true);
-            $session->set('user', $user);
-            $repo->flush();
 
-            return $this->redirectToRoute('loginUsers');
+        $form = $this->createForm(JdCompleteType::class, $user);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            if($user->getId() && $user->getEmail())
+            {
+                $user->setValide(true);
+                $session->set('user', $user);
+                $repo->persist($user);
+                $repo->flush();
+                return $this->redirectToRoute('loginUsers');
+            }
         }
 
         return $this->render('jd_login_nao/TemplatesViews/jdValueUser.html.twig',
             [
-                'user'      => $user,
+                'form'      => $form->createView(),
+                'user'      => $user->getId(),
             ]
         );
     }
@@ -104,32 +113,25 @@ class JdLoginNaoController extends AbstractController
     {
         $values = $repo->findBy(['valide' => true]);
 
-        $error = $authenticationUtils->getLastAuthenticationError();
-
         foreach ($values as $value)
         {
-            $value->getValide();
-            $value->getEmail();
+            $value;
         }
-        if(isset($value))
+
+        if ($value->getValide() === false && $value->getEmail()!== null)
         {
-
-            if ($value->getEmail() && $value->getValide() === true)
-            {
-                $lastUsername = $authenticationUtils->getLastUsername();
-                $error = $authenticationUtils->getLastAuthenticationError();
-                return $this->render('jd_login_nao/jdLogin.html.twig',
-                    [
-                        'last_username' => $lastUsername,
-                        'error'         => $error,
-                    ]);
-            }
+            $this->addFlash('danger', 'Vous ne pouvez pas vous connectez car votre compte n\'est pas valide. Consiltez votre adresse email');
+            return $this->redirectToRoute('loginUsers');
+        }else
+        {
+            $lastUsername = $authenticationUtils->getLastUsername();
+            $error = $authenticationUtils->getLastAuthenticationError();
+            return $this->render('jd_login_nao/jdLogin.html.twig',
+                [
+                    'last_username' => $lastUsername,
+                    'error'         => $error,
+                ]);
         }
-
-        return $this->render('jd_login_nao/jdLogin.html.twig',
-            [
-                'error'         => $error,
-            ]);
     }
 
 
