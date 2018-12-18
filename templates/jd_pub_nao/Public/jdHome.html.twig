@@ -25,6 +25,11 @@
 <div class="body_content">
 
     <div class="last_observations">
+    {% for message in app.flashes('notice_news') %}
+        <div class="button_style_2" style="margin-top:1.5%;"><strong>
+                {{ message }}
+            </strong></div>
+    {% endfor %}
     {%  if observations is null  %}
         <p class="souligner">Pas d'observation enregistrées pour l'instant</p>
     {%  else %}

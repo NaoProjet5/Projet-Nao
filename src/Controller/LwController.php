@@ -287,6 +287,7 @@ class LwController extends Controller
             SubscriberEvent::EVENT_SUBSCRIBE,
             new SubscriberEvent("24298baca3",$subscriber)
         );
+        $this->addFlash('notice_news','Nous vous remercions pour votre Inscription !!!');
         return $this->redirectToRoute('home');
     }
 
