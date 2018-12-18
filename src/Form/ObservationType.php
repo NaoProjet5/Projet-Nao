@@ -19,7 +19,7 @@ class ObservationType extends AbstractType
             ->add('nom', TextType::class, array('label'=>'Nom de l\'observation'))
             ->add('longitude', TextType::class, array('label'=>'Longitude'))
             ->add('latitude', TextType::class, array('label'=>'Latitude'))
-            ->add('photo', FileType::class, array('label'=>'Photo de l\'observation','data_class' => null))
+            ->add('photo', FileType::class, array('label'=>null,'data_class' => null))
             ->add('recaptcha', EWZRecaptchaType::class, [
                 'attr' => [
                     'options' => [
