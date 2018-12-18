@@ -144,30 +144,7 @@ class JdPubNaoController extends Controller
             return $this->redirectToRoute('oneArticle',['id'=>$comment->getArticle()->getId()]);
     }
 
-     /**
-     * @Route ("/lw/new_article", name="new_article")
-     */
-    public function create(Request $request,ObjectManager $manager, FileUploader $fileUploader) {
 
-        $article = new LwArticle();
-        $form = $this->createForm(LwArticleType::class, $article);
-        $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid())
-        {
-            $article->setCreatedAt(new \DateTime());
-            $article->setAlive(1);
-            $article->setUsers($this->getUser());
-            $file = $form->get('photo')->getData();
-            $fileName = $fileUploader->upload($file);
-            $article->setPhoto($fileName);
-            $manager->persist($article);
-            $manager->flush();
-            return $this->redirectToRoute('admin_article');
-        }
-        return $this->render('lw_login_nao/lwCreate.html.twig',[
-            'form'=>$form->createView()
-        ]);
-    }
 
 
 }

@@ -108,7 +108,7 @@ class LwController extends Controller
 
     }
     /**
-     * @Security("is_granted('ROLE_SUPER_ADMIN')")
+     * @Security("is_granted('ROLE_AUTHOR')")
      * @route ("/lw/AdminArticle", name="admin_article")
      */
     public function adminArticle( LwArticleRepository $repos, Request $request){
@@ -129,7 +129,7 @@ class LwController extends Controller
         ]);
     }
     /**
-     * @Security("is_granted('ROLE_SUPER_ADMIN')")
+     * @Security("is_granted('ROLE_AUTHOR')")
      * @route ("/lw/UpdateArticle/{id}", name="update_article")
      */
     public function updateArticle(LwArticle $article, ObjectManager $manager, Request $request, FileUploader $fileUploader){
@@ -159,7 +159,7 @@ class LwController extends Controller
     }
 
     /**
-     * @Security("is_granted('ROLE_SUPER_ADMIN')")
+     * @Security("is_granted('ROLE_NATURALIST')")
      * @Route("/lw/valide/{id}",name="valide_observation")
      */
     public function valideObservation($id, ObservationRepository $repos, ObjectManager $manager){
@@ -176,7 +176,7 @@ class LwController extends Controller
     }
 
     /**
-     * @Security("is_granted('ROLE_SUPER_ADMIN')")
+     * @Security("is_granted('ROLE_NATURALIST')")
      * @route ("/lw/removeObservation/{id}", name="remove_observation")
      */
     public function removeObservation( $id, ObservationRepository $repos, ObjectManager $manager){
@@ -291,7 +291,7 @@ class LwController extends Controller
     }
 
     /**
-     * @Security("is_granted('ROLE_SUPER_ADMIN')")
+     * @Security("is_granted('ROLE_AUTHOR')")
      * @route("/lw/admin_comment",name="AdminComment")
      */
     public function AdminComment( CommentRepository $repos, Request $request){
@@ -312,7 +312,7 @@ class LwController extends Controller
         ]);
     }
     /**
-     * @Security("is_granted('ROLE_SUPER_ADMIN')")
+     * @Security("is_granted('ROLE_AUTHOR')")
      * @route("/lw/admin_commentSignal",name="AdminCommentSignal")
      */
     public function AdminCommentSignal( CommentRepository $repos, Request $request){
@@ -334,7 +334,7 @@ class LwController extends Controller
     }
 
     /**
-     * @Security("is_granted('ROLE_SUPER_ADMIN')")
+     * @Security("is_granted('ROLE_AUTHOR')")
      * @route ("/lw/UpdateComment/{id}", name="update_comment")
      */
     public function updateComment(Comment $comment, ObjectManager $manager, Request $request){
@@ -356,7 +356,7 @@ class LwController extends Controller
     }
 
     /**
-     * @Security("is_granted('ROLE_SUPER_ADMIN')")
+     * @Security("is_granted('ROLE_AUTHOR')")
      * @route ("/lw/removeComment/{id}", name="remove_comment")
      */
     public function removeComment( $id, CommentRepository $repos, ObjectManager $manager){
@@ -368,6 +368,7 @@ class LwController extends Controller
     }
 
     /**
+     * @Security("is_granted('ROLE_AUTHOR')")
      * @route ("/lw/restoreComment/{id}", name="restore_comment")
      */
     public function restoreComment( $id, CommentRepository $repos, ObjectManager $manager){
@@ -378,7 +379,7 @@ class LwController extends Controller
         return $this->redirectToRoute('AdminComment');
     }
     /**
-     * @Security("is_granted('ROLE_SUPER_ADMIN')")
+     * @Security("is_granted('ROLE_AUTHOR')")
      * @route ("/lw/changeArticle/{id}", name="change_article")
      */
     public function changeArticle( $id, lwArticleRepository $repos, ObjectManager $manager){
@@ -390,7 +391,7 @@ class LwController extends Controller
         return $this->redirectToRoute('trashArticle');
     }
     /**
-     * @Security("is_granted('ROLE_SUPER_ADMIN')")
+     * @Security("is_granted('ROLE_AUTHOR')")
      * @route ("/lw/removeArticle/{id}", name="comment_observation")
      */
     public function removeArticle( $id, lwArticleRepository $repos, ObjectManager $manager){
@@ -401,7 +402,7 @@ class LwController extends Controller
         return $this->redirectToRoute('admin_article');
     }
     /**
-     * @Security("is_granted('ROLE_SUPER_ADMIN')")
+     * @Security("is_granted('ROLE_AUTHOR')")
      * @route("/lw/admin_publicArticle",name="publicArticle")
      */
     public function publicArticle( LwArticleRepository $repos, Request $request){
@@ -422,7 +423,7 @@ class LwController extends Controller
         ]);
     }
     /**
-     * @Security("is_granted('ROLE_SUPER_ADMIN')")
+     * @Security("is_granted('ROLE_AUTHOR')")
      * @route("/lw/admin_trashArticle",name="trashArticle")
      */
     public function trashArticle( LwArticleRepository $repos, Request $request){
@@ -464,6 +465,31 @@ class LwController extends Controller
         return $this->render('jd_pub_nao/Public/lwArticle.html.twig',[
             'article'=>$article,
             'formComment'=>$form->createView()
+        ]);
+    }
+    /**
+     * @Security("is_granted('ROLE_AUTHOR')")
+     * @Route ("/lw/new_article", name="new_article")
+     */
+    public function create(Request $request,ObjectManager $manager, FileUploader $fileUploader) {
+
+        $article = new LwArticle();
+        $form = $this->createForm(LwArticleType::class, $article);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $article->setCreatedAt(new \DateTime());
+            $article->setAlive(1);
+            $article->setUsers($this->getUser());
+            $file = $form->get('photo')->getData();
+            $fileName = $fileUploader->upload($file);
+            $article->setPhoto($fileName);
+            $manager->persist($article);
+            $manager->flush();
+            return $this->redirectToRoute('admin_article');
+        }
+        return $this->render('lw_login_nao/lwCreate.html.twig',[
+            'form'=>$form->createView()
         ]);
     }
 

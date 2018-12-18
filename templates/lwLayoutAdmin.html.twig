@@ -115,7 +115,8 @@
                         </p>
                     </a>
                 </li>
-
+                {% endif %}
+                {% if is_granted("ROLE_AUTHOR") %}
                 <li class="nav-item ">
                     <a class="nav-link" data-toggle="collapse" href="#formsExamples">
                         <i class="material-icons">content_paste</i>
@@ -164,6 +165,7 @@
                         </ul>
                     </div>
                 </li>
+
                 {% endif %}
             </ul>
         </div>

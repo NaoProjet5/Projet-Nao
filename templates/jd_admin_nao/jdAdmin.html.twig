@@ -67,12 +67,15 @@
                       </span>
                                         Rafraichir
                                         <div class="ripple-container"></div></a>
-                                    <a href="{{ path('admin_observation') }}" class="btn btn-success">
+                                    {% if is_granted("ROLE_SUPER_ADMIN") %}
+
+                                    <a href="{{ path('jaAllUser') }}" class="btn btn-success">
                       <span class="btn-label">
                         <i class="material-icons">art_track</i>
                       </span>
                                         Voir tous les utilisateurs
                                         <div class="ripple-container"></div></a>
+                                    {% endif %}
                                 </div>
                                 <h4 class="card-title">Les derniers utilisateurs</h4>
                                 {% for user in users %}
@@ -142,6 +145,7 @@
                             <div class="card-body">
                                 <div class="card-actions text-center">
                                     </button>
+                                    {% if is_granted("ROLE_NATURALIST") %}
                                     {% if observation.valide == 0 %}
                                     <a href="{{ path('valide_observation',{'id':observation.id}) }}" type="button" class="btn btn-success btn-link" rel="tooltip" data-placement="bottom" title="Valider">
                                         <i class="material-icons">edit</i>
@@ -150,6 +154,7 @@
                                     <a href="{{ path('valide_observation',{'id':observation.id}) }}" type="button" class="btn btn-danger btn-link" rel="tooltip" data-placement="bottom" title="Invalider">
                                         <i class="material-icons">close</i>
                                     </a>
+                                    {% endif %}
                                     {% endif %}
                                 </div>
                                 <h4 class="card-title">
