@@ -35,6 +35,10 @@
                                             <div class="col-sm-10">
                                             {{ form_widget(form.passwordConfirm, {'attr': {'class': 'form-control', 'id': 'prenom', 'placeholder': 'Repeter le mot de passe'}}) }}
                                             </div>
+                                            <div>
+                                                {{ form_label(form.recaptcha,'Je ne suis pas un robot') }}
+                                                {{ form_widget(form.recaptcha) }}
+                                            </div>
                                         </div>
                                         {{ form_widget(form.Enregistrer, {'attr': {'class': 'btn btn-success'}}) }}
                                         {{ form_end(form) }}

@@ -20,6 +20,8 @@
                                 {{ form_widget(form.Enregistrer, {'attr': {'class': 'btn btn-success'}}) }}
                                 {{ form_end(form) }}
                             </div>
+
+                            <a href="{{ path('jdUpdatePass',{'id':user}) }}"> Modification du mot de passe</a>
                         </div>
                     </div>
                 </div>
