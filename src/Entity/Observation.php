@@ -27,7 +27,6 @@ class Observation
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
-    
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\JdUsers", inversedBy="observations")
@@ -66,7 +65,6 @@ class Observation
      * @Assert\File(mimeTypes={ "image/jpeg","image/png" })
      */
     private $photo;
-
 
 
     public function getId(): ?int

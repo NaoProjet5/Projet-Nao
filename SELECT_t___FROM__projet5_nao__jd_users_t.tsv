@@ -1,0 +1,6 @@
+1	DUVERNE	jobby	jobby00@gmail.com	$2y$13$HMnYSRgLTow4HqvE79UWWeqtE.xpsYT0CegtT6yQXAse9qxVDN6v2	2018-11-21 23:47:13	1	a:1:{i:0;s:16:"ROLE_SUPER_ADMIN";}	0
+2	Martin	Jombat	jobby00001@gmail.com	$2y$13$NduFi3NZUiH0uv0IxM3Uaeyu0rxFakZ0VUTkr0F6bqXzv9aVfwrkC	2018-11-21 23:55:38	1	a:1:{i:0;s:15:"ROLE_NATURALIST";}	0
+3	Macron	Pierre	jobby001@gmail.com	$2y$13$2PC38LO5Q/SSUU5kCSuH2uVF9K.af8fY6RskW/wRBIMQZHeegD3oe	2018-11-22 00:32:59	1	a:1:{i:0;s:11:"ROLE_AUTHOR";}	0
+4	GAELLE	Harry	jobby00002@gmail.com	$2y$13$1NcklRTdJ0VY491PnrIN8utx3VTC5HFGQzIUOtfBeXL5SGpPfetdC	2018-11-27 20:41:31	1	a:1:{i:0;s:9:"ROLE_USER";}	0
+5	Wabot	Landry	jobby00dev@gmail.com	$2y$13$Dv4zmHig4fLGSW4iwHIQBuYuwORemCkGpmUStlNOD19KUq1nhMzsK	2018-11-27 22:31:35	1	a:1:{i:0;s:9:"ROLE_USER";}	0
+6	TEST	Connexion	jobby0000001@test.com	$2y$13$EcUPk1MFZlhHCGkRt.w57umQQhWSAfcc6rA7U8TPLr7wJBXijcK72	2018-11-28 22:23:12	0	a:1:{i:0;s:9:"ROLE_USER";}	0

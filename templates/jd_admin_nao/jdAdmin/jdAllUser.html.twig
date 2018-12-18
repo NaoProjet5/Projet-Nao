@@ -55,9 +55,9 @@
                                 <a href="{{ path('jdUpDateUser', {'id': user.id}) }}" class="btn btn-info btn-link" rel="tooltip" data-placement="bottom" title="Modifier un utilisateur">
                                     <i class="material-icons">edit</i>
                                 </a>
-                                <button type="button" class="btn btn-danger btn-link" rel="tooltip" data-placement="bottom" title="Supprimer">
+                                <a href="{{ path('jdRemoveUser', {'id': user.id}) }}" class="btn btn-danger btn-link" rel="tooltip" data-placement="bottom" title="Supprimer">
                                     <i class="material-icons">close</i>
-                                </button>
+                                </a>
                             </td>
                         </tr>
 

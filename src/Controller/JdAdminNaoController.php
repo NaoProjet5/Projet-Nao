@@ -135,6 +135,18 @@ class JdAdminNaoController extends AbstractController
     }
 
     /**
+     * @Security("is_granted('ROLE_SUPER_ADMIN')")
+     * @route ("/admin/remove/user/{id}", name="jdRemoveUser")
+     */
+    public function removeObservation( $id, JdUsersRepository $repos, ObjectManager $manager){
+        $user = $repos->find($id);
+
+        $manager->remove($user);
+        $manager->flush();
+        return $this->redirectToRoute('jaAllUser');
+    }
+
+    /**
      * @Security("is_granted('ROLE_NATURALIST')")
      * @Route("/naturalist/nao", name="jdNaturalistNao")
      */

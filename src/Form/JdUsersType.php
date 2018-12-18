@@ -17,8 +17,6 @@ class JdUsersType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', TextType::class)
-            ->add('firstname', TextType::class)
             ->add('email', EmailType::class)
             ->add('password', PasswordType::class)
             ->add('passwordConfirm', PasswordType::class)

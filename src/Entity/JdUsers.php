@@ -28,7 +28,7 @@ class JdUsers implements UserInterface
     private $id;
 
     /**
-     * @ORM\Column(name="name", type="string", length=30)
+     * @ORM\Column(name="name", type="string", length=30, nullable=true)
      * @Assert\Length(
      *      min = 4,
      *      max = 30,
@@ -39,7 +39,7 @@ class JdUsers implements UserInterface
     private $name;
 
     /**
-     * @ORM\Column(name="firstname", type="string", length=30)
+     * @ORM\Column(name="firstname", type="string", length=30, nullable=true)
      * @Assert\Length(
      *      min = 3,
      *      max = 30,
@@ -57,6 +57,9 @@ class JdUsers implements UserInterface
      *      max = 75,
      *      minMessage = "Votre Votre adress email ne peut faire moins de {{ limit }} caractères.",
      *      maxMessage = "Votre Votre adress email ne peut faire plus de {{ limit }} caractères."
+     * )
+     * @Assert\IdenticalTo(propertyPath="email",
+     *     message="Cette adresse email nexist pas, vous pouvez vous créer votre compte"
      * )
      */
     private $email;
@@ -93,12 +96,12 @@ class JdUsers implements UserInterface
      */
     private $roles =[];
      /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Observation", mappedBy="user", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Observation", mappedBy="user", orphanRemoval=true, cascade={"persist", "remove"})
      */
     private $observations;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="author")
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="author", cascade={"persist", "remove"})
      */
     private $comments;
 
@@ -108,7 +111,7 @@ class JdUsers implements UserInterface
     private $alive = false;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\LwArticle", mappedBy="users")
+     * @ORM\OneToMany(targetEntity="App\Entity\LwArticle", mappedBy="users", cascade={"persist", "remove"})
      */
     private $lwArticles;
 
