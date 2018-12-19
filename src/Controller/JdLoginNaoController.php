@@ -111,27 +111,13 @@ class JdLoginNaoController extends AbstractController
      */
     public function jdLoginUsers(AuthenticationUtils $authenticationUtils, JdUsersRepository $repo)
     {
-        $values = $repo->findBy(['valide' => true]);
-
-        foreach ($values as $value)
-        {
-            $value;
-        }
-
-        if ($value->getValide() === false && $value->getEmail()!== null)
-        {
-            $this->addFlash('danger', 'Vous ne pouvez pas vous connectez car votre compte n\'est pas valide. Consiltez votre adresse email');
-            return $this->redirectToRoute('loginUsers');
-        }else
-        {
-            $lastUsername = $authenticationUtils->getLastUsername();
-            $error = $authenticationUtils->getLastAuthenticationError();
-            return $this->render('jd_login_nao/jdLogin.html.twig',
-                [
-                    'last_username' => $lastUsername,
-                    'error'         => $error,
-                ]);
-        }
+        $lastUsername = $authenticationUtils->getLastUsername();
+        $error = $authenticationUtils->getLastAuthenticationError();
+        return $this->render('jd_login_nao/jdLogin.html.twig',
+            [
+                'last_username' => $lastUsername,
+                'error'         => $error,
+            ]);
     }
 
 
