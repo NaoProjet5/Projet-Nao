@@ -118,6 +118,7 @@ class JdLoginNaoController extends AbstractController
             $value;
         }
 
+
         if ($value->getValide() === false && $value->getEmail()!== null)
         {
             $this->addFlash('danger', 'Vous ne pouvez pas vous connectez car votre compte n\'est pas valide. Consiltez votre adresse email');
