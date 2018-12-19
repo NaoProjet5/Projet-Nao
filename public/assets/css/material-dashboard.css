@@ -28748,3 +28748,41 @@ select.selectpicker {
   max-height: 60px;
   box-shadow: 0px 2px 10px 1px rgba(0,0,0,0.5);
 }
+.pagination span.current {
+  padding: 10px;
+  background: #e91e63;
+  margin-left: 10px;
+  border-radius: 30px;
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  font-size: 15px;
+  text-align: center;
+  padding: 8px;
+}
+
+.pagination span.previous a {
+  background: #bfbfbf;
+}
+.pagination span.first a {
+  background: #bfbfbf;
+}
+
+.pagination span.last a {
+  background: #bfbfbf;
+}
+.pagination span.next a {
+  background: #bfbfbf;
+}
+.pagination span a {
+  background: #e0e0e0;
+  margin-left: 10px;
+  border-radius: 30px;
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  font-size: 15px;
+  text-align: center;
+  padding: 8px;
+  color : black;
+}

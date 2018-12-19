@@ -2545,3 +2545,15 @@ form button.submit:hover{
 	width: 20px;
 	height: 20px;
 }
+.g-recaptcha div {
+	display: inline;
+	margin: 0 !important;
+}
+.g-recaptcha {
+	display: block;
+	padding-top: 0;
+}
+
+label[for=comment_recaptcha] {
+	display: none;
+}
