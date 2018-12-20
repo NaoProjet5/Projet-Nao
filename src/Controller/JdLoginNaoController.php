@@ -38,7 +38,7 @@ class JdLoginNaoController extends AbstractController
             $manager->persist($user);
             $manager->flush();
 
-            $this->addFlash('success', 'Un Email vous a été envoyer, consultez votre adresse email pour terminer votre inscription.Merci.');
+            $this->addFlash('success', 'Un Email vous a été envoyé, consultez votre adresse email pour terminer votre inscription.Merci.');
             return $this->redirectToRoute('jdMailCofirme',
                 [
                     'id'    => $session->get('user')->getId(),
