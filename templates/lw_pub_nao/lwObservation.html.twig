@@ -24,6 +24,7 @@
 
 
         <div class="last_observations">
+            {% if app.user %}
         <h2 class="souligner">Les dernières observations de cet oiseau</h2>
             {% for message in app.flashes('notice_obs') %}
                 <div class="alert alert-danger" style="margin-top:1.5%;"><strong>
@@ -49,7 +50,7 @@
 
                 <h2 class="souligner">Laisser une observation sur cet oiseau</h2>
                 <div class="form_obs">
-                    {% if app.user %}
+
                         {{ form_start(formObservation) }}
 
                         <div>
@@ -89,11 +90,13 @@
 
                         <button class="submit" type="submit">Envoyer l'observation</button>
                         {{ form_end(formObservation) }}
-                    {% else %}
-                        Pour laisser une observation vous devez vous  <a href="{{ path('loginUsers') }}" class="button_style_1">Connecter</a>
-                    {% endif %}
+
                 </div>
+
                 </div>
+            {% else %}
+                <p>Pour laisser ou voir les observations vous devez vous  <a href="{{ path('loginUsers') }}" class="button_style_1">Connecter</a></p>
+            {% endif %}
 
             </div><!-- end div laisser un commentaire -->
 
