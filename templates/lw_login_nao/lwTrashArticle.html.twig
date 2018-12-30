@@ -31,12 +31,12 @@
                                     <th>{{ article.createdAt | date('d/m/Y') }}</th>
                                     <th >{{ article.comments|length }}</th>
                                     <th class="td-actions text-right">
-                                        <a href="{{ path('update_article',{'id':article.id}) }}" class="btn btn-info btn-link" rel="tooltip" data-placement="bottom" title="Modifier l'article">
-                                            <i class="material-icons">edit</i>
+                                        <a href="{{ path('restaure_article',{'id':article.id}) }}" class="btn btn-info btn-link" rel="tooltip" data-placement="bottom" title="Restaurer l'article">
+                                            <i class="material-icons">loop</i>
                                         </a>
-                                        <button type="button" class="btn btn-danger btn-link" rel="tooltip" data-placement="bottom" title="Mettre à la corbeille">
+                                        <a href="{{ path('remove_article',{'id':article.id}) }}"  class="btn btn-danger btn-link" rel="tooltip" data-placement="bottom" title="Supprimer définitivement">
                                             <i class="material-icons">delete </i>
-                                        </button>
+                                        </a>
                                     </th>
                                 </tr>
                             {% endfor %}

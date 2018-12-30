@@ -393,7 +393,19 @@ class LwController extends Controller
     }
     /**
      * @Security("is_granted('ROLE_AUTHOR')")
-     * @route ("/lw/removeArticle/{id}", name="comment_observation")
+     * @route ("/lw/restaureArticle/{id}", name="restaure_article")
+     */
+    public function restaureArticle( $id, lwArticleRepository $repos, ObjectManager $manager){
+        $article = $repos->find($id);
+        $article->setAlive(1);
+
+        $manager->persist($article);
+        $manager->flush();
+        return $this->redirectToRoute('trashArticle');
+    }
+    /**
+     * @Security("is_granted('ROLE_AUTHOR')")
+     * @route ("/lw/removeArticle/{id}", name="remove_article")
      */
     public function removeArticle( $id, lwArticleRepository $repos, ObjectManager $manager){
         $article = $repos->find($id);
