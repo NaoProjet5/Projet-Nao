@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b6f7c71568025afbda311e1871525998",
+    "content-hash": "1f0c6a17a260f8266d85a91d3de0fa93",
     "packages": [
         {
             "name": "clue/stream-filter",
@@ -996,12 +996,12 @@
             "version": "v2.6.3",
             "source": {
                 "type": "git",
-                "url": "https://github.com/doctrine/doctrine2.git",
+                "url": "https://github.com/doctrine/orm.git",
                 "reference": "434820973cadf2da2d66e7184be370084cc32ca8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/434820973cadf2da2d66e7184be370084cc32ca8",
+                "url": "https://api.github.com/repos/doctrine/orm/zipball/434820973cadf2da2d66e7184be370084cc32ca8",
                 "reference": "434820973cadf2da2d66e7184be370084cc32ca8",
                 "shasum": ""
             },
@@ -3119,6 +3119,57 @@
                 "controllers"
             ],
             "time": "2018-10-26T14:09:02+00:00"
+        },
+        {
+            "name": "shtumi/useful-bundle",
+            "version": "dev-master",
+            "target-dir": "Avalia/Shtumi/UsefulBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/shtumi/ShtumiUsefulBundle.git",
+                "reference": "7863d0bb14d889da0865f1fbee8b925ed40778ac"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/shtumi/ShtumiUsefulBundle/zipball/7863d0bb14d889da0865f1fbee8b925ed40778ac",
+                "reference": "7863d0bb14d889da0865f1fbee8b925ed40778ac",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2"
+            },
+            "suggest": {
+                "sonata-project/admin-bundle": "master-dev",
+                "sonata-project/doctrine-orm-admin-bundle": "master-dev"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-0": {
+                    "Shtumi\\UsefulBundle": "Avalia/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mikhail Shtukin",
+                    "email": "shtumi@tut.by"
+                },
+                {
+                    "name": "Alessandro Friscia",
+                    "email": "alessandro@avalia.it"
+                }
+            ],
+            "description": "Symfony ShtumiUsefulBundle",
+            "keywords": [
+                "Ajax Autocomplete form type",
+                "Dependent filtered form type",
+                "daterange",
+                "shtumi"
+            ],
+            "time": "2018-02-10T15:08:40+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -7552,7 +7603,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "shtumi/useful-bundle": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
