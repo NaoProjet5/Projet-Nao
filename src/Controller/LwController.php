@@ -507,7 +507,13 @@ class LwController extends Controller
     }
 
 
+    /**
+     * @Route("/rejoindre-nao", name="landing_page")
+     */
+     public function landing_page(){
+         return $this->render('lw_pub_nao/landingPage.html.twig', [
 
-
+         ]);
+     }
 
 }

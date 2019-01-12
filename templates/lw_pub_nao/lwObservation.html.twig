@@ -70,7 +70,7 @@
                             {{ form_row(formObservation.nom,{'attr':{'placeholder':"Nom d'observation"}}) }}
 
                         </div>
-                    <div id="carte_gps" style="width:75%; height:75%"></div>
+                    <div id="carte_gps" style="width:75%; height:400px"></div>
                         <div>
 
                             <h3>Cordonnées GPS</h3>
@@ -103,6 +103,13 @@
 
                 </div>
 
+
+                <div class="ui-widget">
+                    <label for="tags">Tags: </label>
+                    <input id="tags">
+                </div>
+
+
                 </div>
             {% else %}
                 <p>Pour laisser ou voir les observations vous devez vous  <a href="{{ path('loginUsers') }}" class="button_style_1">Connecter</a></p>
@@ -117,7 +124,39 @@
 
 {% block javascripts %}
     {{ parent() }}
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
+    <script>
+        $( function() {
+            var availableTags = [
+                "ActionScript",
+                "AppleScript",
+                "Asp",
+                "BASIC",
+                "C",
+                "C++",
+                "Clojure",
+                "COBOL",
+                "ColdFusion",
+                "Erlang",
+                "Fortran",
+                "Groovy",
+                "Haskell",
+                "Java",
+                "JavaScript",
+                "Lisp",
+                "Perl",
+                "PHP",
+                "Python",
+                "Ruby",
+                "Scala",
+                "Scheme"
+            ];
+            $( "#tags" ).autocomplete({
+                source: availableTags
+            });
+        } );
+    </script>
 
     <script>
         var reader = new FileReader();
@@ -318,12 +357,12 @@
     <script type="text/javascript">
         /** Partie Obtention des coordonnées GPS **/
         function initialiser_gps() {
-            var latlng = new google.maps.LatLng(46.779231, 6.659431);
+            var latlng = new google.maps.LatLng(46.102079, -0.076303);
             //objet contenant des propriétés avec des identificateurs prédéfinis dans Google Maps permettant
             //de définir des options d'affichage de notre carte
             var options = {
                 center: latlng,
-                zoom: 3,
+                zoom: 4,
                 mapTypeId: google.maps.MapTypeId.ROADMAP
             };
 
@@ -333,17 +372,16 @@
             var carte = new google.maps.Map(document.getElementById("carte_gps"), options);
             //création du marqueur
             var marqueur = new google.maps.Marker({
-                position: new google.maps.LatLng(46.779231, 6.659431),
+                position: new google.maps.LatLng(44.70329, 2.26090),
                 map: carte
             });
-
             marqueur.setDraggable(true);
 
             google.maps.event.addListener(marqueur, 'dragend', function(event) {
                 //message d'alerte affichant la nouvelle position du marqueur
-                alert("La nouvelle coordonnée du marqueur est : "+event.latLng);
-                //document.getElementById("latitude").innerHTML = event.latLng.lat();
-                //document.getElementById("longitude").innerHTML = event.latLng.lng();
+                //alert("La nouvelle coordonnée du marqueur est : "+event.latLng);
+                document.querySelector(".lat").value = event.latLng.lat();
+                document.querySelector(".long").value = event.latLng.lng();
             });
 
         }

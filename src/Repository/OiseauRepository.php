@@ -18,6 +18,12 @@ class OiseauRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Oiseau::class);
     }
+    public function name_bird(){
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery('SELECT oi.lbNom FROM App\Entity\Oiseau oi');
+        $data = $query->getResult();
+        return $data;
+    }
 
 //    /**
 //     * @return Oiseau[] Returns an array of Oiseau objects

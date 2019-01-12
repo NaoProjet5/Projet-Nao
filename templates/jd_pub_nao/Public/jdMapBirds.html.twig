@@ -76,8 +76,9 @@
 
     <div class="last_observations">
 
-    <h2>Liste des oiseaux répertoriés</h2>
-        <p class="button_inscription_connexion">Pour soumettre ou voir les observations vous deviez selectionner un oiseau précis en cliquant sur le lien observation !!!</p>
+    <h2>
+        <p>Liste des oiseaux répertoriés</h2>
+        <p style="color:#08ACDE;font-weight : 600;">Pour soumettre ou voir les observations vous deviez selectionner un oiseau précis en cliquant sur le lien observation !!!</p>
 
     <div class="last_observations_content">
 
@@ -106,8 +107,8 @@
         </div>
 
             </div>
-
         </div>
+
 
     </div>
 
@@ -116,10 +117,20 @@
 {% endblock %}
 {% block javascripts %}
 {{ parent() }}
-<script
-        src="https://code.jquery.com/jquery-3.3.1.js"
-        integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
-        crossorigin="anonymous"></script>
+
+
+    <script>
+        $( function() {
+            var availableTags = [
+                {% for valeur in bird_name %}
+                "{{ valeur.lbNom }}",
+                {% endfor %}
+            ];
+            $( "#recherche_bouton" ).autocomplete({
+                source: availableTags
+            });
+        } );
+    </script>
 
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC1_2otoK8H-gpWeExPvPD-pK7V2CDWNwE"></script>
 
