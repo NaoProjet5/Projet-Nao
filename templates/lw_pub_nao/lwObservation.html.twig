@@ -61,14 +61,11 @@
                 <h2 class="souligner">Laisser une observation sur cet oiseau</h2>
                 <div class="form_obs">
 
-                        {{ form_start(formObservation) }}
-
+                        {{ form_start(formObservation,{ 'attr': {'autocomplete': 'null'}}) }}
                         <div>
 
                             <h3>Nom de l'observation</h3>
-
                             {{ form_row(formObservation.nom,{'attr':{'placeholder':"Nom d'observation"}}) }}
-
                         </div>
                     <div id="carte_gps" style="width:75%; height:400px"></div>
                         <div>
@@ -102,14 +99,6 @@
                         {{ form_end(formObservation) }}
 
                 </div>
-
-
-                <div class="ui-widget">
-                    <label for="tags">Tags: </label>
-                    <input id="tags">
-                </div>
-
-
                 </div>
             {% else %}
                 <p>Pour laisser ou voir les observations vous devez vous  <a href="{{ path('loginUsers') }}" class="button_style_1">Connecter</a></p>
@@ -124,38 +113,46 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
 
     <script>
-        $( function() {
-            var availableTags = [
-                "ActionScript",
-                "AppleScript",
-                "Asp",
-                "BASIC",
-                "C",
-                "C++",
-                "Clojure",
-                "COBOL",
-                "ColdFusion",
-                "Erlang",
-                "Fortran",
-                "Groovy",
-                "Haskell",
-                "Java",
-                "JavaScript",
-                "Lisp",
-                "Perl",
-                "PHP",
-                "Python",
-                "Ruby",
-                "Scala",
-                "Scheme"
-            ];
-            $( "#tags" ).autocomplete({
-                source: availableTags
+            $('.js-observation-autocomplete').autocomplete({hint: false}, [
+                {
+                    source: function(query, cb) {
+                        cb([
+                            {value: 'foo'},
+                            {value: 'bar'}
+                        ])
+                    }
+                }
+            ]);
+            $('.js-observation-autocomplete').each(function() {
+                var autocompleteUrl = $(this).data('autocomplete-url');
+                console.log(autocompleteUrl);
+                $(this).autocomplete({hint: false}, [
+                    {
+                        source: function(query, cb) {
+                            $.ajax({
+                                url: autocompleteUrl+'?query='+query
+                            }).then(function(data) {
+                                cb(data.observations);
+                            });
+                            displayKey: 'lbnom',
+                                debounce: 500 // only request every 1/2 second
+                        },
+                    }
+                ])
             });
-        } );
+
+    </script>
+
+
+
+
+    <script>
+
+
     </script>
 
     <script>

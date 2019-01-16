@@ -18,4 +18,5 @@ return [
     Welp\MailchimpBundle\WelpMailchimpBundle::class => ['all' => true],
     EWZ\Bundle\RecaptchaBundle\EWZRecaptchaBundle::class => ['all' => true],
     Shtumi\UsefulBundle\ShtumiUsefulBundle::class => ['all' => true],
+    PUGX\AutocompleterBundle\PUGXAutocompleterBundle::class => ['all' => true],
 ];

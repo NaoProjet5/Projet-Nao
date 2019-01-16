@@ -9,6 +9,7 @@ use App\Form\LwArticleType;
 use App\Repository\CommentRepository;
 use App\Repository\LwArticleRepository;
 use App\Repository\ObservationRepository;
+use App\Repository\OiseauRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 use http\Env\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -247,6 +248,7 @@ class LwController extends Controller
                         'async' => true,
                     ),
                     'mapped'      => false,
+                    'required'    => true,
                     'constraints' => array(
                         new RecaptchaTrue()
                     )
@@ -515,5 +517,36 @@ class LwController extends Controller
 
          ]);
      }
+
+    /**
+     * @Route("/searchObservation", name="search_observation")
+     */
+    public function searchObservation(Request $request)
+    {
+        $q = $request->query->get('nom_observation'); // use "term" instead of "q" for jquery-ui
+        $results = $this->getDoctrine()->getRepository('App:Oiseau')->nameLike($q);
+
+        return $this->render('lw_pub_nao/bird_observation.json.twig', ['results' => $results]);
+    }
+
+    /**
+     * @Route("/getObservation", name="get_observation")
+     */
+    public function getObservation($id = null)
+    {
+        $observation = $this->getDoctrine()->getRepository('App:Oiseau')->find($id);
+
+        return $this->json($observation->getLbNom());
+    }
+    /**
+     * @Route("/utility/bird", methods="GET", name="utility_bird")
+     */
+    public function getUsersApi(OiseauRepository $birdRepository, Request $request)
+    {
+        $bird = $birdRepository->nameLike($request->query->get('query'));
+        return $this->json([
+            'bird' => $bird
+        ], 200, [], ['groups' => ['main']]);
+    }
 
 }
