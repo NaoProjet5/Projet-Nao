@@ -66,7 +66,7 @@ class LwController extends Controller
 
     /**
      * @Security("is_granted('ROLE_NATURALIST')")
-     * @route ("/lw/AdminObservation", name="admin_observation")
+     * @route ("/admin/toutes-observations", name="admin_observation")
      */
     public function adminObservation(ObservationRepository $repos,Request $request){
         $observation = $repos->findAll();
@@ -88,7 +88,7 @@ class LwController extends Controller
     }
     /**
      * @Security("is_granted('ROLE_NATURALIST')")
-     * @route ("/lw/adminObservationAccept", name="observation_accept")
+     * @route ("/admin/observations-validees", name="observation_accept")
      */
     public function adminObservationValide(ObservationRepository $repos){
         $observation = $repos->findBy(['valide'=>1]);
@@ -99,7 +99,7 @@ class LwController extends Controller
     }
     /**
      * @Security("is_granted('ROLE_NATURALIST')")
-     * @route ("/lw/adminObservationRef", name="observation_ref")
+     * @route ("/admin/observation-non-validees", name="observation_ref")
      */
     public function adminObservationInvalide(ObservationRepository $repos){
         $observation = $repos->findBy(['valide'=>0]);
@@ -110,7 +110,7 @@ class LwController extends Controller
     }
     /**
      * @Security("is_granted('ROLE_AUTHOR')")
-     * @route ("/lw/AdminArticle", name="admin_article")
+     * @route ("/admin/tous-les-articles", name="admin_article")
      */
     public function adminArticle( LwArticleRepository $repos, Request $request){
         $article = $repos->findAll();
@@ -210,7 +210,7 @@ class LwController extends Controller
     }
 
     /**
-     * @route ("/lw/contact", name="contactNao")
+     * @route ("/contact", name="contactNao")
      */
     public function contactNao(\Swift_Mailer $mailer,Request $request)
     {
@@ -295,7 +295,7 @@ class LwController extends Controller
 
     /**
      * @Security("is_granted('ROLE_AUTHOR')")
-     * @route("/lw/admin_comment",name="AdminComment")
+     * @route("/admin/commentaires",name="AdminComment")
      */
     public function AdminComment( CommentRepository $repos, Request $request){
         $comment = $repos->findAll();
@@ -316,7 +316,7 @@ class LwController extends Controller
     }
     /**
      * @Security("is_granted('ROLE_AUTHOR')")
-     * @route("/lw/admin_commentSignal",name="AdminCommentSignal")
+     * @route("/admin/commentaires-signales",name="AdminCommentSignal")
      */
     public function AdminCommentSignal( CommentRepository $repos, Request $request){
         $comment = $repos->findBy(['signale'=>1]);
@@ -418,7 +418,7 @@ class LwController extends Controller
     }
     /**
      * @Security("is_granted('ROLE_AUTHOR')")
-     * @route("/lw/admin_publicArticle",name="publicArticle")
+     * @route("/admin/articles-publies",name="publicArticle")
      */
     public function publicArticle( LwArticleRepository $repos, Request $request){
         $article = $repos->findBy(['alive'=>1]);
@@ -439,7 +439,7 @@ class LwController extends Controller
     }
     /**
      * @Security("is_granted('ROLE_AUTHOR')")
-     * @route("/lw/admin_trashArticle",name="trashArticle")
+     * @route("/admin/articles-brouillons",name="trashArticle")
      */
     public function trashArticle( LwArticleRepository $repos, Request $request){
         $article = $repos->findBy(['alive'=>0]);
@@ -510,7 +510,7 @@ class LwController extends Controller
 
 
     /**
-     * @Route("/rejoindre-nao", name="landing_page")
+     * @Route("/application-nao", name="landing_page")
      */
      public function landing_page(){
          return $this->render('lw_pub_nao/landingPage.html.twig', [

@@ -41,7 +41,7 @@ class JdPubNaoController extends Controller
     }
 
     /**
-     * @Route("/about", name="aboutUs")
+     * @Route("/presentation", name="aboutUs")
      */
     public function jdAboutUs()
     {
@@ -49,7 +49,7 @@ class JdPubNaoController extends Controller
     }
 
     /**
-     * @Route("/mapBirds", name="birds")
+     * @Route("/observations", name="birds")
      */
     public function jdAllBirds(OiseauRepository $repos, Request $request)
     {
@@ -81,7 +81,7 @@ class JdPubNaoController extends Controller
         return md5(uniqid());
     }
     /**
-     * @Route("/oneBird/{id}", name="bird")
+     * @Route("/liste-oiseaux/{id}", name="bird")
      */
     public function oneBird(Request $request, ObjectManager $manager, Oiseau $oiseau, FileUploader $fileUploader, Security $security, ObservationRepository $repos_obs,OiseauRepository $repos_bird){
         $observation = new Observation();
@@ -116,7 +116,7 @@ class JdPubNaoController extends Controller
     }
 
     /**
-     * @Route("/allArticles", name="blog")
+     * @Route("/blog", name="blog")
      */
     public function jdAllArticles(LwArticleRepository $repos,Request $request)
     {

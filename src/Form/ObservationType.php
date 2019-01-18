@@ -27,7 +27,7 @@ class ObservationType extends AbstractType
     {
         $builder
             ->add('nom', TextType::class, array('label'=>'Nom de l\'observation','attr' => [
-                'data-autocomplete-url' => $this->router->generate('utility_bird'),'autocomplete'=> NULL
+                'autocomplete'=> 'off'
             ]))
             ->add('longitude', TextType::class, array('label'=>'Longitude'))
             ->add('latitude', TextType::class, array('label'=>'Latitude'))
@@ -52,7 +52,9 @@ class ObservationType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Observation::class,
             'attr' => [
-                'class' => 'js-observation-autocomplete'
+                'autocomplete'=> NULL,
+                'class' => 'js-observation-autocomplete',
+                'data-autocomplete-url' => $this->router->generate('utility_bird')
             ]
         ]);
     }
