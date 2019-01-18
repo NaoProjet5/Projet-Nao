@@ -519,6 +519,22 @@ class LwController extends Controller
      }
 
     /**
+     * @Route("/mentions-legales", methods="GET", name="mentions_legales")
+     */
+    public function mentions_legales()
+    {
+        return $this->render('lw_pub_nao/mentions_legales.html.twig');
+    }
+
+    /**
+     * @Route("/admin/politique-confidentialite", methods="GET", name="politique_confidentialite")
+     */
+    public function politique_confidentialite()
+    {
+        return $this->render('lw_pub_nao/politique_confidentialite.html.twig');
+    }
+
+    /**
      * @Route("/searchObservation", name="search_observation")
      */
     public function searchObservation(Request $request)
