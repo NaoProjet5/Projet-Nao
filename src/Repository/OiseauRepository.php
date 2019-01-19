@@ -19,22 +19,20 @@ class OiseauRepository extends ServiceEntityRepository
         parent::__construct($registry, Oiseau::class);
     }
 
-//    /**
-//     * @return Oiseau[] Returns an array of Oiseau objects
-//     */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @return Oiseau[] Returns an array of Oiseau objects
+     */
+    public function findLike($value)
     {
-        return $this->createQueryBuilder('o')
-            ->andWhere('o.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('o.id', 'ASC')
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.nomComplet = :query')
+            ->setParameter('query', "%". $value ."%")
+            ->orderBy('c.id', 'ASC')
             ->setMaxResults(10)
             ->getQuery()
             ->getResult()
         ;
     }
-    */
 
     /*
     public function findOneBySomeField($value): ?Oiseau

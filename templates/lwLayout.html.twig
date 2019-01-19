@@ -13,7 +13,6 @@
 </head>
 
 <body>
-
 <header>
 
     <div id="header_1">
@@ -177,6 +176,9 @@
                 </a>
 
             </div>
+            <div class="">
+
+            </div>
 
             <div id="mon_compte">
 
@@ -186,7 +188,6 @@
                 {% else %}
                     <a href="{{ path('usersLogout') }}" class="button_inscription_connexion">Déconnexion</a>
                 {% endif %}
-
             </div>
 
         </div>
@@ -271,7 +272,6 @@
         </div>
 
 </header>
-
 {% block body %}
 
 {% endblock %}
@@ -330,7 +330,28 @@
         $( "#do_observation input" ).change(function() {
             enter_search();
         });
+    </script>
+    //Recherche dans la table Oiseau avec Autocompletion
+    <script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="{{ asset('bundles/pugxautocompleter/js/autocompleter-jqueryui.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            'use strict';
+            $('#form_titre').autocompleter({
+                url_list: '/search_oiseau',
+                url_get: '/?term='
+            });
 
+
+            $("#ui-id-1").click(function(){
+                var id = $("#form_titre").val();
+
+                if(id.toString().length > 0){
+                    $(location).attr('href', '/oiseau/'+id.toString());
+                }
+            })
+
+        });
     </script>
 {% endblock %}
 

@@ -198,7 +198,7 @@ class LwController extends Controller
         $dataLat = array();
         $dataId = array();
 
-        foreach ($observation as $key=>$valeur){
+        foreach ($observation as $key => $valeur){
             $dataLong[$key] = $valeur->getLongitude();
             $dataLat[$key] = $valeur->getLatitude();
             $dataId[$key] = $valeur->getOiseau()->getId();

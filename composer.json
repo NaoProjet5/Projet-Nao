@@ -13,6 +13,7 @@
         "php-http/curl-client": "^1.7",
         "php-http/guzzle6-adapter": "^1.1",
         "php-http/message": "^1.7",
+        "pugx/autocompleter-bundle": "^1.4",
         "sensio/framework-extra-bundle": "^5.1",
         "symfony/apache-pack": "^1.0",
         "symfony/asset": "4.2.*",

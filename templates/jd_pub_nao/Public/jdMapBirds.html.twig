@@ -28,7 +28,6 @@
             <div id="cartes_oiseaux">
 
                 <a style="cursor : pointer;" onclick="hide_oiseau('rouge_gorge');"><img style="position : absolute; top : 10px; left : 10px; width : 30px; height : auto;" src="assets/css/img/close.png" /></a>
-
                 <div class="carte_oiseau" id="oiseau_rouge_gorge">
 
                     <h3>Rouge gorge</h3>
@@ -106,7 +105,13 @@
         </div>
 
     </div>
-
+    <div class="container">
+        {{
+        render(
+            controller('App\\Controller\\JdSearchController::jdSearchBirds')
+        )
+        }}
+    </div>
     <div id="databird"></div>
 
 {% endblock %}
@@ -294,4 +299,62 @@
     }
 
 </script>
+    <script type="text/javascript" src="jquery.min.js"></script>
+    <script type="text/javascript" src="bloodhound.jquery.min.js"></script>
+    <script type="text/javascript" src="typeahead.jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function ()
+        {
+            var states = new Bloodhound(
+                {
+                    datumTokenizer: Bloodhound.tokenizers.whitespace,
+                    queryTokenizer: Bloodhound.tokenizers.whitespace,
+
+                    remote: {
+                        url: "{{ path('handle_search') }}/%QUERY%",
+                        wildcard: '%QUERY%',
+                        filter: function (states)
+                        {
+                            return $.map(states, function (state)
+                            {
+                                return {
+                                    state_id: state.id,
+                                    state_name: state.name,
+                                    state_image: state.image
+                                }
+                            })
+                        }
+                    }
+                })
+
+            states.initialize();
+
+            $('#form_query').typeahead(
+                {
+                    hint: true
+                },
+                {
+                    name: 'states',
+                    source: states.ttAdapter(),
+                    display: 'state_name',
+                    templates: {
+                        suggestion: function (data)
+                        {
+                            return `
+                                <a href='{{ path('city_page') }}/`+data.state_id+`'>
+                                    <img src=`+data.state_image+`/>
+                                    <strong>`+data.state_id+`</strong>
+                                    <span>`+data.state_name+`</span>
+                                </div>
+                            `
+                        },
+                        footer: function (query)
+                        {
+                            return '<div class="text-center">More results about: '+ query.query +'</div>'
+                        }
+                    }
+                })
+
+        })
+    </script>
 {% endblock %}

@@ -17,4 +17,5 @@ return [
     Knp\Bundle\PaginatorBundle\KnpPaginatorBundle::class => ['all' => true],
     Welp\MailchimpBundle\WelpMailchimpBundle::class => ['all' => true],
     EWZ\Bundle\RecaptchaBundle\EWZRecaptchaBundle::class => ['all' => true],
+    PUGX\AutocompleterBundle\PUGXAutocompleterBundle::class => ['all' => true],
 ];
