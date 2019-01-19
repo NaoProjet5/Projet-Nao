@@ -4,15 +4,15 @@
     <section id="short_desc">
         <div class="section_content">
 
-            <h1>AGIR POUR LA BIODIVERSITÉ</h1>
+            <h1>L'APPLICATION DES PASSIONNÉS D'ORNITHOLOGIE</h1>
 
-            <p>NAO est une application participative permettant aux particuliers d’indiquer où ils ont observé des oiseaux..</p>
+            <p>NAO est une application participative permettant aux particuliers d’indiquer où ils ont observé des oiseaux</p>
 
             <div class="buttons_box">
 
                 <a class="button_style_2" href="{{ path('birds') }}" style="margin-right : 15px;">faire une observation</a>
 
-                <a class="button_style_3" href="{{ path('birds') }}" >Voir les observations</a>
+                <a class="button_style_3" href="{{ path('birds') }}" >Voir la liste des oiseaux</a>
 
             </div>
 
@@ -47,7 +47,7 @@
             <div class="image_last_observation_item">
 
                 <a>{% if observation.photo is null %}
-                        <img src="{{ asset('images_appli/no_photo_available.jpg') }}" alt="Bootstrap" class="img-thumbnail">
+                        <img src="{{ asset('images_appli/no_photo_avaible.jpg') }}" alt="Bootstrap" class="img-thumbnail">
                     {% else %}
                         <img src="{{ asset('images_appli/'~ observation.photo) }}" alt="Bootstrap" class="img-thumbnail">
                     {% endif %}</a>
@@ -78,13 +78,9 @@
 
 
             <div class="paragraphe_presentation">
-                <p>NAO est un projet qui vous offre un moyen simple d’assurer le suivi des oiseaux que vous observez partout
-                    en France.</p>
-                  <p>Avec notre base de données, les particuliers peuvent extraire des informations concernant les
-                      oiseaux qui ont été observés lors des différentes balades dans des lieux d’observations. </p>
-                    <p>De plus,la base de données cumulative de NAO est utilisée par des ornithologues, des chercheurs et des spécialistes
-                    de la conservation qui veulent mieux connaître la répartition et
-                    les habitudes de déplacement des oiseaux sur le continent.</p>
+                <p>NAO est un projet qui vous offre un moyen simple d’assurer le suivi des oiseaux que vous observez partout en France.</p>
+                  <p>Avec notre base de données, les particuliers peuvent extraire des informations concernant les oiseaux qui ont été observés lors des différentes balades dans des lieux d’observations. </p>
+                    <p>De plus,la base de données cumulative de NAO est utilisée par des ornithologues, des naturalistes, des chercheurs et des spécialistes de la conservation qui veulent mieux connaître la répartition et les habitudes de déplacement des oiseaux sur le continent.</p>
 
             </div>
 
@@ -93,7 +89,7 @@
 
             <a href="{{ path('birds') }}" class="button_style_2" style="margin-right : 15px;">Faire une observation</a>
 
-            <a href="{{ path('birds') }}" class="button_style_1">Voir les observations</a>
+            <a href="{{ path('birds') }}" class="button_style_1">Liste des oiseaux répertoriés</a>
 
         </div>
         <div class="last_articles">

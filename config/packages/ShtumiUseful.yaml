@@ -1,0 +1,6 @@
+shtumi_useful:
+  autocomplete_entities:
+    oiseau:
+      class: App\Entity\Oiseau
+      role: ROLE_USER
+      property: lbnom

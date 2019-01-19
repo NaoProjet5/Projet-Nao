@@ -41,7 +41,7 @@ class JdPubNaoController extends Controller
     }
 
     /**
-     * @Route("/about", name="aboutUs")
+     * @Route("/presentation", name="aboutUs")
      */
     public function jdAboutUs()
     {
@@ -49,11 +49,12 @@ class JdPubNaoController extends Controller
     }
 
     /**
-     * @Route("/mapBirds", name="birds")
+     * @Route("/observations", name="birds")
      */
     public function jdAllBirds(OiseauRepository $repos, Request $request)
     {
         $oiseau = $repos->findAll();
+        $bird_name = $repos->name_bird();
         /* @var $paginator \Knp\Component\Pager\Paginator */
         $paginator  = $this->get('knp_paginator');
         // Paginate the results of the query
@@ -66,7 +67,7 @@ class JdPubNaoController extends Controller
             8
         );
         return $this->render('jd_pub_nao/Public/jdMapBirds.html.twig',[
-            'oiseaux'=>$appointments
+            'oiseaux'=>$appointments,'bird_name'=>$bird_name
         ]);
     }
 
@@ -80,11 +81,12 @@ class JdPubNaoController extends Controller
         return md5(uniqid());
     }
     /**
-     * @Route("/oneBird/{id}", name="bird")
+     * @Route("/liste-oiseaux/{id}", name="bird")
      */
-    public function oneBird(Request $request, ObjectManager $manager, Oiseau $oiseau, FileUploader $fileUploader, Security $security, ObservationRepository $repos_obs){
+    public function oneBird(Request $request, ObjectManager $manager, Oiseau $oiseau, FileUploader $fileUploader, Security $security, ObservationRepository $repos_obs,OiseauRepository $repos_bird){
         $observation = new Observation();
         $data = $repos_obs->findBy(['valide'=>1,'oiseau'=>$oiseau]);
+        $bird_name = $repos_bird->name_bird();
         $form = $this->createForm(ObservationType::class, $observation);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid())
@@ -92,11 +94,12 @@ class JdPubNaoController extends Controller
             $observation->setCreatedAt(new \DateTime());
             $user = $security->getUser();
             $observation->setUser($user);
-            dump($observation);
-            die();
+
             $file = $observation->getPhoto();
-            $fileName = $fileUploader->upload($file);
-            $observation->setPhoto($fileName);
+            if ($file <> null){
+                $fileName = $fileUploader->upload($file);
+                $observation->setPhoto($fileName);
+            }
             $observation->setValide(0);
             $observation->setOiseau($oiseau);
             $manager->persist($observation);
@@ -107,12 +110,13 @@ class JdPubNaoController extends Controller
         return $this->render('lw_pub_nao/lwObservation.html.twig',[
             'formObservation'=>$form->createView(),
             'oiseau'=>$oiseau,
-            'observations'=>$data
+            'observations'=>$data,
+            'bird_name'=>$bird_name
         ]);
     }
 
     /**
-     * @Route("/allArticles", name="blog")
+     * @Route("/blog", name="blog")
      */
     public function jdAllArticles(LwArticleRepository $repos,Request $request)
     {

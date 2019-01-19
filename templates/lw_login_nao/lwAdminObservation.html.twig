@@ -27,8 +27,12 @@
                         <div class="col-md-4">
                             <div class="card card-product">
                                 <div class="card-header card-header-image" data-header-animation="true">
-                                    <a href="#pablo">
+                                    <a>
+                        {% if observation.photo is null %}
+                        <img  alt="Bootstrap" class="img-thumbnail" height="10px">
+                    {% else %}
                                         <img class="img" src="{{ asset('images_appli/'~ observation.photo) }}">
+                        {% endif %}
                                     </a>
                                 </div>
                                 <div class="card-body">

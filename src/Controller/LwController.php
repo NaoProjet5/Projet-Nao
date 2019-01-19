@@ -9,6 +9,7 @@ use App\Form\LwArticleType;
 use App\Repository\CommentRepository;
 use App\Repository\LwArticleRepository;
 use App\Repository\ObservationRepository;
+use App\Repository\OiseauRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 use http\Env\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -65,7 +66,7 @@ class LwController extends Controller
 
     /**
      * @Security("is_granted('ROLE_NATURALIST')")
-     * @route ("/lw/AdminObservation", name="admin_observation")
+     * @route ("/admin/toutes-observations", name="admin_observation")
      */
     public function adminObservation(ObservationRepository $repos,Request $request){
         $observation = $repos->findAll();
@@ -87,7 +88,7 @@ class LwController extends Controller
     }
     /**
      * @Security("is_granted('ROLE_NATURALIST')")
-     * @route ("/lw/adminObservationAccept", name="observation_accept")
+     * @route ("/admin/observations-validees", name="observation_accept")
      */
     public function adminObservationValide(ObservationRepository $repos){
         $observation = $repos->findBy(['valide'=>1]);
@@ -98,7 +99,7 @@ class LwController extends Controller
     }
     /**
      * @Security("is_granted('ROLE_NATURALIST')")
-     * @route ("/lw/adminObservationRef", name="observation_ref")
+     * @route ("/admin/observation-non-validees", name="observation_ref")
      */
     public function adminObservationInvalide(ObservationRepository $repos){
         $observation = $repos->findBy(['valide'=>0]);
@@ -109,7 +110,7 @@ class LwController extends Controller
     }
     /**
      * @Security("is_granted('ROLE_AUTHOR')")
-     * @route ("/lw/AdminArticle", name="admin_article")
+     * @route ("/admin/tous-les-articles", name="admin_article")
      */
     public function adminArticle( LwArticleRepository $repos, Request $request){
         $article = $repos->findAll();
@@ -209,7 +210,7 @@ class LwController extends Controller
     }
 
     /**
-     * @route ("/lw/contact", name="contactNao")
+     * @route ("/contact", name="contactNao")
      */
     public function contactNao(\Swift_Mailer $mailer,Request $request)
     {
@@ -247,6 +248,7 @@ class LwController extends Controller
                         'async' => true,
                     ),
                     'mapped'      => false,
+                    'required'    => true,
                     'constraints' => array(
                         new RecaptchaTrue()
                     )
@@ -293,7 +295,7 @@ class LwController extends Controller
 
     /**
      * @Security("is_granted('ROLE_AUTHOR')")
-     * @route("/lw/admin_comment",name="AdminComment")
+     * @route("/admin/commentaires",name="AdminComment")
      */
     public function AdminComment( CommentRepository $repos, Request $request){
         $comment = $repos->findAll();
@@ -314,7 +316,7 @@ class LwController extends Controller
     }
     /**
      * @Security("is_granted('ROLE_AUTHOR')")
-     * @route("/lw/admin_commentSignal",name="AdminCommentSignal")
+     * @route("/admin/commentaires-signales",name="AdminCommentSignal")
      */
     public function AdminCommentSignal( CommentRepository $repos, Request $request){
         $comment = $repos->findBy(['signale'=>1]);
@@ -393,7 +395,19 @@ class LwController extends Controller
     }
     /**
      * @Security("is_granted('ROLE_AUTHOR')")
-     * @route ("/lw/removeArticle/{id}", name="comment_observation")
+     * @route ("/lw/restaureArticle/{id}", name="restaure_article")
+     */
+    public function restaureArticle( $id, lwArticleRepository $repos, ObjectManager $manager){
+        $article = $repos->find($id);
+        $article->setAlive(1);
+
+        $manager->persist($article);
+        $manager->flush();
+        return $this->redirectToRoute('trashArticle');
+    }
+    /**
+     * @Security("is_granted('ROLE_AUTHOR')")
+     * @route ("/lw/removeArticle/{id}", name="remove_article")
      */
     public function removeArticle( $id, lwArticleRepository $repos, ObjectManager $manager){
         $article = $repos->find($id);
@@ -404,7 +418,7 @@ class LwController extends Controller
     }
     /**
      * @Security("is_granted('ROLE_AUTHOR')")
-     * @route("/lw/admin_publicArticle",name="publicArticle")
+     * @route("/admin/articles-publies",name="publicArticle")
      */
     public function publicArticle( LwArticleRepository $repos, Request $request){
         $article = $repos->findBy(['alive'=>1]);
@@ -425,7 +439,7 @@ class LwController extends Controller
     }
     /**
      * @Security("is_granted('ROLE_AUTHOR')")
-     * @route("/lw/admin_trashArticle",name="trashArticle")
+     * @route("/admin/articles-brouillons",name="trashArticle")
      */
     public function trashArticle( LwArticleRepository $repos, Request $request){
         $article = $repos->findBy(['alive'=>0]);
@@ -495,7 +509,60 @@ class LwController extends Controller
     }
 
 
+    /**
+     * @Route("/application-nao", name="landing_page")
+     */
+     public function landing_page(){
+         return $this->render('lw_pub_nao/landingPage.html.twig', [
 
+         ]);
+     }
 
+    /**
+     * @Route("/mentions-legales", methods="GET", name="mentions_legales")
+     */
+    public function mentions_legales()
+    {
+        return $this->render('lw_pub_nao/mentions_legales.html.twig');
+    }
+
+    /**
+     * @Route("/admin/politique-confidentialite", methods="GET", name="politique_confidentialite")
+     */
+    public function politique_confidentialite()
+    {
+        return $this->render('lw_pub_nao/politique_confidentialite.html.twig');
+    }
+
+    /**
+     * @Route("/searchObservation", name="search_observation")
+     */
+    public function searchObservation(Request $request)
+    {
+        $q = $request->query->get('nom_observation'); // use "term" instead of "q" for jquery-ui
+        $results = $this->getDoctrine()->getRepository('App:Oiseau')->nameLike($q);
+
+        return $this->render('lw_pub_nao/bird_observation.json.twig', ['results' => $results]);
+    }
+
+    /**
+     * @Route("/getObservation", name="get_observation")
+     */
+    public function getObservation($id = null)
+    {
+        $observation = $this->getDoctrine()->getRepository('App:Oiseau')->find($id);
+
+        return $this->json($observation->getLbNom());
+    }
+    /**
+     * @Route("/utility/bird", methods="GET", name="utility_bird")
+     */
+    public function getUsersApi(OiseauRepository $birdRepository, Request $request)
+    {
+        $bird = $birdRepository->nameLike($request->query->get('query'));
+        return $this->json([
+            'bird' => $bird
+        ], 200, [], ['groups' => ['main']]);
+    }
 
 }

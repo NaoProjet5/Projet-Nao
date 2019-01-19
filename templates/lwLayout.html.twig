@@ -3,9 +3,12 @@
 
 <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <link rel="icon" type="image/png" href="{{ asset('assets/img/favicon.png') }}">
     <title>{% block title %}NAO-SEARCH{% endblock %}</title>
     {% block stylesheets %}
+        <script src="http://maps.google.com/maps/api/js?sensor=false&.js"></script>
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
         <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
         <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet" />
 
@@ -405,7 +408,7 @@
 </svg>
 
 
-                            VOIR LES OBSERVATIONS</a></li>
+                            Liste des oiseaux</a></li>
 
                 </ul>
 
@@ -424,7 +427,7 @@
 
          <form method="POST" action="{{ url('newsLetter') }}">
              <a>Inscrivez-vous à notre newsletter</a>
-        <input type="email" id="email_subscribe_newsletter" placeholder="Entrez votre adresse mail" name="email"/>
+        <input type="email" id="email_subscribe_newsletter" placeholder="Entrez votre adresse mail" name="email" required="true"/>
 
         <button>S'inscrire</button>
          </form>
@@ -469,7 +472,7 @@
 
                 <ul>
 
-                    <li><a>Email : contact@nao.yde-cu.ovh</a></li>
+                    <li><a>Email : contact@app-nao.fr</a></li>
 
                     <li><a>Localisation: Paris France</a></li>
 
@@ -483,9 +486,9 @@
 
                 <ul>
 
-                    <li><a>Mentions légales</a></li>
+                    <li><a href="{{ path('mentions_legales') }}">Mentions légales</a></li>
 
-                    <li><a>Politique de confidencialité</a></li>
+                    <li><a href="{{ path('politique_confidentialite') }}">Politique de confidencialité</a></li>
 
                 </ul>
 

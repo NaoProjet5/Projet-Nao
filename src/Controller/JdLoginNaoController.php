@@ -19,7 +19,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 class JdLoginNaoController extends AbstractController
 {
     /**
-     * @Route("/createLogin", name="createdAtUser")
+     * @Route("/inscription", name="createdAtUser")
      */
     public function jdCreatedAtUser(Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder, Session $session)
     {
@@ -106,7 +106,7 @@ class JdLoginNaoController extends AbstractController
     }
 
     /**
-     * @Route("/login/", name="loginUsers")
+     * @Route("/connexion", name="loginUsers")
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function jdLoginUsers(AuthenticationUtils $authenticationUtils, JdUsersRepository $repo)
