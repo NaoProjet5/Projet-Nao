@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "350afc9fe77e72f9cc974c43399dfccb",
+    "content-hash": "00e91113487e3c1282690b5aa2acb86c",
     "packages": [
         {
             "name": "clue/stream-filter",
@@ -57,6 +57,52 @@
                 "stream_filter_register"
             ],
             "time": "2017-08-18T09:54:01+00:00"
+        },
+        {
+            "name": "diversen/get-meta-tags",
+            "version": "v1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/diversen/get-meta-tags.git",
+                "reference": "8a1e65a728b42bde7882fcbd56ce449f468fbf85"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/diversen/get-meta-tags/zipball/8a1e65a728b42bde7882fcbd56ce449f468fbf85",
+                "reference": "8a1e65a728b42bde7882fcbd56ce449f468fbf85",
+                "shasum": ""
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "diversen\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dennis Iversen",
+                    "email": "dennis.iversen@gmail.com",
+                    "homepage": "https://github.com/diversen",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Getting title and meta tags from external website using curl and DOM",
+            "homepage": "http://github.com/diversen/http-send-file",
+            "keywords": [
+                "curl",
+                "dom",
+                "meta"
+            ],
+            "time": "2016-11-06T10:23:39+00:00"
         },
         {
             "name": "doctrine/annotations",

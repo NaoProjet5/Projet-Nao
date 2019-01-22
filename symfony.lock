@@ -2,6 +2,9 @@
     "clue/stream-filter": {
         "version": "v1.4.0"
     },
+    "diversen/get-meta-tags": {
+        "version": "v1.0.2"
+    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {

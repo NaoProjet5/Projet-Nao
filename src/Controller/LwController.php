@@ -555,6 +555,19 @@ class LwController extends Controller
         return $this->json($observation->getLbNom());
     }
     /**
+     * @Route("/getName", name="get_name_bird")
+     */
+    public function getNameBird(OiseauRepository $bird_name)
+    {
+        $name = array();
+        $datas = $bird_name->findAll();
+        foreach ($datas as $data){
+            array_push($name,$data->getLbNom());
+        }
+
+        return new JsonResponse($name);
+    }
+    /**
      * @Route("/utility/bird", methods="GET", name="utility_bird")
      */
     public function getUsersApi(OiseauRepository $birdRepository, Request $request)
