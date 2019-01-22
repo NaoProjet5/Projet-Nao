@@ -23,6 +23,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 use App\Form\LwArticleType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use diversen\meta;
 
 
 class JdPubNaoController extends Controller
@@ -54,6 +55,18 @@ class JdPubNaoController extends Controller
     public function jdAllBirds(OiseauRepository $repos, Request $request)
     {
         $oiseau = $repos->findAll();
+        /*$ary = get_meta_tags('https://inpn.mnhn.fr/espece/cd_nom/2891','"https://inpn.mnhn.fr/photos/uploads');
+        dump( $ary['twitter:image']);
+        die();*/
+       /* boucle pour la creation des urls des images des oiseaux*/
+      /*  foreach ($oiseau as $data) {
+            if ($data->getUrl() <> " " OR $data->getUrl() <> null OR $data->getUrl() <> 'A' OR !empty( $data->getUrl() )){
+                $url = get_meta_tags($data->getUrl(),'https://inpn.mnhn.fr/photos/uploads');
+                $data->setUrl($url['twitter:image']);
+            }
+            dump($data->getUrl());
+        }
+        die();*/
         $bird_name = $repos->name_bird();
         /* @var $paginator \Knp\Component\Pager\Paginator */
         $paginator  = $this->get('knp_paginator');
