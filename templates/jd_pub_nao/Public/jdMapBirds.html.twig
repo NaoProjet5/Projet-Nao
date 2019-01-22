@@ -13,7 +13,7 @@
     </section>
     <div class="body_content" >
 
-        <div class="content map" style="display: none;">
+        <div class="content map" style="display: none;" id="mapp_cart">
 
             <div id="map_canvas" ></div>
 
@@ -75,9 +75,10 @@
         </div>
 
     <div class="last_observations">
-
-    <h2>
-        <p>Liste des oiseaux répertoriés</h2>
+       <br />
+        <br />
+    <h2>Liste des oiseaux répertoriés</h2><br />
+        <a class="button_style_1" id="lien_mapp" onclick="affiche_carte()">Afficher la carte mapp pour voir les observations</a><br />
         <p style="color:#08ACDE;font-weight : 600;">Pour soumettre ou voir les observations vous deviez selectionner un oiseau précis en cliquant sur le lien observation !!!</p>
 
     <div class="last_observations_content">
@@ -133,6 +134,15 @@
     </script>
 
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC1_2otoK8H-gpWeExPvPD-pK7V2CDWNwE"></script>
+    <script>
+      function affiche_carte() {
+          if (document.getElementById('mapp_cart').style.display == "")
+              document.getElementById('mapp_cart').style.display = "none";
+          else
+              document.getElementById('mapp_cart').style.display = "";
+          document.getElementById('lien_mapp').innerHTML = 'Afficher ou masquer la carte mapp';
+      }
+    </script>
 
 <script>
     $('#recherche_bouton').click(function() {

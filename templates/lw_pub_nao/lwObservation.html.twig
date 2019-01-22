@@ -58,7 +58,7 @@
 
     </section>
     <div class="body_content observations">
-        <div class="content map" style="display: none;">
+        <div class="content map" style="display: none;" id="mapp_obs">
 
             <div id="map_canvas" ></div>
 
@@ -67,8 +67,9 @@
                 <a href="#laisser_observation">Faire une observation sur cet oiseau</a>
 
             </div>
-
         </div>
+        <br>
+        <a class="button_style_1" id="lien_mapp_obs" onclick="reduire_carte_carte()" style="display : none;">Reduire ou afficher  la carte</a>
 
 
         <div class="last_observations">
@@ -111,16 +112,14 @@
                             </div>
 
                         </div>
-                    <div id="carte_gps" style="width:75%; height:400px"></div>
                         <div>
 
                             <h3>Cordonnées GPS</h3>
 
-                            <button onclick="locate()" >Générer mes coordonnées GPS</button>
+                            <button onclick="locate()" >Générer mes coordonnées GPS</button> <a>ou</a> <button id="form_cart_obs" onclick="affi_cart_form()" >Afficher la carte pour générer les coodonnées gps</button>
 
-                            <a>ou</a>
-
-                            {{ form_row(formObservation.latitude,{'attr':{'placeholder':"Latitude",'class':'lat'}}) }}
+                            <div id="carte_gps" style="width:75%; height:500px;display: none;"></div>
+                              {{ form_row(formObservation.latitude,{'attr':{'placeholder':"Latitude",'class':'lat'}}) }}
                             {{ form_row(formObservation.longitude,{'attr':{'placeholder':"Longitude",'class':'long'}}) }}
 
                         </div>
@@ -328,7 +327,27 @@
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC1_2otoK8H-gpWeExPvPD-pK7V2CDWNwE"></script>
 
     <script>
+        function affi_cart_form() {
+            if (document.getElementById('carte_gps').style.display == "")
+                document.getElementById('carte_gps').style.display = "none";
+
+            else
+                document.getElementById('carte_gps').style.display = "";
+        }
+        function reduire_carte_carte() {
+            if (document.getElementById('mapp_obs').style.display == "")
+                document.getElementById('lien_mapp_obs').style.display = "none";
+
+            else
+                document.getElementById('lien_mapp_obs').style.display = "";
+            if (document.getElementById('mapp_obs').style.display == "")
+                document.getElementById('mapp_obs').style.display = "none";
+            else
+                document.getElementById('mapp_obs').style.display = "";
+            document.getElementById('lien_mapp_obs').style.display = "";
+        }
         function afficher_oiseau(lat,lng){
+
             var longitude = Number(lng);
 
             var latitude = Number(lat);
@@ -343,6 +362,11 @@
 
                 map.setZoom(10);
                 map.setCenter({lat: latitude, lng: longitude});
+            if (document.getElementById('mapp_obs').style.display == "")
+                document.getElementById('mapp_obs').style.display = "none";
+            else
+                document.getElementById('mapp_obs').style.display = "";
+            document.getElementById('lien_mapp_obs').style.display = "";
         }
 
         var map, popup, Popup;
