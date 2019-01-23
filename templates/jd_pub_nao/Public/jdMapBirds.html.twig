@@ -106,11 +106,6 @@
 
     </div>
     <div class="container">
-        {{
-        render(
-            controller('App\\Controller\\JdSearchController::jdSearchBirds')
-        )
-        }}
     </div>
     <div id="databird"></div>
 
@@ -299,62 +294,11 @@
     }
 
 </script>
-    <script type="text/javascript" src="jquery.min.js"></script>
-    <script type="text/javascript" src="bloodhound.jquery.min.js"></script>
-    <script type="text/javascript" src="typeahead.jquery.min.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function ()
-        {
-            var states = new Bloodhound(
-                {
-                    datumTokenizer: Bloodhound.tokenizers.whitespace,
-                    queryTokenizer: Bloodhound.tokenizers.whitespace,
-
-                    remote: {
-                        url: "{{ path('handle_search') }}/%QUERY%",
-                        wildcard: '%QUERY%',
-                        filter: function (states)
-                        {
-                            return $.map(states, function (state)
-                            {
-                                return {
-                                    state_id: state.id,
-                                    state_name: state.name,
-                                    state_image: state.image
-                                }
-                            })
-                        }
-                    }
-                })
-
-            states.initialize();
-
-            $('#form_query').typeahead(
-                {
-                    hint: true
-                },
-                {
-                    name: 'states',
-                    source: states.ttAdapter(),
-                    display: 'state_name',
-                    templates: {
-                        suggestion: function (data)
-                        {
-                            return `
-                                <a href='{{ path('city_page') }}/`+data.state_id+`'>
-                                    <img src=`+data.state_image+`/>
-                                    <strong>`+data.state_id+`</strong>
-                                    <span>`+data.state_name+`</span>
-                                </div>
-                            `
-                        },
-                        footer: function (query)
-                        {
-                            return '<div class="text-center">More results about: '+ query.query +'</div>'
-                        }
-                    }
-                })
-
-        })
+    <script>
+        $('#recherche_bouton').click(function() {
+            document.getElementById('mapp').style.display = none;
+            ///Pour afficher la division :
+            document.getElementById('mapp').style.display = block;
+        });
     </script>
 {% endblock %}
