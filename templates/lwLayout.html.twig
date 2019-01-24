@@ -12,6 +12,31 @@
         <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
         <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet" />
 
+        <!--Code pour afficher la bannière de notification de l'utilisation des cookies -->
+
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.css" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.js"></script>
+        <script>
+            window.addEventListener("load", function(){
+                window.cookieconsent.initialise({
+                    "palette": {
+                        "popup": {
+                            "background": "#edeff5",
+                            "text": "#838391"
+                        },
+                        "button": {
+                            "background": "#4b81e8"
+                        }
+                    },
+                    "content": {
+                        "message": "En poursuivant votre navigation,vous acceptez l’utilisation des cookies.",
+                        "dismiss": "Je suis d'accord",
+                        "href": "pnao.yde-cu.ovh"
+                    }
+                })});
+        </script>
+        <!-- fin code bannière des cookies-->
+
     {% endblock %}
 </head>
 
