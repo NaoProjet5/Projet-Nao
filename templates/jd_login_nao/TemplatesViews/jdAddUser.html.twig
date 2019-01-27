@@ -4,30 +4,40 @@
     <div class="content">
         <div class="content">
             <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-12 col-sm-12">
-                        <div class="row">
-                            <div class="col-lg-12 col-sm-12">
-                                <h3>La Création de votre Compte Utilisateur</h3>
-                                <div class="row">
+                <div class="card ">
+                    <div class="card-header card-header-rose card-header-text">
+                        <div class="card-text">
+                            <h4 class="card-title">La Création de votre Compte Utilisateur</h4>
+                        </div>
+                    </div>
+                            <div class="card-body ">
                                     <div class="center col-lg-12 col-sm-12">
-                                        {{ form_start(form, {'attr': {'class': 'col-sm-6 col-sm-offset-6'}}) }}
+                                        {{ form_start(form, {'attr': {'class':'form-horizontal' }}) }}
                                         {{ form_errors(form) }}
                                         {% include ('jd_login_nao/TemplatesViews/jdFormLogin.html.twig') %}
-                                        <div class="form-group">
-                                            {{ form_label(form.roles, "Choisissez le type de Rôle") }}
+                                        <div class="row">
+                                            {{ form_label(form.roles, "Choisissez le type de Rôle", {'attr': {'class': 'col-sm-2 col-form-label'}}) }}
                                             {{ form_errors(form.roles) }}
+                                            <div class="col-sm-10">
                                             {{ form_widget(form.roles, {'attr': {'class': 'form-control', 'id': 'roles'}}) }}
+                                            </div>
                                         </div>
-                                        <div class="form-group">
-                                            {{ form_label(form.password, 'Mot de passe ') }}
+                                        <div class="row">
+                                            {{ form_label(form.password, 'Mot de passe ', {'attr': {'class': 'col-sm-2 col-form-label'}}) }}
                                             {{ form_errors(form.password) }}
+                                            <div class="col-sm-10">
                                             {{ form_widget(form.password, {'attr': {'class': 'form-control', 'id': 'prenom', 'placeholder': 'Mot de passe'}}) }}
-                                        </div>
-                                        <div class="form-group">
-                                            {{ form_label(form.passwordConfirm, 'Confirmer votre mot de passe ') }}
+                                            </div>
+                                            </div>
+                                        <div class="row">
+                                            {{ form_label(form.passwordConfirm, 'Confirmer votre mot de passe ', {'attr': {'class': 'col-sm-2 col-form-label'}}) }}
                                             {{ form_errors(form.passwordConfirm) }}
+                                            <div class="col-sm-10">
                                             {{ form_widget(form.passwordConfirm, {'attr': {'class': 'form-control', 'id': 'prenom', 'placeholder': 'Repeter le mot de passe'}}) }}
+                                            </div>
+                                            <div>
+                                                {{ form_widget(form.recaptcha) }}
+                                            </div>
                                         </div>
                                         {{ form_widget(form.Enregistrer, {'attr': {'class': 'btn btn-success'}}) }}
                                         {{ form_end(form) }}
@@ -35,8 +45,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
+
             </div>
         </div>
     </div>

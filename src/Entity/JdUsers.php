@@ -9,6 +9,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use DateTime;
+use EWZ\Bundle\RecaptchaBundle\Validator\Constraints as Recaptcha;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\JdUsersRepository")
@@ -27,7 +28,7 @@ class JdUsers implements UserInterface
     private $id;
 
     /**
-     * @ORM\Column(name="name", type="string", length=30)
+     * @ORM\Column(name="name", type="string", length=30, nullable=true)
      * @Assert\Length(
      *      min = 4,
      *      max = 30,
@@ -38,7 +39,7 @@ class JdUsers implements UserInterface
     private $name;
 
     /**
-     * @ORM\Column(name="firstname", type="string", length=30)
+     * @ORM\Column(name="firstname", type="string", length=30, nullable=true)
      * @Assert\Length(
      *      min = 3,
      *      max = 30,
@@ -95,12 +96,12 @@ class JdUsers implements UserInterface
      */
     private $roles =[];
      /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Observation", mappedBy="user", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Observation", mappedBy="user", orphanRemoval=true, cascade={"persist", "remove"})
      */
     private $observations;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="author")
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="author", cascade={"persist", "remove"})
      */
     private $comments;
 
@@ -110,7 +111,7 @@ class JdUsers implements UserInterface
     private $alive = false;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\LwArticle", mappedBy="users")
+     * @ORM\OneToMany(targetEntity="App\Entity\LwArticle", mappedBy="users", cascade={"persist", "remove"})
      */
     private $lwArticles;
 
@@ -118,6 +119,11 @@ class JdUsers implements UserInterface
      * JdUsers constructor.
      * @param $createdAt
      */
+
+    /**
+     * @Recaptcha\IsTrue
+     */
+    public $recaptcha;
     public function __construct()
     {
         $this->createdAt = new DateTime( 'now', new \DateTimeZone('Europe/Paris'));

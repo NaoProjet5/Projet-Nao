@@ -33,6 +33,7 @@ services:
     App\LwServices\FileUploader:
         arguments:
             $targetDirectory: '%kernel.project_dir%/public/images_appli'
+    App\LwServices\AccessDeniedHandler:
     twig.extension.text:
         class: Twig_Extensions_Extension_Text
         tags:

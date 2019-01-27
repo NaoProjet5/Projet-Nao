@@ -22,8 +22,8 @@ use App\LwServices\JdAdminService\JdAdminService;
 class JdAdminNaoController extends AbstractController
 {
     /**
-     * @Security("is_granted('ROLE_SUPER_ADMIN')")
-     * @Route("/admin/nao/", name="jdAdminNao")
+     * @Security("is_granted('ROLE_AUTHOR')")
+     * @Route("/admin/tableau-de-bord", name="jdAdminNao")
      */
     public function jdAdminNao(ObservationRepository $reposO, JdUsersRepository $reposU, CommentRepository $reposC)
     {
@@ -41,7 +41,7 @@ class JdAdminNaoController extends AbstractController
 
     /**
      * @Security("is_granted('ROLE_SUPER_ADMIN')")
-     * @Route("/admin/users/nao", name="jaAllUser")
+     * @Route("/admin/utilisateurs", name="jaAllUser")
      */
     public function jdAllUsers(JdUsersRepository $repo)
     {
@@ -108,7 +108,7 @@ class JdAdminNaoController extends AbstractController
 
     /**
      * @Security("is_granted('ROLE_SUPER_ADMIN')")
-     * @Route("/add/user/nao", name="jdadduserNao")
+     * @Route("/admin/creation-compte-utilisateur", name="jdadduserNao")
      */
     public function jdAddUser(Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder)
     {
@@ -163,4 +163,5 @@ class JdAdminNaoController extends AbstractController
     {
         return $this->render('jd_admin_nao/jdAuthor.html.twig');
     }
+
 }

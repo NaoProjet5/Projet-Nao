@@ -4,25 +4,55 @@
     <div class="content">
         <div class="content">
             <div class="container-fluid">
-                <h3> Création d'article</h3>
-                    {{ form_start(form) }}
-                    <div class="form-group">
-                    {{ form_label(form.title,'Titre de l\'article') }}
+                <div class="card ">
+                    <div class="card-header card-header-rose card-header-text">
+                        <div class="card-text">
+                            <h4 class="card-title">Création d'article</h4>
+                        </div>
+                    </div>
+                    <div class="card-body ">
+                    {{ form_start(form,{'attr':{'class':'form-horizontal' }}) }}
+                    <div class="row">
+                    {{ form_label(form.title,'Titre de l\'article', {'attr': {'class': 'col-sm-2 col-form-label'}})}}
+                        <div class="col-sm-10">
                         {{ form_widget(form.title, {'attr': {'class': 'form-control','type':'text'}}) }}
+                        </div>
                     </div>
-                    <div class="form-group">
-                    {{ form_label(form.content,'Contenu de l\'article') }}
+                    <div class="row">
+                    {{ form_label(form.content,'Contenu de l\'article', {'attr': {'class': 'col-sm-2 col-form-label'}}) }}
+                        <div class="col-sm-10">
                         {{ form_widget(form.content, {'attr': {'class': 'form-control','type':'textarea'}}) }}
+                        </div>
                     </div>
-                    <div class="form-group">
-                    {{ form_label(form.photo,'Photo de l\'article') }}
-                        {{ form_widget(form.photo, {'attr': {'class': 'form-control-file'}}) }}
-                    </div>
+                        <div class="col-md-4 col-sm-4">
+                            <h4 class="title">{{ form_label(form.photo) }}</h4>
+                            <div class="fileinput fileinput-new text-center" data-provides="fileinput">
+                                <div class="fileinput-new thumbnail">
+                                    <img src="{{  asset('assets/img/image_placeholder.jpg') }}" alt="...">
+                                </div>
+                                <div class="fileinput-preview fileinput-exists thumbnail"></div>
+                                <div>
+                          <span class="btn btn-rose btn-round btn-file">
+                            <span class="fileinput-new">Selectionner la photo</span>
+                            <span class="fileinput-exists">Changer la photo</span>
+                            {{ form_widget(form.photo) }}
+                          </span>
+                                    <a href="#pablo" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-10">
+                            {{ form_widget(form.recaptcha) }}
+                            </div>
+                        </div>
                     <button type="submit" class="btn btn-success">
                         Enregistrer l'article
                     </button>
                     {{ form_end(form) }}
             </div>
+                </div>
         </div>
     </div>
 {% endblock %}

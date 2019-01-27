@@ -1,5 +1,53 @@
 {% extends 'lwLayout.html.twig' %}
 {% block body %}
+    <style>
+        #map_canvas_gps {
+            width: 300px;
+            height: 200px;
+        }
+
+        #current {
+            padding-top: 25px;
+        }
+    </style>
+
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            font: 16px Arial;
+        }
+        .autocomplete {
+            /*the container must be positioned relative:*/
+            position: relative;
+            display: inline-block;
+        }
+        .autocomplete-items {
+            position: absolute;
+            border: 1px solid #d4d4d4;
+            border-bottom: none;
+            border-top: none;
+            z-index: 99;
+            /*position the autocomplete items to be the same width as the container:*/
+            top: 70%;
+            left: 0;
+            right: 0;
+        }
+        .autocomplete-items div {
+            padding: 10px;
+            cursor: pointer;
+            background-color: #fff;
+            border-bottom: 1px solid #d4d4d4;
+        }
+        .autocomplete-items div:hover {
+            /*when hovering an item:*/
+            background-color: #e9e9e9;
+        }
+        .autocomplete-active {
+            /*when navigating through the items using the arrow keys:*/
+            background-color: DodgerBlue !important;
+            color: #ffffff;
+        }
+    </style>
     <section class="title_page">
 
         <div class="section_content">
@@ -10,20 +58,22 @@
 
     </section>
     <div class="body_content observations">
-        <div class="content map">
+        <div class="content map" style="display: none;" id="mapp_obs">
 
-            <div id="map_canvas"></div>
+            <div id="map_canvas" ></div>
 
             <div id="do_observation" class="">
 
                 <a href="#laisser_observation">Faire une observation sur cet oiseau</a>
 
             </div>
-
         </div>
+        <br>
+        <a class="button_style_1" id="lien_mapp_obs" onclick="reduire_carte_carte()" style="display : none;">Reduire ou afficher  la carte</a>
 
 
         <div class="last_observations">
+            {% if app.user %}
         <h2 class="souligner">Les dernières observations de cet oiseau</h2>
             {% for message in app.flashes('notice_obs') %}
                 <div class="alert alert-danger" style="margin-top:1.5%;"><strong>
@@ -48,47 +98,57 @@
             <div id="laisser_observation">
 
                 <h2 class="souligner">Laisser une observation sur cet oiseau</h2>
-                <div class="form_obs">
-                    {% if app.user %}
-                        {{ form_start(formObservation) }}
 
-                        <div>
+                <div class="form_obs">
+
+                        {{ form_start(formObservation,{ 'attr': {'autocomplete': 'null'}}) }}
+                        <div >
 
                             <h3>Nom de l'observation</h3>
 
-                            {{ form_row(formObservation.nom,{'attr':{'placeholder':"Nom d'observation"}}) }}
+                            <div class="autocomplete" >
+                                {{ form_row(formObservation.nom,{'attr':{'placeholder':"Nom d'observation"}}) }}
+
+                            </div>
 
                         </div>
-
                         <div>
 
                             <h3>Cordonnées GPS</h3>
 
-                            <button onclick="locate()" >Générer mes coordonnées GPS</button>
+                            <button onclick="locate()" >Générer mes coordonnées GPS</button> <a>ou</a> <button id="form_cart_obs" onclick="affi_cart_form()" >Afficher la carte pour générer les coodonnées gps</button>
 
-                            <a>ou</a>
-
-                            {{ form_row(formObservation.latitude,{'attr':{'placeholder':"Latitude",'class':'lat'}}) }}
+                            <div id="carte_gps" style="width:75%; height:500px;display: none;"></div>
+                              {{ form_row(formObservation.latitude,{'attr':{'placeholder':"Latitude",'class':'lat'}}) }}
                             {{ form_row(formObservation.longitude,{'attr':{'placeholder':"Longitude",'class':'long'}}) }}
 
                         </div>
 
                         <div>
 
-                            <h3>Photo<br/><span>*Facultatif</span></h3>
+                            <h3>Photo<br/><span>*Facultative</span></h3>
 
+                            <img id="blah" src="{{ asset('images_appli/no_photo_avaible.jpg') }}" alt="your image" width="25%" height="20%"/>
 
+<<<<<<< HEAD
                             {{ form_row(formObservation.photo,{'attr':{'placeholder':"la photo de l'observation"}}) }}
+=======
+                            {{ form_widget(formObservation.photo) }}
+                        </div>
+>>>>>>> master
 
+                        <div>
+                            {{ form_errors(formObservation.recaptcha) }}
+                            {{ form_widget(formObservation.recaptcha) }}
                         </div>
 
                         <button class="submit" type="submit">Envoyer l'observation</button>
                         {{ form_end(formObservation) }}
-                    {% else %}
-                        Pour laisser une observation vous devez vous  <a href="{{ path('loginUsers') }}" class="button_style_1">Connecter</a>
-                    {% endif %}
                 </div>
                 </div>
+            {% else %}
+                <p>Pour laisser ou voir les observations vous devez vous  <a href="{{ path('loginUsers') }}" class="button_style_1">Connecter</a></p>
+            {% endif %}
 
             </div><!-- end div laisser un commentaire -->
 
@@ -100,7 +160,160 @@
 {% block javascripts %}
     {{ parent() }}
 
-    <script src="https://maps.google.com/maps/api/js?sensor=true" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script>
+    <script>
+        var countries = ["Afghanistan","Albania","Algeria","Andorra","Angola","Anguilla","Antigua &amp; Barbuda","Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bermuda","Bhutan","Bolivia","Bosnia &amp; Herzegovina","Botswana","Brazil","British Virgin Islands","Brunei","Bulgaria","Burkina Faso","Burundi","Cambodia","Cameroon","Canada","Cape Verde","Cayman Islands","Central Arfrican Republic"];
+
+        function autocomplete(inp,arr) {
+            /*the autocomplete function takes two arguments,
+            the text field element and an array of possible autocompleted value
+             */
+            var currentFocus;
+            /*execute the function when someone writes in the text field:*/
+            inp.addEventListener("input",function(e)
+                {
+                    var a, b, i, val = this.value;
+                    /*close any already open lists of autocompleted values*/
+                    closeAllLists();
+                    if(!val) { return false;}
+                    currentFocus = -1;
+                    /*create a DIV element that will contain the items (values):*/
+                    a = document.createElement("DIV");
+                    a.setAttribute("id",this.id + "autocomplete-list");
+                    a.setAttribute("class", "autocomplete-items");
+                    /*append the DIV element as a child of the autocomplete container:*/
+                    this.parentNode.appendChild(a);
+                    /*for each item in the array...*/
+                    for(i = 0; i <arr.length; i++){
+                        /*check if the item  starts the same letters as the test field value:*/
+                        if(arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()){
+                            /*create a DIV element for each matching element */
+                            b = document.createElement("DIV");
+                            /*make the matching letters bold:*/
+                            b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+                            b.innerHTML += arr[i].substr(val.length);
+                            /*insert a input field that will hold the current array items value (DIV element):*/
+                            b.addEventListener("click",function(e){
+                                /*insert the value for the autocomplete text field:*/
+                                inp.value = this.getElementsByTagName("input")[0].value;
+                                /*close the list of autocomplete value,
+                                (or any other open lists of autocompleted values:)
+                                 */
+                                closeAllLists();
+                            });
+                            a.appendChild(b);
+                        }
+
+                    }
+                });
+            /*execute a function presses a key on the keyboard:*/
+            inp.addEventListener("keydown",function(e){
+                var x = document.getElementById(this.id + "autocomplete-list");
+                if (x) x = x.getElementsByTagName("div");
+                if (e.keyCode == 40){
+                    /*IF the arrow DOWN key is pressed,
+                    increase the currentFocus variable:*/
+                    currentFocus++;
+                    /*and and make the current item more visible:*/
+                    addActive(x);
+                }else if (e.keyCode == 38) {
+                    currentFocus--;
+                    addActive(x);
+                } else if (e.keyCode == 13){
+                    e.preventDefault();
+                    if (currentFocus > -1 ){
+                        if(x) x[currentFocus].click();
+                    }
+                }
+
+            });
+            function addActive(x){
+                if(!x) return false;
+                removeActive(x);
+                if(currentFocus >= x.length) currentFocus = 0;
+                if (currentFocus < 0) currentFocus = (x.length - 1);
+                x[currentFocus].classList.add("autocomplete-active");
+            }
+            function removeActive(x){
+                for (var i = 0; i< x.length; i++){
+                    x[i].classList.remove("autocomplete-active");
+                }
+            }
+            function closeAllLists(elmnt){
+                var x = document.getElementsByClassName("autocomplete-items");
+                for (var i=0; i < x.length; i++){
+                    if (elmnt != x[i] && elmnt != inp){
+                        x[i].parentNode.removeChild(x[i]);
+                    }
+                }
+            }
+            document.addEventListener("click",function(e) {
+                closeAllLists(e.target);
+            });
+        }
+        $('#observation_nom').click(function() {
+            $.ajax({
+                url: "{{ path('get_name_bird') }}",
+                success: function (data_name) {
+                    autocomplete(document.getElementById("observation_nom"),data_name);
+                }
+            });
+        });
+
+    </script>
+
+    <script>
+        $(document).ready(function(){
+            $('.js-observation-autocomplete').autocomplete({hint: false}, [
+                {
+                    source: function(query, cb) {
+                        cb([
+                            {value: 'foo'},
+                            {value: 'bar'}
+                        ])
+                    }
+                }
+            ]);
+            $(document).ready('.js-observation-autocomplete').each(function() {
+                var autocompleteUrl = $(this).data('autocomplete-url');
+                console.log(autocompleteUrl);
+                $(this).autocomplete({hint: false}, [
+                    {
+                        source: function(query, cb) {
+                            $.ajax({
+                                url: autocompleteUrl+'?query='+query
+                            }).then(function(data) {
+                                cb(data.oiseau);
+                            });
+                            displayKey: 'lbnom',
+                                debounce: 500 // only request every 1/2 second
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            console.log(textStatus, errorThrown);
+                        }
+                    }
+                ])
+            });
+        });
+
+    </script>
+
+    <script>
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            $('#blah').attr('src', e.target.result);
+        }
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#observation_photo").change(function(){
+            readURL(this);
+        });
+    </script>
     <script>
 
         function locate() {
@@ -118,7 +331,27 @@
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC1_2otoK8H-gpWeExPvPD-pK7V2CDWNwE"></script>
 
     <script>
+        function affi_cart_form() {
+            if (document.getElementById('carte_gps').style.display == "")
+                document.getElementById('carte_gps').style.display = "none";
+
+            else
+                document.getElementById('carte_gps').style.display = "";
+        }
+        function reduire_carte_carte() {
+            if (document.getElementById('mapp_obs').style.display == "")
+                document.getElementById('lien_mapp_obs').style.display = "none";
+
+            else
+                document.getElementById('lien_mapp_obs').style.display = "";
+            if (document.getElementById('mapp_obs').style.display == "")
+                document.getElementById('mapp_obs').style.display = "none";
+            else
+                document.getElementById('mapp_obs').style.display = "";
+            document.getElementById('lien_mapp_obs').style.display = "";
+        }
         function afficher_oiseau(lat,lng){
+
             var longitude = Number(lng);
 
             var latitude = Number(lat);
@@ -133,6 +366,11 @@
 
                 map.setZoom(10);
                 map.setCenter({lat: latitude, lng: longitude});
+            if (document.getElementById('mapp_obs').style.display == "")
+                document.getElementById('mapp_obs').style.display = "none";
+            else
+                document.getElementById('mapp_obs').style.display = "";
+            document.getElementById('lien_mapp_obs').style.display = "";
         }
 
         var map, popup, Popup;
@@ -279,5 +517,39 @@
             map.setCenter(center);
         }
 
+
+    </script>
+    <script type="text/javascript">
+        /** Partie Obtention des coordonnées GPS **/
+        function initialiser_gps() {
+            var latlng = new google.maps.LatLng(46.102079, -0.076303);
+            //objet contenant des propriétés avec des identificateurs prédéfinis dans Google Maps permettant
+            //de définir des options d'affichage de notre carte
+            var options = {
+                center: latlng,
+                zoom: 4,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+
+
+            //constructeur de la carte qui prend en paramêtre le conteneur HTML
+            //dans lequel la carte doit s'afficher et les options
+            var carte = new google.maps.Map(document.getElementById("carte_gps"), options);
+            //création du marqueur
+            var marqueur = new google.maps.Marker({
+                position: new google.maps.LatLng(44.70329, 2.26090),
+                map: carte
+            });
+            marqueur.setDraggable(true);
+
+            google.maps.event.addListener(marqueur, 'dragend', function(event) {
+                //message d'alerte affichant la nouvelle position du marqueur
+                //alert("La nouvelle coordonnée du marqueur est : "+event.latLng);
+                document.querySelector(".lat").value = event.latLng.lat();
+                document.querySelector(".long").value = event.latLng.lng();
+            });
+
+        }
+        initialiser_gps()
     </script>
 {% endblock %}

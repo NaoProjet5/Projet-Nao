@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use EWZ\Bundle\RecaptchaBundle\Validator\Constraints as Recaptcha;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CommentRepository")
@@ -40,6 +41,10 @@ class Comment
      * @ORM\Column(type="boolean", nullable=true)
      */
     private $signale;
+    /**
+     * @Recaptcha\IsTrue
+     */
+    public $recaptcha;
 
 
     public function getId(): ?int

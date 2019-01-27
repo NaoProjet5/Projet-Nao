@@ -18,6 +18,33 @@ class OiseauRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Oiseau::class);
     }
+    public function name_bird(){
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery('SELECT oi.lbNom FROM App\Entity\Oiseau oi');
+        $data = $query->getResult();
+        return $data;
+    }
+    public function nameLike($q, int $limit = 10){
+        $entityManager = $this->getEntityManager();
+        $dql_query = $entityManager->createQuery("
+    SELECT o.lbNom FROM App\Entity\Oiseau o
+    WHERE 
+      o.lbNom LIKE :key
+");
+        $dql_query->setParameter('key', '%'.$q.'%');
+        $dql_query->setMaxResults($limit);
+        $data = $dql_query->getResult();
+        return $data;
+    }
+    public function findAllMatching(string $query, int $limit = 10)
+    {
+        return $this->createQueryBuilder('o.lbNom')
+            ->andWhere('o.lbNom LIKE :query')
+            ->setParameter('query', '%'.$query.'%')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
 
     /**
      * @return Oiseau[] Returns an array of Oiseau objects

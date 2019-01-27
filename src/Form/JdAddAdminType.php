@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\CallbackTransformer;
+use EWZ\Bundle\RecaptchaBundle\Form\Type\EWZRecaptchaType;
 
 class JdAddAdminType extends AbstractType
 {
@@ -31,6 +32,17 @@ class JdAddAdminType extends AbstractType
                 ])
             ->add('password', PasswordType::class)
             ->add('passwordConfirm', PasswordType::class)
+            ->add('recaptcha', EWZRecaptchaType::class, [
+                'attr' => [
+                    'options' => [
+                        'theme' => 'light',
+                        'type'  => 'image',
+                        'size'  => 'normal',
+                        'defer' => true,
+                        'async' => true,
+                    ]
+                ]
+            ])
             ->add('Enregistrer', SubmitType::class);
         $builder->get('roles')
             ->addModelTransformer(new CallbackTransformer(

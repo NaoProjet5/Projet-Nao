@@ -23,6 +23,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 use App\Form\LwArticleType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use diversen\meta;
 
 
 class JdPubNaoController extends Controller
@@ -41,7 +42,7 @@ class JdPubNaoController extends Controller
     }
 
     /**
-     * @Route("/about", name="aboutUs")
+     * @Route("/presentation", name="aboutUs")
      */
     public function jdAboutUs()
     {
@@ -49,11 +50,24 @@ class JdPubNaoController extends Controller
     }
 
     /**
-     * @Route("/mapBirds", name="birds")
+     * @Route("/observations", name="birds")
      */
     public function jdAllBirds(OiseauRepository $repos, Request $request)
     {
         $oiseau = $repos->findAll();
+        /*$ary = get_meta_tags('https://inpn.mnhn.fr/espece/cd_nom/2891','"https://inpn.mnhn.fr/photos/uploads');
+        dump( $ary['twitter:image']);
+        die();*/
+       /* boucle pour la creation des urls des images des oiseaux*/
+      /*  foreach ($oiseau as $data) {
+            if ($data->getUrl() <> " " OR $data->getUrl() <> null OR $data->getUrl() <> 'A' OR !empty( $data->getUrl() )){
+                $url = get_meta_tags($data->getUrl(),'https://inpn.mnhn.fr/photos/uploads');
+                $data->setUrl($url['twitter:image']);
+            }
+            dump($data->getUrl());
+        }
+        die();*/
+        $bird_name = $repos->name_bird();
         /* @var $paginator \Knp\Component\Pager\Paginator */
         $paginator  = $this->get('knp_paginator');
         // Paginate the results of the query
@@ -66,7 +80,7 @@ class JdPubNaoController extends Controller
             8
         );
         return $this->render('jd_pub_nao/Public/jdMapBirds.html.twig',[
-            'oiseaux'=>$appointments
+            'oiseaux'=>$appointments,'bird_name'=>$bird_name
         ]);
     }
 
@@ -80,11 +94,12 @@ class JdPubNaoController extends Controller
         return md5(uniqid());
     }
     /**
-     * @Route("/oneBird/{id}", name="bird")
+     * @Route("/liste-oiseaux/{id}", name="bird")
      */
-    public function oneBird(Request $request, ObjectManager $manager, Oiseau $oiseau, FileUploader $fileUploader, Security $security, ObservationRepository $repos_obs){
+    public function oneBird(Request $request, ObjectManager $manager, Oiseau $oiseau, FileUploader $fileUploader, Security $security, ObservationRepository $repos_obs,OiseauRepository $repos_bird){
         $observation = new Observation();
         $data = $repos_obs->findBy(['valide'=>1,'oiseau'=>$oiseau]);
+        $bird_name = $repos_bird->name_bird();
         $form = $this->createForm(ObservationType::class, $observation);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid())
@@ -92,9 +107,12 @@ class JdPubNaoController extends Controller
             $observation->setCreatedAt(new \DateTime());
             $user = $security->getUser();
             $observation->setUser($user);
+
             $file = $observation->getPhoto();
-            $fileName = $fileUploader->upload($file);
-            $observation->setPhoto($fileName);
+            if ($file <> null){
+                $fileName = $fileUploader->upload($file);
+                $observation->setPhoto($fileName);
+            }
             $observation->setValide(0);
             $observation->setOiseau($oiseau);
             $manager->persist($observation);
@@ -105,12 +123,13 @@ class JdPubNaoController extends Controller
         return $this->render('lw_pub_nao/lwObservation.html.twig',[
             'formObservation'=>$form->createView(),
             'oiseau'=>$oiseau,
-            'observations'=>$data
+            'observations'=>$data,
+            'bird_name'=>$bird_name
         ]);
     }
 
     /**
-     * @Route("/allArticles", name="blog")
+     * @Route("/blog", name="blog")
      */
     public function jdAllArticles(LwArticleRepository $repos,Request $request)
     {
@@ -144,30 +163,7 @@ class JdPubNaoController extends Controller
             return $this->redirectToRoute('oneArticle',['id'=>$comment->getArticle()->getId()]);
     }
 
-     /**
-     * @Route ("/lw/new_article", name="new_article")
-     */
-    public function create(Request $request,ObjectManager $manager, FileUploader $fileUploader) {
 
-        $article = new LwArticle();
-        $form = $this->createForm(LwArticleType::class, $article);
-        $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid())
-        {
-            $article->setCreatedAt(new \DateTime());
-            $article->setAlive(1);
-            $article->setUsers($this->getUser());
-            $file = $form->get('photo')->getData();
-            $fileName = $fileUploader->upload($file);
-            $article->setPhoto($fileName);
-            $manager->persist($article);
-            $manager->flush();
-            return $this->redirectToRoute('blog_show',['id'=>$article->getId()]);
-        }
-        return $this->render('lw_login_nao/lwCreate.html.twig',[
-            'form'=>$form->createView()
-        ]);
-    }
 
 
 }

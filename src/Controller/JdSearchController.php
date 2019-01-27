@@ -3,30 +3,20 @@
 namespace App\Controller;
 
 use App\Entity\Oiseau;
-use Doctrine\Common\Persistence\ObjectManager;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use App\Form\JdCompleteType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class JdSearchController extends AbstractController
 {
+
     public function jdSearchBirds()
     {
         $oiseau = new  Oiseau();
 
-        $form = $this->createFormBuilder( $oiseau, array(
-            $this->generateUrl('home').'?term=',
-            'method' => 'GET',
-        ) )
-            ->add('Recherche d\'oiseau', null, ['label' => ' Entre le nom de l\'oisaeu'] )
-            ->add('Recherche', SubmitType::class)
-            ->getForm();
+        $form = $this->createForm( JdCompleteType::class, $oiseau);
+
 
         return $this->render('jd_search/jdSearch.html.twig',
             [

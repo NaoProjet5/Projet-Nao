@@ -1,31 +1,37 @@
 {% extends 'lwLayoutAdmin.html.twig' %}
 
 {% block contentPage %}
-    <div class="content">
         <div class="content">
             <div class="container-fluid">
-
-            <h4 class="card-title ">Liste des utilisateurs</h4>
+                <div class="row">
         <div class="col-md-6">
             <a href="{{ path('jdadduserNao')}}" class="btn btn-success">Créer un utilisateur<div class="ripple-container"></div></a>
         </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header card-header-rose card-header-icon">
+                            <div class="card-icon">
+                                <i class="material-icons">assignment</i>
+                            </div>
+                            <h4 class="card-title">Liste des utilisateurs</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-shopping">
                     <thead class=" text-primary">
                     <th>
-                        Nom
+                        Noms
                     </th>
                     <th>
-                        Prenom
+                        Prénoms
                     </th>
                     <th>
-                        Email
+                        Emails
                     </th>
-                    <th>
-                        Rôle
+                    <th class="text-right">
+                        Rôles
                     </th>
-                    <th>
+                    <th class="text-right">
                         Actions
                     </th>
                     </thead>
@@ -42,10 +48,10 @@
                             <td>
                                 {{ user.email }}
                             </td>
-                            <td>
+                            <td class="text-right">
                                 {{ user.roles[0] }}
                             </td>
-                            <td>
+                            <td class="td-actions text-right">
                                 <a href="{{ path('jdUpDateUser', {'id': user.id}) }}" class="btn btn-info btn-link" rel="tooltip" data-placement="bottom" title="Modifier un utilisateur">
                                     <i class="material-icons">edit</i>
                                 </a>
@@ -58,27 +64,10 @@
                         </tbody>
                     {% endfor %}
                 </table>
-
-                <nav aria-label="...">
-                    <ul class="pagination">
-                        <li class="page-item disabled">
-                            <span class="page-link">Previous</span>
-                        </li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item active">
-      <span class="page-link">
-        2
-        <span class="sr-only">(current)</span>
-      </span>
-                        </li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">Next</a>
-                        </li>
-                    </ul>
-                </nav>
+            </div>
             </div>
         </div><!--end of card -->
+                </div>
 
 
 

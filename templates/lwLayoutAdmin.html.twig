@@ -16,6 +16,8 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
     <!-- CSS Files -->
     <link href="{{ asset('assets/css/material-dashboard.css') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/css/material-dashboard.css.map') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/css/material-dashboard.min.css') }}" rel="stylesheet" />
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link href="{{ asset('assets/demo/demo.css') }}" rel="stylesheet" />
     {% endblock %}
@@ -30,11 +32,11 @@
           Tip 2: you can also add an image using data-image tag
       -->
         <div class="logo">
-            <a href="http://www.creative-tim.com" class="simple-text logo-mini">
-                NAO
+            <a href="#" class="simple-text logo-mini" >
+
             </a>
-            <a href="http://www.creative-tim.com" class="simple-text logo-normal">
-                Tableau de bord
+            <a href="#" class="simple-text logo-normal">
+               NAO SEARCH
             </a>
         </div>
         <div class="sidebar-wrapper">
@@ -56,8 +58,8 @@
                     <div class="collapse" id="collapseExample">
                         <ul class="nav">
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <span class="sidebar-normal"> Mon Profil </span>
+                                <a class="nav-link" href="{{ path('home') }}">
+                                    <span class="sidebar-normal"> Retour au site </span>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -80,7 +82,7 @@
                 <li class="nav-item ">
                     <a class="nav-link" data-toggle="collapse" href="#pagesExamples">
                         <i class="material-icons">place</i>
-                        <p> Les observations
+                        <p> Observations
                             <b class="caret"></b>
                         </p>
                     </a>
@@ -93,12 +95,12 @@
                             </li>
                             <li class="nav-item ">
                                 <a class="nav-link" href="{{ path('observation_accept') }}">
-                                    <span class="sidebar-normal"> Les observations validées </span>
+                                    <span class="sidebar-normal"> Observations validées </span>
                                 </a>
                             </li>
                             <li class="nav-item ">
                                 <a class="nav-link" href="{{ path('observation_ref') }}">
-                                    <span class="sidebar-normal"> Les observations invalidéés </span>
+                                    <span class="sidebar-normal"> Observations invalidéés </span>
                                 </a>
                             </li>
                         </ul>
@@ -109,15 +111,16 @@
                 <li class="nav-item ">
                     <a class="nav-link"  href="{{ path('jaAllUser') }}">
                         <i class="material-icons">person</i>
-                        <p> Les utilisateurs
+                        <p> Utilisateurs
                         </p>
                     </a>
                 </li>
-
+                {% endif %}
+                {% if is_granted("ROLE_AUTHOR") %}
                 <li class="nav-item ">
                     <a class="nav-link" data-toggle="collapse" href="#formsExamples">
                         <i class="material-icons">content_paste</i>
-                        <p> Les articles
+                        <p> Articles
                             <b class="caret"></b>
                         </p>
                     </a>
@@ -130,12 +133,12 @@
                             </li>
                             <li class="nav-item ">
                                 <a class="nav-link" href="{{ path('publicArticle') }}">
-                                    <span class="sidebar-normal"> Les articles publiés </span>
+                                    <span class="sidebar-normal"> Articles publiés </span>
                                 </a>
                             </li>
                             <li class="nav-item ">
                                 <a class="nav-link" href="{{ path('trashArticle') }}">
-                                    <span class="sidebar-normal"> Les articles en brouillon  </span>
+                                    <span class="sidebar-normal"> Articles en brouillon  </span>
                                 </a>
                             </li>
                         </ul>
@@ -151,17 +154,18 @@
                         <ul class="nav">
                             <li class="nav-item ">
                                 <a class="nav-link" href="{{ path('AdminComment') }}">
-                                    <span class="sidebar-normal"> Tous les commentaires </span>
+                                    <span class="sidebar-normal"> Commentaires </span>
                                 </a>
                             </li>
                             <li class="nav-item ">
                                 <a class="nav-link" href="{{ path('AdminCommentSignal') }}">
-                                    <span class="sidebar-normal"> Les Commentaires signalés </span>
+                                    <span class="sidebar-normal"> Commentaires signalés </span>
                                 </a>
                             </li>
                         </ul>
                     </div>
                 </li>
+
                 {% endif %}
             </ul>
         </div>
@@ -195,7 +199,7 @@
                                 </p>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item" href="#">Mon profil</a>
+                                <a class="dropdown-item" href="{{ path('home') }}">Retour au site</a>
                                 <a class="dropdown-item" href="{{ path('usersLogout') }}">Se déconnecter</a>
                             </div>
                         </li>
@@ -434,131 +438,7 @@
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC1_2otoK8H-gpWeExPvPD-pK7V2CDWNwE"></script>
 
 
-        <script>
 
-            var map, popup, Popup;
-
-            var oiseau_1;
-
-            /** Initializes the map and the custom popup. */
-            function initMap() {
-                definePopupClass();
-
-                map = new google.maps.Map(document.getElementById('map_canvas'), {
-                    zoom: 5,
-                    center: {lat: 46.102079,lng: -0.076303}
-                });
-
-                popup = new Popup(
-                    new google.maps.LatLng(46.102079, -0.076303),
-                    document.getElementById('content'));
-                popup.setMap(map);
-
-
-                oiseau_1 = new google.maps.Marker({
-                    map: map,
-                    icon: 'marker_carte.png',
-                    position: {lat: 46.102079, lng: -0.076303}
-                });
-                oiseau_1.addListener('click', anim_oiseau_1);
-
-            }
-
-
-
-            function anim_oiseau_1() {
-                if (oiseau_1.getAnimation() !== null) {
-                    oiseau_1.setAnimation(null);
-                } else {
-                    oiseau_1.setAnimation(google.maps.Animation.BOUNCE);
-                }
-            }
-
-            function anim_oiseau_2() {
-                if (oiseau_1.getAnimation() !== null) {
-                    oiseau_1.setAnimation(null);
-                } else {
-                    oiseau_1.setAnimation(google.maps.Animation.BOUNCE);
-                }
-            }
-
-            /** Defines the Popup class. */
-            function definePopupClass() {
-                /**
-                 * A customized popup on the map.
-                 * @param {!google.maps.LatLng} position
-                 * @param {!Element} content
-                 * @constructor
-                 * @extends {google.maps.OverlayView}
-                 */
-                Popup = function(position, content) {
-                    this.position = position;
-
-                    content.classList.add('popup-bubble-content');
-
-                    var pixelOffset = document.createElement('div');
-                    pixelOffset.classList.add('popup-bubble-anchor');
-                    pixelOffset.appendChild(content);
-
-                    this.anchor = document.createElement('div');
-                    this.anchor.classList.add('popup-tip-anchor');
-                    this.anchor.appendChild(pixelOffset);
-
-                    // Optionally stop clicks, etc., from bubbling up to the map.
-                    this.stopEventPropagation();
-                };
-                // NOTE: google.maps.OverlayView is only defined once the Maps API has
-                // loaded. That is why Popup is defined inside initMap().
-                Popup.prototype = Object.create(google.maps.OverlayView.prototype);
-
-                /** Called when the popup is added to the map. */
-                Popup.prototype.onAdd = function() {
-                    this.getPanes().floatPane.appendChild(this.anchor);
-                };
-
-                /** Called when the popup is removed from the map. */
-                Popup.prototype.onRemove = function() {
-                    if (this.anchor.parentElement) {
-                        this.anchor.parentElement.removeChild(this.anchor);
-                    }
-                };
-
-                /** Called when the popup needs to draw itself. */
-                Popup.prototype.draw = function() {
-                    var divPosition = this.getProjection().fromLatLngToDivPixel(this.position);
-                    // Hide the popup when it is far out of view.
-                    var display =
-                        Math.abs(divPosition.x) < 4000 && Math.abs(divPosition.y) < 4000 ?
-                            'block' :
-                            'none';
-
-                    if (display === 'block') {
-                        this.anchor.style.left = divPosition.x + 'px';
-                        this.anchor.style.top = divPosition.y + 'px';
-                    }
-                    if (this.anchor.style.display !== display) {
-                        this.anchor.style.display = display;
-                    }
-                };
-
-                /** Stops clicks/drags from bubbling up to the map. */
-                Popup.prototype.stopEventPropagation = function() {
-                    var anchor = this.anchor;
-                    anchor.style.cursor = 'auto';
-
-                    ['click', 'dblclick', 'contextmenu', 'wheel', 'mousedown', 'touchstart',
-                        'pointerdown']
-                        .forEach(function(event) {
-                            anchor.addEventListener(event, function(e) {
-                                e.stopPropagation();
-                            });
-                        });
-                };
-            }
-
-            initMap();
-
-        </script>
 
     {% endblock %}
 </body>

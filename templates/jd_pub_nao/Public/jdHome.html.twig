@@ -4,15 +4,17 @@
     <section id="short_desc">
         <div class="section_content">
 
-            <h1>NAO, C'EST QUOI ?</h1>
+            <h1>L'APPLICATION DES PASSIONNÉS D'ORNITHOLOGIE</h1>
 
-            <p>En traitant de l'observation et de la protection des oiseaux,  la mission générale de ce site est la conservation des milieux naturels et des beautés de ce monde.</p>
+            <p>NAO est une application participative permettant aux particuliers d’indiquer où ils ont observé des oiseaux</p>
 
             <div class="buttons_box">
 
-                <a class="view_observation" href="{{ path('birds') }}" style="color:black">Voir les observations</a>
+                <a class="button_style_2" href="{{ path('birds') }}" style="margin-right : 15px;">faire une observation</a>
 
-                <a class="do_observation" href="{{ path('birds') }}" style="color:black">Faire une observation</a>
+                <a class="button_style_3" href="{{ path('birds') }}" >Voir la liste des oiseaux</a>
+
+                <a class="button_style_3" href="{{ path('birds') }}" >Recherche un oiseau</a>
 
             </div>
 
@@ -22,15 +24,19 @@
     </section>
 
 <div class="body_content">
+    <div class="last_observations">
         {% for message in app.flashes('success') %}
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <div class="button_style_2" style="margin-top:1.5%;">
                 <strong>{{ message }}</strong>.
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <a href=""><span aria-hidden="true">&times;</span></a>
-                </button>
             </div>
         {% endfor %}
+    </div>
     <div class="last_observations">
+    {% for message in app.flashes('notice_news') %}
+        <div class="button_style_2" style="margin-top:1.5%;"><strong>
+                {{ message }}
+            </strong></div>
+    {% endfor %}
     {%  if observations is null  %}
         <p class="souligner">Pas d'observation enregistrées pour l'instant</p>
     {%  else %}
@@ -43,7 +49,7 @@
             <div class="image_last_observation_item">
 
                 <a>{% if observation.photo is null %}
-                        <img src="{{ asset('images_appli/no_photo_available.jpg') }}" alt="Bootstrap" class="img-thumbnail">
+                        <img src="{{ asset('images_appli/no_photo_avaible.jpg') }}" alt="Bootstrap" class="img-thumbnail">
                     {% else %}
                         <img src="{{ asset('images_appli/'~ observation.photo) }}" alt="Bootstrap" class="img-thumbnail">
                     {% endif %}</a>
@@ -51,7 +57,7 @@
             </div><!---end image_last_observation_item-->
 
             <h3 style="color : #08ACDE;">{{ observation.nom  }} </h3>
-            <p style="padding-top : 5px;padding-bottom : 5px;"><strong>Coordonnées GPS</strong><br />
+            <p><strong>Coordonnées GPS</strong><br />
                 Lat : {{ observation.latitude }}, LNG : {{ observation.longitude }}</p>
             <a class="action_view" href="{{ path('bird',{'id':observation.oiseau.id}) }}">Voir l'oiseau</a>
 
@@ -62,70 +68,30 @@
         </div><!--- end last_observation_content-->
         <a class="button_style_1" href="{{ path('birds') }}">Voir toutes les observations</a>
     </div><!---end last_observation-->
+        <div style="text-align : center;"><h2 class="souligner">Présentation</h2></div>
 
         <div id="short_presentation">
 
             <div class="image_presentation">
 
-                <a><img src="https://jardinage.lemonde.fr/images/dossiers/2018-05/mesange-bleue-1-055106.jpg"/></a>
+                <a><img src="{{ asset('assets/img/isometric_nao.PNG') }}"/></a>
+
             </div>
+
 
             <div class="paragraphe_presentation">
-
-                <h3>PRESENTATION</h3>
-                <p>On entend rarement parler de ce dernier élément concernant notre santé, ce qui donne l'impression à plusieurs que l'environnement est extérieur à nous et que nous y sommes peu liés. Pourtant, c'est d'une importance primordiale.
-                    Par exemple, fréquenter des milieux naturels a des effets bénéfiques sur notre santé mentale, c'est prouvé scientifiquement. Bien sûr, la pollution affecte aussi directement la qualité de nos aliments et de notre eau. Ce ne sont que deux exemples parmi les nombreux effets qui existent.
-                    Avec l'amour de ces petites bêtes ailées, au fur et à mesure que les gens en connaîtront davantage sur les oiseaux, leur désir de les protéger et de protéger leur habitat devrait augmenter, favorisant ainsi les efforts de conservation de l'environnement. C'est, en fait, le premier but de ce site!</p>
-
-                <a href="{{ path('birds') }}"> <svg style="width : 20px; height : 20px;position : relative; top : 3px;" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                                                    width="475.084px" height="475.084px" viewBox="0 0 475.084 475.084" style="enable-background:new 0 0 475.084 475.084;"
-                                                    xml:space="preserve">
-<g>
-    <path style="fill : white;" d="M464.524,412.846l-97.929-97.925c23.6-34.068,35.406-72.047,35.406-113.917c0-27.218-5.284-53.249-15.852-78.087
-		c-10.561-24.842-24.838-46.254-42.825-64.241c-17.987-17.987-39.396-32.264-64.233-42.826
-		C254.246,5.285,228.217,0.003,200.999,0.003c-27.216,0-53.247,5.282-78.085,15.847C98.072,26.412,76.66,40.689,58.673,58.676
-		c-17.989,17.987-32.264,39.403-42.827,64.241C5.282,147.758,0,173.786,0,201.004c0,27.216,5.282,53.238,15.846,78.083
-		c10.562,24.838,24.838,46.247,42.827,64.234c17.987,17.993,39.403,32.264,64.241,42.832c24.841,10.563,50.869,15.844,78.085,15.844
-		c41.879,0,79.852-11.807,113.922-35.405l97.929,97.641c6.852,7.231,15.406,10.849,25.693,10.849
-		c9.897,0,18.467-3.617,25.694-10.849c7.23-7.23,10.848-15.796,10.848-25.693C475.088,428.458,471.567,419.889,464.524,412.846z
-		 M291.363,291.358c-25.029,25.033-55.148,37.549-90.364,37.549c-35.21,0-65.329-12.519-90.36-37.549
-		c-25.031-25.029-37.546-55.144-37.546-90.36c0-35.21,12.518-65.334,37.546-90.36c25.026-25.032,55.15-37.546,90.36-37.546
-		c35.212,0,65.331,12.519,90.364,37.546c25.033,25.026,37.548,55.15,37.548,90.36C328.911,236.214,316.392,266.329,291.363,291.358z
-		"/>
-</g>
-                        <g>
-                        </g>
-                        <g>
-                        </g>
-                        <g>
-                        </g>
-                        <g>
-                        </g>
-                        <g>
-                        </g>
-                        <g>
-                        </g>
-                        <g>
-                        </g>
-                        <g>
-                        </g>
-                        <g>
-                        </g>
-                        <g>
-                        </g>
-                        <g>
-                        </g>
-                        <g>
-                        </g>
-                        <g>
-                        </g>
-                        <g>
-                        </g>
-                        <g>
-                        </g>
-</svg>Faire une observation</a>
+                <p>NAO est un projet qui vous offre un moyen simple d’assurer le suivi des oiseaux que vous observez partout en France.</p>
+                  <p>Avec notre base de données, les particuliers peuvent extraire des informations concernant les oiseaux qui ont été observés lors des différentes balades dans des lieux d’observations. </p>
+                    <p>De plus,la base de données cumulative de NAO est utilisée par des ornithologues, des naturalistes, des chercheurs et des spécialistes de la conservation qui veulent mieux connaître la répartition et les habitudes de déplacement des oiseaux sur le continent.</p>
 
             </div>
+
+        </div>
+        <div class="buttons_box">
+
+            <a href="{{ path('birds') }}" class="button_style_2" style="margin-right : 15px;">Faire une observation</a>
+
+            <a href="{{ path('birds') }}" class="button_style_1">Liste des oiseaux répertoriés</a>
 
         </div>
         <div class="last_articles">
@@ -150,7 +116,7 @@
 
                     <p>Ecrit le {{ article.createdAt | date('d/m/Y') }} à {{ article.createdAt | date('H:i') }} </p>
 
-                    <a class="action_view" href="{{ path('oneArticle',{'id':article.id}) }}">Voir l'article</a>
+                    <a class="action_view" href="{{ path('oneArticle',{'id':article.id}) }}">Lire l'article</a>
 
                 </div><!---end div of last_article_item-->
                 {% endfor %}

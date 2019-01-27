@@ -4,17 +4,24 @@
     <div class="content">
         <div class="content">
             <div class="container-fluid">
-                <h4 class="card-title ">Liste des articles publiés </h4>
+                <div class="row">
+                <div class="card">
+                    <div class="card-header card-header-rose card-header-icon">
+                        <div class="card-icon">
+                            <i class="material-icons">assignment</i>
+                        </div>
+                        <h4 class="card-title">Liste des articles publiés</h4>
+                    </div>
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table">
                             <thead class=" text-primary">
                             <tr>
-                                <th>Image</th>
-                                <th>Titre</th>
-                                <th>Date de publication</th>
+                                <th>Images</th>
+                                <th>Titres</th>
+                                <th>Dates de publication</th>
                                 <th>Commentaires</th>
-                                <th>Actions</th>
+                                <th class="text-right">Actions</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -25,13 +32,13 @@
                                     <th>{{ article.title  }}</th>
                                     <th>{{ article.createdAt | date('d/m/Y') }}</th>
                                     <th >{{ article.comments|length }}</th>
-                                    <th width="20%">
+                                    <th class="td-actions text-right">
                                         <a href="{{ path('update_article',{'id':article.id}) }}" class="btn btn-info btn-link" rel="tooltip" data-placement="bottom" title="Modifier l'article">
                                             <i class="material-icons">edit</i>
                                         </a>
-                                        <button type="button" class="btn btn-danger btn-link" rel="tooltip" data-placement="bottom" title="Mettre à la corbeille">
+                                        <a href="{{ path('change_article',{'id':article.id}) }}" type="button" class="btn btn-danger btn-link" rel="tooltip" data-placement="bottom" title="Mettre à la corbeille">
                                             <i class="material-icons">delete </i>
-                                        </button>
+                                        </a>
                                     </th>
                                 </tr>
                             {% endfor %}
@@ -41,6 +48,8 @@
                     <div class="navigation">
                         {{ knp_pagination_render(articles) }}
                     </div>
+                </div>
+                </div>
                 </div>
             </div>
         </div>

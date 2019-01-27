@@ -1,0 +1,6 @@
+
+[{% for bird in results %}
+    {{ {nom: bird.lbNom}|json_encode|raw }}
+    {%- if not loop.last %},
+    {% endif -%}
+    {%- endfor %}]

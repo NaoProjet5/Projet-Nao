@@ -6,27 +6,48 @@
                 <h3>Toutes les observations</h3>
                 <br>
                 <div class="row">
+                    <div class="col-md-12">
+                        <div class="card ">
+                            <div class="card-header card-header-text card-header-rose">
+                                <div class="card-text">
+                                    <h4 class="card-title">Localisation des oiseaux sur la carte</h4>
+                                </div>
+                            </div>
+                            <div class="card-body ">
+                                <h4 class="card-title"></h4>
+                                <div id="map_canvas" class="map map-big">
+                                    <div id="content">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     {% for observation in observations %}
                         <div class="col-md-4">
                             <div class="card card-product">
                                 <div class="card-header card-header-image" data-header-animation="true">
-                                    <a href="#pablo">
+                                    <a>
+                        {% if observation.photo is null %}
+                        <img  alt="Bootstrap" class="img-thumbnail" height="10px">
+                    {% else %}
                                         <img class="img" src="{{ asset('images_appli/'~ observation.photo) }}">
+                        {% endif %}
                                     </a>
                                 </div>
                                 <div class="card-body">
                                     <div class="card-actions text-center">
                                         </button>
                                         {% if observation.valide == 0 %}
-                                            <a href="{{ path('valide_observation',{'id':observation.id}) }}"> <button type="button" class="btn btn-success btn-link" rel="tooltip" data-placement="bottom" title="Validé">
+                                            <a href="{{ path('valide_observation',{'id':observation.id}) }}"> <button type="button" class="btn btn-success btn-link" rel="tooltip" data-placement="bottom" title="Valider">
                                                     <i class="material-icons">check</i>
                                                 </button></a>
                                         {% else %}
-                                            <a href="{{ path('valide_observation',{'id':observation.id}) }}"><button type="button" class="btn btn-danger btn-link" rel="tooltip" data-placement="bottom" title="Invalidé">
+                                            <a href="{{ path('valide_observation',{'id':observation.id}) }}"><button type="button" class="btn btn-danger btn-link" rel="tooltip" data-placement="bottom" title="Invalider">
                                                     <i class="material-icons">close</i>
                                                 </button></a>
                                         {% endif %}
-                                        <a href="{{ path('remove_observation',{'id':observation.id}) }}"><button type="button" class="btn btn-danger btn-link" rel="tooltip" data-placement="bottom" title="Supprimé l'observation">
+                                        <a href="{{ path('remove_observation',{'id':observation.id}) }}"><button type="button" class="btn btn-danger btn-link" rel="tooltip" data-placement="bottom" title="Supprimer l'observation">
                                                 <i class="material-icons">delete</i>
                                             </button></a>
                                     </div>
@@ -39,7 +60,7 @@
                                 </div>
                                 <div class="card-footer">
                                     <div class="price">
-                                        <a href="{{ path('bird',{'id':observation.oiseau.id}) }}"><button class="btn">Voir l'oiseau<div class="ripple-container"></div></button></a>
+                                        <a href="#map_canvas" onclick="anim_oiseau_{{ observation.id }}()"><button class="btn">Voir l'observation <div class="ripple-container"></div></button></a>
                                     </div>
                                     <div class="stats">
                                         <p class="card-category"><i class="material-icons">place</i> lat : {{ observation.latitude}}, lng : {{ observation.longitude}}</p>
@@ -49,10 +70,129 @@
                         </div>
                     {% endfor %}
                 </div> <!--end of class row -->
-                <div class="navigation">
+                <div class="pagination">
                     {{ knp_pagination_render(observations) }}
                 </div>
             </div> <!--end container-fluid -->
         </div> <!-- end second div content-->
     </div> <!-- end first div content-->
+{% endblock %}
+{% block codejs %}
+    {{ parent() }}
+    <script>
+
+        var map, popup, Popup;
+
+        var oiseau_1;
+
+        /** Initializes the map and the custom popup. */
+        function initMap() {
+            definePopupClass();
+
+            map = new google.maps.Map(document.getElementById('map_canvas'), {
+                zoom: 5,
+                center: {lat: 46.102079,lng: -0.076303}
+            });
+
+
+            {% for observation in observations %}
+            oiseau_{{ observation.id }} = new google.maps.Marker({
+                map: map,
+                icon: '/../assets/img/marker_carte.png',
+                position: {lat: {{ observation.latitude }}, lng: {{ observation.longitude }}}
+            });
+            oiseau_{{ observation.id }}.addListener('click', anim_oiseau_{{ observation.id }});
+            {% endfor %}
+        }
+
+
+        {% for observation in observations %}
+        function anim_oiseau_{{ observation.id }}() {
+            if (oiseau_{{ observation.id }}.getAnimation() !== null) {
+                oiseau_{{ observation.id }}.setAnimation(null);
+            } else {
+                oiseau_{{ observation.id }}.setAnimation(google.maps.Animation.BOUNCE);
+            }
+            map.setZoom(12);
+            map.setCenter(oiseau_{{observation.id}}.getPosition());
+        }
+        {% endfor %}
+
+        /** Defines the Popup class. */
+        function definePopupClass() {
+            /**
+             * A customized popup on the map.
+             * @param {!google.maps.LatLng} position
+             * @param {!Element} content
+             * @constructor
+             * @extends {google.maps.OverlayView}
+             */
+            Popup = function(position, content) {
+                this.position = position;
+
+                content.classList.add('popup-bubble-content');
+
+                var pixelOffset = document.createElement('div');
+                pixelOffset.classList.add('popup-bubble-anchor');
+                pixelOffset.appendChild(content);
+
+                this.anchor = document.createElement('div');
+                this.anchor.classList.add('popup-tip-anchor');
+                this.anchor.appendChild(pixelOffset);
+
+                // Optionally stop clicks, etc., from bubbling up to the map.
+                this.stopEventPropagation();
+            };
+            // NOTE: google.maps.OverlayView is only defined once the Maps API has
+            // loaded. That is why Popup is defined inside initMap().
+            Popup.prototype = Object.create(google.maps.OverlayView.prototype);
+
+            /** Called when the popup is added to the map. */
+            Popup.prototype.onAdd = function() {
+                this.getPanes().floatPane.appendChild(this.anchor);
+            };
+
+            /** Called when the popup is removed from the map. */
+            Popup.prototype.onRemove = function() {
+                if (this.anchor.parentElement) {
+                    this.anchor.parentElement.removeChild(this.anchor);
+                }
+            };
+
+            /** Called when the popup needs to draw itself. */
+            Popup.prototype.draw = function() {
+                var divPosition = this.getProjection().fromLatLngToDivPixel(this.position);
+                // Hide the popup when it is far out of view.
+                var display =
+                    Math.abs(divPosition.x) < 4000 && Math.abs(divPosition.y) < 4000 ?
+                        'block' :
+                        'none';
+
+                if (display === 'block') {
+                    this.anchor.style.left = divPosition.x + 'px';
+                    this.anchor.style.top = divPosition.y + 'px';
+                }
+                if (this.anchor.style.display !== display) {
+                    this.anchor.style.display = display;
+                }
+            };
+
+            /** Stops clicks/drags from bubbling up to the map. */
+            Popup.prototype.stopEventPropagation = function() {
+                var anchor = this.anchor;
+                anchor.style.cursor = 'auto';
+
+                ['click', 'dblclick', 'contextmenu', 'wheel', 'mousedown', 'touchstart',
+                    'pointerdown']
+                    .forEach(function(event) {
+                        anchor.addEventListener(event, function(e) {
+                            e.stopPropagation();
+                        });
+                    });
+            };
+        }
+
+        initMap();
+
+    </script>
 {% endblock %}
