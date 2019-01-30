@@ -66,6 +66,11 @@ class Observation
      */
     private $photo;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $comment_observation;
+
 
     public function getId(): ?int
     {
@@ -166,6 +171,18 @@ class Observation
     public function setPhoto($photo): self
     {
         $this->photo = $photo;
+
+        return $this;
+    }
+
+    public function getCommentObservation(): ?string
+    {
+        return $this->comment_observation;
+    }
+
+    public function setCommentObservation(?string $comment_observation): self
+    {
+        $this->comment_observation = $comment_observation;
 
         return $this;
     }

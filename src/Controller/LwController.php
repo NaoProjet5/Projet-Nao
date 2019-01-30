@@ -562,7 +562,7 @@ class LwController extends Controller
         $name = array();
         $datas = $bird_name->findAll();
         foreach ($datas as $data){
-            array_push($name,$data->getLbNom());
+            array_push($name,$data->getNomValide());
         }
 
         return new JsonResponse($name);

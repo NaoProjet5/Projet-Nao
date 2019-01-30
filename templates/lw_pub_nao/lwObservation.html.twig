@@ -51,9 +51,10 @@
     <section class="title_page">
 
         <div class="section_content">
+            {% if oiseau is not null and oiseau is defined  %}
 
-            <h1>{{ oiseau.lbNom  }}</h1>
-
+            <h1>  <strong>Nom Vernaculaire: </strong> {{ oiseau.nomvalide  }} <strong>Nom latin : </strong> {{ oiseau.lbNom  }}</h1>
+            {% endif %}
         </div>
 
     </section>
@@ -74,12 +75,14 @@
 
         <div class="last_observations">
             {% if app.user %}
-        <h2 class="souligner">Les dernières observations de cet oiseau</h2>
+
             {% for message in app.flashes('notice_obs') %}
                 <div class="alert alert-danger" style="margin-top:1.5%;"><strong>
                         {{ message }}
                     </strong></div>
             {% endfor %}
+            {% if oiseau is not null and oiseau is defined  %}
+                <h2 class="souligner">Les dernières observations de cet oiseau</h2>
         <div class="last_observations_content">
             {% for observation in observations %}
                 <div class="last_observation_item">
@@ -94,10 +97,12 @@
 
                 </div>
             {% endfor %}
+
         </div><!--end div last observation -->
+            {% endif %}
             <div id="laisser_observation">
 
-                <h2 class="souligner">Laisser une observation sur cet oiseau</h2>
+                <h2 class="souligner">Laisser une observation</h2>
 
                 <div class="form_obs">
 
@@ -107,7 +112,14 @@
                             <h3>Nom de l'observation</h3>
 
                             <div class="autocomplete" >
-                                {{ form_row(formObservation.nom,{'attr':{'placeholder':"Nom d'observation"}}) }}
+                                {% if oiseau is not null and oiseau is defined  %}
+                                    {{ form_row(formObservation.nom
+                                        ,{'attr':{'value': oiseau.nomvalide  }})
+                                    }}
+                                {% else %}
+                                    {{ form_row(formObservation.nom)
+                                    }}
+                                {% endif %}
 
                             </div>
 
@@ -123,6 +135,9 @@
                             {{ form_row(formObservation.longitude,{'attr':{'placeholder':"Longitude",'class':'long'}}) }}
 
                         </div>
+                    <div>
+                        {{ form_row(formObservation.comment_observation,{'attr':{'placeholder':"Commentaire de l'observation"}}) }}
+                    </div>
 
                         <div>
 
@@ -168,6 +183,7 @@
             /*execute the function when someone writes in the text field:*/
             inp.addEventListener("input",function(e)
                 {
+                    if (this.value.length >3){
                     var a, b, i, val = this.value;
                     /*close any already open lists of autocompleted values*/
                     closeAllLists();
@@ -188,7 +204,9 @@
                             /*make the matching letters bold:*/
                             b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
                             b.innerHTML += arr[i].substr(val.length);
-                            /*insert a input field that will hold the current array items value (DIV element):*/
+                            /*insert a input field that will hold the current array item's value:*/
+                            b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+                            /*execute a function when someone clicks on the item value (DIV element):*/
                             b.addEventListener("click",function(e){
                                 /*insert the value for the autocomplete text field:*/
                                 inp.value = this.getElementsByTagName("input")[0].value;
@@ -200,6 +218,7 @@
                             a.appendChild(b);
                         }
 
+                    }
                     }
                 });
             /*execute a function presses a key on the keyboard:*/

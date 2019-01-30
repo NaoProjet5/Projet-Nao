@@ -95,8 +95,9 @@ class JdPubNaoController extends Controller
     }
     /**
      * @Route("/liste-oiseaux/{id}", name="bird")
+     * @Route("/faire-une-observation", name="faire-une-observation")
      */
-    public function oneBird(Request $request, ObjectManager $manager, Oiseau $oiseau, FileUploader $fileUploader, Security $security, ObservationRepository $repos_obs,OiseauRepository $repos_bird){
+    public function oneBird( Request $request, ObjectManager $manager, Oiseau $oiseau = NULL, FileUploader $fileUploader, Security $security, ObservationRepository $repos_obs,OiseauRepository $repos_bird){
         $observation = new Observation();
         $data = $repos_obs->findBy(['valide'=>1,'oiseau'=>$oiseau]);
         $bird_name = $repos_bird->name_bird();

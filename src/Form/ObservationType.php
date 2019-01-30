@@ -7,6 +7,7 @@ use App\Repository\OiseauRepository;
 use phpDocumentor\Reflection\Types\Nullable;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -31,6 +32,7 @@ class ObservationType extends AbstractType
             ]))
             ->add('longitude', TextType::class, array('label'=>'Longitude'))
             ->add('latitude', TextType::class, array('label'=>'Latitude'))
+            ->add('comment_observation', TextareaType::class,array('label'=>'Commentaire de l\'observation (facultatif)'))
             ->add('photo', FileType::class, array('required'   => false,
                 'empty_data' => null))
             ->add('recaptcha', EWZRecaptchaType::class, [
