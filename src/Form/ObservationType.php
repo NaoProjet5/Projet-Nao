@@ -32,7 +32,8 @@ class ObservationType extends AbstractType
             ]))
             ->add('longitude', TextType::class, array('label'=>'Longitude'))
             ->add('latitude', TextType::class, array('label'=>'Latitude'))
-            ->add('comment_observation', TextareaType::class,array('label'=>'Commentaire de l\'observation (facultatif)'))
+            ->add('comment_observation', TextareaType::class,array('label'=>'Commentaire de l\'observation (facultatif)','required'   => false,
+                'empty_data' => null))
             ->add('photo', FileType::class, array('required'   => false,
                 'empty_data' => null))
             ->add('recaptcha', EWZRecaptchaType::class, [

@@ -15,6 +15,7 @@ use App\Repository\LwArticleRepository;
 use App\Repository\ObservationRepository;
 use App\Repository\OiseauRepository;
 use Doctrine\Common\Persistence\ObjectManager;
+use Elasticsearch\Client;
 use phpDocumentor\Reflection\Types\Null_;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,6 +25,7 @@ use Symfony\Component\Security\Core\Security;
 use App\Form\LwArticleType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use diversen\meta;
+use Elasticsearch\ClientBuilder;
 
 
 class JdPubNaoController extends Controller
@@ -44,8 +46,18 @@ class JdPubNaoController extends Controller
     /**
      * @Route("/presentation", name="aboutUs")
      */
-    public function jdAboutUs()
+    public function jdAboutUs(OiseauRepository $repos)
     {
+        /*https://afsy.fr/avent/2017/20-elasticsearch-6-et-symfony-4
+        $data = $repos->findLimitBird(1);
+        $client = ClientBuilder::create()->build();
+        $params['body'][] = [
+            'nomValide' => 'my_value'
+        ];
+
+        $response = $client->index($params);
+        dump($response);
+        die();*/
         return $this->render('jd_pub_nao/Public/jdAbout.html.twig');
     }
 
@@ -59,6 +71,8 @@ class JdPubNaoController extends Controller
         /*Pour revenir à la normal c'est mieux cette fonction*/
         //$oiseau = $repos->findAll();
        /* boucle pour la creation des urls des images des oiseaux*/
+        dump($oiseau);
+        die();
         foreach ($oiseau as $data) {
             if ( preg_match('/http/',$data->getUrl()) == true ){
                  $url = get_meta_tags($data->getUrl(),'https://inpn.mnhn.fr/photos/uploads');
