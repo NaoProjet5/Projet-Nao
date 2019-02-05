@@ -10,7 +10,7 @@
 
             <div class="buttons_box">
 
-                <a class="button_style_2" href="{{ path('birds') }}" style="margin-right : 15px;">Faire une observation</a>
+                <a class="button_style_2" href="{{ path('faire-une-observation') }}" style="margin-right : 15px;">Faire une observation</a>
 
                 <a class="button_style_3" href="{{ path('birds') }}" >Voir les observations</a>
 
@@ -54,9 +54,8 @@
 
             </div><!---end image_last_observation_item-->
 
-            <h3 style="color : #08ACDE;">{{ observation.nom  }} </h3>
-            <p><strong>Coordonnées GPS</strong><br />
-                Lat : {{ observation.latitude }}, LNG : {{ observation.longitude }}</p>
+            <h3>{{ observation.nom  }} </h3>
+            <p> Oiseau observé<br /> le <strong>{{ observation.observationDate|date('d/m/Y') }} </strong> à <strong>{{ observation.observationTime|date('H:i') }} </strong></p>
             <a class="action_view" href="{{ path('bird',{'id':observation.oiseau.id}) }}">Voir l'oiseau</a>
 
         </div><!---last_observation_item-->
@@ -87,7 +86,7 @@
         </div>
         <div class="buttons_box">
 
-            <a href="{{ path('birds') }}" class="button_style_2" style="margin-right : 15px;">Faire une observation</a>
+            <a href="{{ path('faire-une-observation') }}" class="button_style_2" style="margin-right : 15px;">Faire une observation</a>
 
             <a href="{{ path('birds') }}" class="button_style_1">Voir les observations</a>
 

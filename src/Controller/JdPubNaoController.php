@@ -62,7 +62,7 @@ class JdPubNaoController extends Controller
     }
 
     /**
-     * @Route("/observations", name="birds")
+     * @Route("/les_oiseaux", name="birds")
      */
     public function jdAllBirds(OiseauRepository $repos, Request $request)
     {
@@ -118,7 +118,7 @@ class JdPubNaoController extends Controller
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid())
         {
-            $observation->setCreatedAt(new \DateTime());
+            //$observation->setCreatedAt(new \DateTime());
             $user = $security->getUser();
             $observation->setUser($user);
 

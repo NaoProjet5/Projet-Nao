@@ -1,17 +1,6 @@
 {% extends 'lwLayout.html.twig' %}
 {% block body %}
     <style>
-        #map_canvas_gps {
-            width: 300px;
-            height: 200px;
-        }
-
-        #current {
-            padding-top: 25px;
-        }
-    </style>
-
-    <style>
         * { box-sizing: border-box; }
         body {
             font: 16px Arial;
@@ -51,27 +40,11 @@
     <section class="title_page">
 
         <div class="section_content">
-            {% if oiseau is not null and oiseau is defined  %}
-
-            <h1>  <strong>Nom Vernaculaire: </strong> {{ oiseau.nomvalide  }} <strong>Nom latin : </strong> {{ oiseau.lbNom  }}</h1>
-            {% endif %}
+            <h1> FAIRE UNE OBSERVATION</h1>
         </div>
 
     </section>
-    <div class="body_content observations">
-        <div class="content map" style="display: none;" id="mapp_obs">
-
-            <div id="map_canvas" ></div>
-
-            <div id="do_observation" class="">
-
-                <a href="#laisser_observation">Faire une observation sur cet oiseau</a>
-
-            </div>
-        </div>
-        <br>
-        <a class="button_style_1" id="lien_mapp_obs" onclick="reduire_carte_carte()" style="display : none;">Reduire ou afficher  la carte</a>
-
+    <div class="body_content" style="overflow : hidden;">
 
         <div class="last_observations">
             {% if app.user %}
@@ -93,67 +66,202 @@
                         Lat : {{ observation.latitude }}, LNG : {{ observation.longitude }}
                     </p>
 
-                    <a class="action_view" href="#map_canvas" onclick="afficher_oiseau('{{ observation.latitude }}','{{ observation.longitude }}');">Voir l'oiseau sur la carte</a>
+                    <a class="action_view" href="#map_canvas" onclick="afficher_oiseau('{{ observation.latitude }}','{{ observation.longitude }}');">kkkk</a>
 
                 </div>
             {% endfor %}
 
         </div><!--end div last observation -->
-            {% endif %}
-            <div id="laisser_observation">
-
                 <h2 class="souligner">Laisser une observation</h2>
+            {% endif %}
+                <div class="faire_observation_box">
+                    <div class="faire_observation_image">
 
-                <div class="form_obs">
+                        <a><img src="{{ asset('assets/img/isometric_nao.PNG') }}"/></a>
+
+                    </div>
+
+                    <div class="faire_observation_form">
 
                         {{ form_start(formObservation,{ 'attr': {'autocomplete': 'null'}}) }}
-                        <div >
+                        <div class="nom_oiseau">
 
                             <h3>Nom de l'observation</h3>
 
                             <div class="autocomplete" >
                                 {% if oiseau is not null and oiseau is defined  %}
-                                    {{ form_row(formObservation.nom
-                                        ,{'attr':{'value': oiseau.nomvalide  }})
+                                    {{ form_widget(formObservation.nom
+                                        ,{'attr':{'value': oiseau.nomvalide,'class':'observation_input'  }})
                                     }}
                                 {% else %}
-                                    {{ form_row(formObservation.nom)
+                                    {{ form_widget(formObservation.nom,{'attr':{'class':'observation_input'  }})
                                     }}
                                 {% endif %}
 
                             </div>
 
                         </div>
-                        <div>
 
-                            <h3>Cordonnées GPS</h3>
+                        <div class="date_heure_observation">
 
-                            <button onclick="locate()" >Générer mes coordonnées GPS</button> <a>ou</a> <button id="form_cart_obs" onclick="affi_cart_form()" >Afficher la carte pour générer les coodonnées gps</button>
+                            <div class="date_observation">
 
-                            <div id="carte_gps" style="width:75%; height:500px;display: none;"></div>
-                              {{ form_row(formObservation.latitude,{'attr':{'placeholder':"Latitude",'class':'lat'}}) }}
-                            {{ form_row(formObservation.longitude,{'attr':{'placeholder':"Longitude",'class':'long'}}) }}
+                                <label class="observation_labels">Date de l'observation</label>
+
+                                <div id="app">
+
+                                    <div class="container">
+                                        <div class="calendar">
+                                            {{ form_widget(formObservation.ObservationDate) }}
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="heure_observation">
+
+                                <label class="observation_labels">Heure de l'observation</label>
+
+                               {{ form_widget(formObservation.ObservationTime) }}
+
+                            </div>
 
                         </div>
-                    <div>
-                        {{ form_row(formObservation.comment_observation,{'attr':{'placeholder':"Commentaire de l'observation"}}) }}
-                    </div>
 
-                        <div>
 
-                            <h3>Photo<br/><span>*Facultative</span></h3>
 
-                            <img id="blah" src="{{ asset('images_appli/no_photo_avaible.jpg') }}" alt="your image" width="25%" height="20%"/>
 
-                            {{ form_widget(formObservation.photo) }}
+
+                        <div class="lieu_observation">
+
+                            <label class="observation_labels">Lieu de l'observation</label>
+
+                            <a class="button bg_black" onclick="choose_lieu();">Choisir un lieu d'observation</a>
+                            <p>OU</p>
+                            <a class="button bg_black" onclick="locate()" >Générer mes coordonnées GPS du lieu où je me trouve<a>
+
+                            <div id="set_lieu_observation">
+
+                                <a class="close_choose_lieu" onclick="close_choose_lieu();"><i class="fas fa-times-circle"></i></a>
+
+                                <div class="set_lieu_observation_content">
+
+                                    <div class="header_set_lieu_observation">
+
+                                        <p class="title_information">Déplacez le curseur de la carte à l'endroit où vous avez observé l'oiseau</p>
+
+                                        <div class="infos_coords">
+
+                                            <label>Latitude :</label>
+
+                                            <input id="latitude"/>
+
+                                        </div>
+
+                                        <div class="infos_coords">
+
+                                            <label>Longitude :</label>
+
+                                            <input id="longitude"/>
+
+                                        </div>
+
+                                        <a onclick="close_choose_lieu();" class="button_valider_lieu_observation">Valider le lieu d'observation</a>
+
+                                    </div>
+
+                                    <div class="map_set_lieu_observation">
+
+                                        <div id="carte_lieu_observation" style="width:100%; height:100%"></div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
                         </div>
+
+                 <!--dupliquer le style de la date et l'heure pour la longitude et la latitude-->
+                        <div class="date_heure_observation">
+
+                            <div class="date_observation">
+
+                                <label class="observation_labels">Latitude</label>
+
+                                <div id="app">
+
+                                    <div class="container">
+                                        <div class="calendar">
+                                            {{ form_widget(formObservation.latitude,{'attr':{'placeholder':"Latitude",'class':'lat'}}) }}
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="heure_observation">
+
+                                <label class="observation_labels">Longitude</label>
+                                <div id="app">
+
+                                    <div class="container">
+                                        <div class="calendar">
+
+                                {{ form_widget(formObservation.longitude,{'attr':{'placeholder':"Longitude",'class':'long'}}) }}
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+
+                        </div>
+
+
+
+
+
+
+                        <div class="photo_observation">
+
+                            <label class="observation_labels">Photographie de l'oiseau (Facultative)</label>
+
+                            <div class="file_input_div">
+                                <div class="file_input">
+                                    <label class="image_input_button mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-js-ripple-effect mdl-button--colored">
+                                        Choisir une photo <i class="material-icons">file_upload</i>
+                                        {{ form_widget(formObservation.photo,{'attr':{'id':'file_input_file','class':'none'}}) }}
+                                    </label>
+                                </div>
+                                <div id="file_input_text_div" class="mdl-textfield mdl-js-textfield textfield-demo">
+                                    <img class="file_input_text mdl-textfield__input" src="" />
+                                </div>
+                            </div>
+
+                        </div> <br />
+
+                        <div class="commentaire_observation">
+                            {{ form_label(formObservation.comment_observation,'Commentaire de l\'observation (facultatif) ',{'attr':{'class':'observation_labels'}}) }}
+
+                            {{ form_widget(formObservation.comment_observation,{'attr':{'placeholder':"Commentaire de l'observation"}}) }}
+
+                        </div>
+
 
                         <div>
                             {{ form_errors(formObservation.recaptcha) }}
                             {{ form_widget(formObservation.recaptcha) }}
                         </div>
 
-                        <button class="submit" type="submit">Envoyer l'observation</button>
+                        <button id="submit" type="submit">Envoyer l'observation</button>
                         {{ form_end(formObservation) }}
                 </div>
                 </div>
@@ -173,8 +281,6 @@
 
     <script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script>
     <script>
-        var countries = ["Afghanistan","Albania","Algeria","Andorra","Angola","Anguilla","Antigua &amp; Barbuda","Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bermuda","Bhutan","Bolivia","Bosnia &amp; Herzegovina","Botswana","Brazil","British Virgin Islands","Brunei","Bulgaria","Burkina Faso","Burundi","Cambodia","Cameroon","Canada","Cape Verde","Cayman Islands","Central Arfrican Republic"];
-
         function autocomplete(inp,arr) {
             /*the autocomplete function takes two arguments,
             the text field element and an array of possible autocompleted value
@@ -344,27 +450,13 @@
             crossorigin="anonymous"></script>
 
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC1_2otoK8H-gpWeExPvPD-pK7V2CDWNwE"></script>
+    <script src='https://jonthornton.github.io/jquery-timepicker/jquery.timepicker.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js'></script>
+    <script src='https://cdn.rawgit.com/chingyawhao/materialize-clockpicker/master/dist/js/materialize.clockpicker.js'>
+    </script>
 
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.22/vue.min.js'></script>
     <script>
-        function affi_cart_form() {
-            if (document.getElementById('carte_gps').style.display == "")
-                document.getElementById('carte_gps').style.display = "none";
-
-            else
-                document.getElementById('carte_gps').style.display = "";
-        }
-        function reduire_carte_carte() {
-            if (document.getElementById('mapp_obs').style.display == "")
-                document.getElementById('lien_mapp_obs').style.display = "none";
-
-            else
-                document.getElementById('lien_mapp_obs').style.display = "";
-            if (document.getElementById('mapp_obs').style.display == "")
-                document.getElementById('mapp_obs').style.display = "none";
-            else
-                document.getElementById('mapp_obs').style.display = "";
-            document.getElementById('lien_mapp_obs').style.display = "";
-        }
         function afficher_oiseau(lat,lng){
 
             var longitude = Number(lng);
@@ -567,4 +659,143 @@
         }
         initialiser_gps()
     </script>
+    <script>
+
+
+        $('.timepicker').pickatime({
+            default: 'now',
+            twelvehour: false, // change to 12 hour AM/PM clock from 24 hour
+            donetext: 'OK',
+            autoclose: true,
+            vibrate: true // vibrate the device when dragging clock hand
+        });
+</script>
+        <script>
+
+        var fileInputTextDiv = document.getElementById('observation_photo');
+        var fileInput = document.getElementById('file_input_file');
+        var fileInputText = document.getElementById('file_input_text');
+
+        fileInput.addEventListener('change', changeInputText);
+        fileInput.addEventListener('change', changeState);
+
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#file_input_text_div img').attr('src', e.target.result);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function changeInputText() {
+            readURL(this);
+            var str = fileInput.value;
+            var i;
+            if (str.lastIndexOf('\\')) {
+                i = str.lastIndexOf('\\') + 1;
+            } else if (str.lastIndexOf('/')) {
+                i = str.lastIndexOf('/') + 1;
+            }
+
+            $('#file_input_text_div').css('display','block');
+            $('.file_input_div').css('padding-bottom','210px');
+        }
+
+        function changeState() {
+            if (fileInputText.value.length != 0) {
+                if (!fileInputTextDiv.classList.contains("is-focused")) {
+                    fileInputTextDiv.classList.add('is-focused');
+                }
+            } else {
+                if (fileInputTextDiv.classList.contains("is-focused")) {
+                    fileInputTextDiv.classList.remove('is-focused');
+                }
+            }
+        }
+
+        function choose_lieu(){
+
+            $('#set_lieu_observation').css('display','block');
+        }
+
+        function close_choose_lieu(){
+            $('#set_lieu_observation').css('display','none');
+        }
+
+
+    </script>
+
+    <script>display_observations_validees();</script>
+
+
+    <script type="text/javascript">
+        function initialiser_gps() {
+            var latlng = new google.maps.LatLng(46.779231, 6.659431);
+            //objet contenant des propriétés avec des identificateurs prédéfinis dans Google Maps permettant
+            //de définir des options d'affichage de notre carte
+            var options = {
+                center: latlng,
+                zoom: 3,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+
+
+            //constructeur de la carte qui prend en paramêtre le conteneur HTML
+            //dans lequel la carte doit s'afficher et les options
+            var carte = new google.maps.Map(document.getElementById("carte_lieu_observation"), options);
+            //création du marqueur
+            var marqueur = new google.maps.Marker({
+                position: new google.maps.LatLng(46.779231, 6.659431),
+                map: carte
+            });
+
+            marqueur.setDraggable(true);
+
+            google.maps.event.addListener(marqueur, 'dragend', function(event) {
+                //message d'alerte affichant la nouvelle position du marqueur
+                //alert("La nouvelle coordonnée du marqueur est : "+event.latLng);
+
+                $('input#latitude').val(event.latLng.lat());
+
+                $('input#longitude').val(event.latLng.lng());
+                document.querySelector(".lat").value = event.latLng.lat();
+                document.querySelector(".long").value = event.latLng.lng();
+
+            });
+
+            $('input#latitude').keyup(function() {
+                var lat_marqueur = Number($('input#latitude').val());
+                var lng_marqueur = Number($('input#longitude').val());
+                marqueur.setPosition({lat : lat_marqueur, lng : lng_marqueur});
+            });
+
+            $('input#longitude').keyup(function() {
+                var lat_marqueur = Number($('input#latitude').val());
+                var lng_marqueur = Number($('input#longitude').val());
+                marqueur.setPosition({lat : lat_marqueur, lng : lng_marqueur});
+            });
+
+        }
+
+        initialiser_gps()
+
+
+    </script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            // you may need to change this code if you are not using Bootstrap Datepicker
+            $('.js-datepicker').datepicker({
+                format: 'yyyy-mm-dd'
+            });
+        });
+    </script>
+
 {% endblock %}

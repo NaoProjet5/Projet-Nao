@@ -28,7 +28,7 @@ class ObservationRepository extends ServiceEntityRepository
             'SELECT o
             FROM App\Entity\Observation o
             WHERE o.valide = 1
-            ORDER BY o.createdAt DESC'
+            ORDER BY o.ObservationDate DESC'
         )->setMaxResults(5);
         // returns an array of articles objects
         return $query->execute();
@@ -40,7 +40,7 @@ class ObservationRepository extends ServiceEntityRepository
             'SELECT o
             FROM App\Entity\Observation o
             WHERE o.valide = 1
-            ORDER BY o.createdAt DESC'
+            ORDER BY o.ObservationDate DESC'
         )->setMaxResults(3);
         // returns an array of articles objects
         return $query->execute();

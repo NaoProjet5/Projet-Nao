@@ -13,8 +13,8 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use EWZ\Bundle\RecaptchaBundle\Form\Type\EWZRecaptchaType;
-use PUGX\AutocompleterBundle\Form\Type\AutocompleteType;
-use PUGX\AutocompleterBundle\Form\Type\AutocompleteFilterType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Routing\RouterInterface;
 
 class ObservationType extends AbstractType
@@ -30,6 +30,13 @@ class ObservationType extends AbstractType
             ->add('nom', TextType::class, array('label'=>'Nom de l\'observation','attr' => [
                 'autocomplete'=> 'off'
             ]))
+            ->add('ObservationDate', DateType::class,array('label'=>'Date de l\'observation', 'widget' => 'single_text',
+                'html5' => false,
+                'attr' => ['placeholder' => 'choisir une date','class' => 'js-datepicker']))
+            ->add('ObservationTime', Timetype::class,array('label'=>'Heure de l\'observation', 'widget' => 'single_text',
+                'html5' => false,
+                'attr' => ['id'=>'timepicker_ampm_dark', 'class'=>'timepicker observation_input', 'type'=>'time', 'placeholder'=>'Choisir une heure'
+          ]))
             ->add('longitude', TextType::class, array('label'=>'Longitude'))
             ->add('latitude', TextType::class, array('label'=>'Latitude'))
             ->add('comment_observation', TextareaType::class,array('label'=>'Commentaire de l\'observation (facultatif)','required'   => false,

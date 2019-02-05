@@ -3295,7 +3295,7 @@ html,body{
 	padding-bottom : 10px;
 }
 
-.faire_observation_form form .nom_oiseau{
+.faire_observation_form form #observation_nom {
 	width : 100%;
 }
 
