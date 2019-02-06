@@ -45,6 +45,33 @@
 </head>
 
 <body>
+<div class="notification">
+
+    <div class="success" style="display : none;">
+
+        <p><i class="far fa-check-circle"></i>   <a></a></p>
+
+    </div>
+
+    <div class="error" style="display : none;">
+
+        <p><i class="far fa-times-circle"></i>   <a></a></p>
+
+    </div>
+
+    <div class="progress" style="display : none;">
+
+        <p><i class="far fa-clock"></i>   <a></a></p>
+
+    </div>
+
+    <div class="informations" style="display : none;">
+
+        <p><i class="fas fa-info-circle"></i>   <a></a></p>
+
+    </div>
+
+</div>
 
 <header>
 
@@ -386,7 +413,7 @@
                     <li><a href="{{ path('blog') }}">BLOG</a></li>
 
                     <li><a href="{{ path('contactNao') }}">CONTACT</a></li>
-                    <li class="appel_action"><a class="button_style_2" href="{{ path('birds') }}">
+                    <li class="appel_action"><a class="button_style_2" href="{{ path('observations') }}">
 
                             <svg style="width : 20px; height : 20px;position : relative; top : 3px;" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                                  width="475.084px" height="475.084px" viewBox="0 0 475.084 475.084" style="enable-background:new 0 0 475.084 475.084;"
@@ -571,6 +598,7 @@
         });
 
     </script>
+
 {% endblock %}
 
 </body>

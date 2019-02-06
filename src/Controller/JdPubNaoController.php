@@ -70,16 +70,16 @@ class JdPubNaoController extends Controller
         $oiseau = $repos->findLimitBird(20);
         /*Pour revenir à la normal c'est mieux cette fonction*/
         //$oiseau = $repos->findAll();
-       /* boucle pour la creation des urls des images des oiseaux*/
+        /* boucle pour la creation des urls des images des oiseaux*/
         dump($oiseau);
         die();
         foreach ($oiseau as $data) {
             if ( preg_match('/http/',$data->getUrl()) == true ){
-                 $url = get_meta_tags($data->getUrl(),'https://inpn.mnhn.fr/photos/uploads');
-                 $data->setUrl($url['twitter:image']);
-             }
+                $url = get_meta_tags($data->getUrl(),'https://inpn.mnhn.fr/photos/uploads');
+                $data->setUrl($url['twitter:image']);
+            }
 
-         }
+        }
         $bird_name = $repos->name_bird();
         /* @var $paginator \Knp\Component\Pager\Paginator */
         $paginator  = $this->get('knp_paginator');
@@ -94,6 +94,16 @@ class JdPubNaoController extends Controller
         );
         return $this->render('jd_pub_nao/Public/jdMapBirds.html.twig',[
             'oiseaux'=>$appointments,'bird_name'=>$bird_name
+        ]);
+    }
+    /**
+     * @Route("/observations", name="observations")
+     */
+    public function jdAllObs(ObservationRepository $repos)
+    {
+        $observations = $repos->getObs();
+
+        return $this->render('jd_pub_nao/Public/jdObservation.html.twig',['observation'=>$observations
         ]);
     }
 
@@ -174,7 +184,7 @@ class JdPubNaoController extends Controller
             $comment->setSignale(1);
         }
         $manager->flush();
-            return $this->redirectToRoute('oneArticle',['id'=>$comment->getArticle()->getId()]);
+        return $this->redirectToRoute('oneArticle',['id'=>$comment->getArticle()->getId()]);
     }
 
 

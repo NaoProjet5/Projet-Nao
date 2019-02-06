@@ -1,128 +1,128 @@
 {% extends "lwLayout.html.twig" %}
     {% block body %}
 
-    <section id="short_desc">
-        <div class="section_content">
+        <section id="short_desc">
+            <div class="section_content">
 
-            <h1>L'APPLICATION DES PASSIONNÉS D'ORNITHOLOGIE</h1>
+                <h1>L'APPLICATION DES PASSIONNÉS D'ORNITHOLOGIE</h1>
 
-            <p>NAO est une application participative permettant aux particuliers d’indiquer où ils ont observé des oiseaux</p>
+                <p>NAO est une application participative permettant aux particuliers d’indiquer où ils ont observé des oiseaux</p>
 
-            <div class="buttons_box">
+                <div class="buttons_box">
 
-                <a class="button_style_2" href="{{ path('faire-une-observation') }}" style="margin-right : 15px;">Faire une observation</a>
+                    <a class="button_style_2" href="{{ path('faire-une-observation') }}" style="margin-right : 15px;">Faire une observation</a>
 
-                <a class="button_style_3" href="{{ path('birds') }}" >Voir les observations</a>
+                    <a class="button_style_3" href="{{ path('observations') }}" >Voir les observations</a>
+
+                </div>
+
 
             </div>
 
+        </section>
 
+        <div class="body_content">
+        <div class="last_observations">
+            {% for message in app.flashes('success') %}
+                <div class="button_style_2" style="margin-top:1.5%;">
+                    <strong>{{ message }}</strong>.
+                </div>
+            {% endfor %}
         </div>
-
-    </section>
-
-<div class="body_content">
-    <div class="last_observations">
-        {% for message in app.flashes('success') %}
-            <div class="button_style_2" style="margin-top:1.5%;">
-                <strong>{{ message }}</strong>.
-            </div>
+        <div class="last_observations">
+        {% for message in app.flashes('notice_news') %}
+            <div class="button_style_2" style="margin-top:1.5%;"><strong>
+                    {{ message }}
+                </strong></div>
         {% endfor %}
-    </div>
-    <div class="last_observations">
-    {% for message in app.flashes('notice_news') %}
-        <div class="button_style_2" style="margin-top:1.5%;"><strong>
-                {{ message }}
-            </strong></div>
-    {% endfor %}
-    {%  if observations is null  %}
-        <p class="souligner">Pas d'observation enregistrées pour l'instant</p>
-    {%  else %}
-        <h2 class="souligner">Les dernières observations</h2>
-        <div class="last_observations_content">
+        {%  if observations is null  %}
+            <p class="souligner">Pas d'observation enregistrées pour l'instant</p>
+        {%  else %}
+            <h2 class="souligner">Les dernières observations</h2>
+            <div class="last_observations_content">
 
-        {% for observation in observations  %}
-        <div class="last_observation_item">
+                {% for observation in observations  %}
+                    <div class="last_observation_item">
 
-            <div class="image_last_observation_item">
+                        <div class="image_last_observation_item">
 
-                <a>{% if observation.photo is null %}
-                        <img src="{{ asset('images_appli/no_photo_avaible.jpg') }}" alt="Bootstrap" class="img-thumbnail">
-                    {% else %}
-                        <img src="{{ asset('images_appli/'~ observation.photo) }}" alt="Bootstrap" class="img-thumbnail">
-                    {% endif %}</a>
+                            <a>{% if observation.photo is null %}
+                                    <img src="{{ asset('images_appli/no_photo_avaible.jpg') }}" alt="Bootstrap" class="img-thumbnail">
+                                {% else %}
+                                    <img src="{{ asset('images_appli/'~ observation.photo) }}" alt="Bootstrap" class="img-thumbnail">
+                                {% endif %}</a>
 
-            </div><!---end image_last_observation_item-->
+                        </div><!---end image_last_observation_item-->
 
-            <h3>{{ observation.nom  }} </h3>
-            <p> Oiseau observé<br /> le <strong>{{ observation.observationDate|date('d/m/Y') }} </strong> à <strong>{{ observation.observationTime|date('H:i') }} </strong></p>
-            <a class="action_view" href="{{ path('bird',{'id':observation.oiseau.id}) }}">Voir l'oiseau</a>
+                        <h3>{{ observation.nom  }} </h3>
+                        <p> Oiseau observé<br /> le <strong>{{ observation.observationDate|date('d/m/Y') }} </strong> à <strong>{{ observation.observationTime|date('H:i') }} </strong></p>
+                        <a class="action_view" href="{{ path('bird',{'id':observation.oiseau.id}) }}">Voir l'oiseau</a>
 
-        </div><!---last_observation_item-->
-        {% endfor %}
+                    </div><!---last_observation_item-->
+                {% endfor %}
 
 
-        </div><!--- end last_observation_content-->
-        <a class="button_style_1" href="{{ path('birds') }}">Voir toutes les observations</a>
-    </div><!---end last_observation-->
-        <div style="text-align : center;"><h2 class="souligner">Présentation</h2></div>
+            </div><!--- end last_observation_content-->
+            <a class="button_style_1" href="{{ path('observations') }}">Voir toutes les observations</a>
+            </div><!---end last_observation-->
+            <div style="text-align : center;"><h2 class="souligner">Présentation</h2></div>
 
-        <div id="short_presentation">
+            <div id="short_presentation">
 
-            <div class="image_presentation">
+                <div class="image_presentation">
 
-                <a><img src="{{ asset('assets/img/isometric_nao.PNG') }}"/></a>
+                    <a><img src="{{ asset('assets/img/isometric_nao.PNG') }}"/></a>
 
-            </div>
+                </div>
 
 
-            <div class="paragraphe_presentation">
-                <p>NAO est un projet qui vous offre un moyen simple d’assurer le suivi des oiseaux que vous observez partout en France.</p>
-                  <p>Avec notre base de données, les particuliers peuvent extraire des informations concernant les oiseaux qui ont été observés lors des différentes balades dans des lieux d’observations. </p>
+                <div class="paragraphe_presentation">
+                    <p>NAO est un projet qui vous offre un moyen simple d’assurer le suivi des oiseaux que vous observez partout en France.</p>
+                    <p>Avec notre base de données, les particuliers peuvent extraire des informations concernant les oiseaux qui ont été observés lors des différentes balades dans des lieux d’observations. </p>
                     <p>De plus,la base de données cumulative de NAO est utilisée par des ornithologues, des naturalistes, des chercheurs et des spécialistes de la conservation qui veulent mieux connaître la répartition et les habitudes de déplacement des oiseaux sur le continent.</p>
 
+                </div>
+
             </div>
+            <div class="buttons_box">
 
-        </div>
-        <div class="buttons_box">
+                <a href="{{ path('faire-une-observation') }}" class="button_style_2" style="margin-right : 15px;">Faire une observation</a>
 
-            <a href="{{ path('faire-une-observation') }}" class="button_style_2" style="margin-right : 15px;">Faire une observation</a>
+                <a href="{{ path('observations') }}" class="button_style_1">Voir les observations</a>
 
-            <a href="{{ path('birds') }}" class="button_style_1">Voir les observations</a>
+            </div>
+            <div class="last_articles">
 
-        </div>
-        <div class="last_articles">
+                <h2 class="souligner">Les derniers articles</h2>
 
-            <h2 class="souligner">Les derniers articles</h2>
+                <div class="last_articles_content">
+                    {% for article in articles  %}
+                        <div class="last_article_item">
 
-            <div class="last_articles_content">
-                {% for article in articles  %}
-                <div class="last_article_item">
+                            <div class="image_last_article_item">
 
-                    <div class="image_last_article_item">
+                                <a>{% if article.photo is null %}
+                                        <img src="{{ asset('images_appli/no_photo_available.jpg') }}" alt="Bootstrap" class="img-thumbnail">
+                                    {% else %}
+                                        <img src="{{ asset('images_appli/'~ article.photo) }}" alt="Bootstrap" class="img-thumbnail">
+                                    {% endif %}</a>
 
-                        <a>{% if article.photo is null %}
-                                <img src="{{ asset('images_appli/no_photo_available.jpg') }}" alt="Bootstrap" class="img-thumbnail">
-                            {% else %}
-                                <img src="{{ asset('images_appli/'~ article.photo) }}" alt="Bootstrap" class="img-thumbnail">
-                            {% endif %}</a>
+                            </div>
 
-                    </div>
+                            <h3>{{ article.title  }}</h3>
 
-                    <h3>{{ article.title  }}</h3>
+                            <p>Ecrit le {{ article.createdAt | date('d/m/Y') }} à {{ article.createdAt | date('H:i') }} </p>
 
-                    <p>Ecrit le {{ article.createdAt | date('d/m/Y') }} à {{ article.createdAt | date('H:i') }} </p>
+                            <a class="action_view" href="{{ path('oneArticle',{'id':article.id}) }}">Lire l'article</a>
 
-                    <a class="action_view" href="{{ path('oneArticle',{'id':article.id}) }}">Lire l'article</a>
+                        </div><!---end div of last_article_item-->
+                    {% endfor %}
+                </div><!---end div of last article content-->
 
-                </div><!---end div of last_article_item-->
-                {% endfor %}
-            </div><!---end div of last article content-->
+                <a class="button_style_1" href="{{ path('blog') }}">Voir tous les articles</a>
 
-            <a class="button_style_1" href="{{ path('blog') }}">Voir tous les articles</a>
+            </div><!---end div of last article-->
 
-        </div><!---end div of last article-->
-
-    </div> <!---end div of body_content-->
+            </div> <!---end div of body_content-->
         {% endif %}
-        {% endblock %}
+    {% endblock %}

@@ -49,31 +49,31 @@
         <div class="last_observations">
             {% if app.user %}
 
-            {% for message in app.flashes('notice_obs') %}
-                <div class="alert alert-danger" style="margin-top:1.5%;"><strong>
-                        {{ message }}
-                    </strong></div>
-            {% endfor %}
-            {% if oiseau is not null and oiseau is defined  %}
-                <h2 class="souligner">Les dernières observations de cet oiseau</h2>
-        <div class="last_observations_content">
-            {% for observation in observations %}
-                <div class="last_observation_item">
+                {% for message in app.flashes('notice_obs') %}
+                    <div class="alert alert-danger" style="margin-top:1.5%;"><strong>
+                            {{ message }}
+                        </strong></div>
+                {% endfor %}
+                {% if oiseau is not null and oiseau is defined  %}
+                    <h2 class="souligner">Les dernières observations de cet oiseau</h2>
+                    <div class="last_observations_content">
+                        {% for observation in observations %}
+                            <div class="last_observation_item">
 
-                    <h3 style="color : #08ACDE;">{{ observation.nom  }}</h3>
+                                <h3 style="color : #08ACDE;">{{ observation.nom  }}</h3>
 
-                    <p style="padding-top : 5px;padding-bottom : 5px;"><strong>Coordonnées GPS</strong><br />
-                        Lat : {{ observation.latitude }}, LNG : {{ observation.longitude }}
-                    </p>
+                                <p style="padding-top : 5px;padding-bottom : 5px;"><strong>Coordonnées GPS</strong><br />
+                                    Lat : {{ observation.latitude }}, LNG : {{ observation.longitude }}
+                                </p>
 
-                    <a class="action_view" href="#map_canvas" onclick="afficher_oiseau('{{ observation.latitude }}','{{ observation.longitude }}');">kkkk</a>
+                                <a class="action_view" href="#map_canvas" onclick="afficher_oiseau('{{ observation.latitude }}','{{ observation.longitude }}');">kkkk</a>
 
-                </div>
-            {% endfor %}
+                            </div>
+                        {% endfor %}
 
-        </div><!--end div last observation -->
-                <h2 class="souligner">Laisser une observation</h2>
-            {% endif %}
+                    </div><!--end div last observation -->
+                    <h2 class="souligner">Laisser une observation</h2>
+                {% endif %}
                 <div class="faire_observation_box">
                     <div class="faire_observation_image">
 
@@ -125,7 +125,7 @@
 
                                 <label class="observation_labels">Heure de l'observation</label>
 
-                               {{ form_widget(formObservation.ObservationTime) }}
+                                {{ form_widget(formObservation.ObservationTime) }}
 
                             </div>
 
@@ -143,49 +143,49 @@
                             <p>OU</p>
                             <a class="button bg_black" onclick="locate()" >Générer mes coordonnées GPS du lieu où je me trouve<a>
 
-                            <div id="set_lieu_observation">
+                                    <div id="set_lieu_observation">
 
-                                <a class="close_choose_lieu" onclick="close_choose_lieu();"><i class="fas fa-times-circle"></i></a>
+                                        <a class="close_choose_lieu" onclick="close_choose_lieu();"><i class="fas fa-times-circle"></i></a>
 
-                                <div class="set_lieu_observation_content">
+                                        <div class="set_lieu_observation_content">
 
-                                    <div class="header_set_lieu_observation">
+                                            <div class="header_set_lieu_observation">
 
-                                        <p class="title_information">Déplacez le curseur de la carte à l'endroit où vous avez observé l'oiseau</p>
+                                                <p class="title_information">Déplacez le curseur de la carte à l'endroit où vous avez observé l'oiseau</p>
 
-                                        <div class="infos_coords">
+                                                <div class="infos_coords">
 
-                                            <label>Latitude :</label>
+                                                    <label>Latitude :</label>
 
-                                            <input id="latitude"/>
+                                                    <input id="latitude"/>
+
+                                                </div>
+
+                                                <div class="infos_coords">
+
+                                                    <label>Longitude :</label>
+
+                                                    <input id="longitude"/>
+
+                                                </div>
+
+                                                <a onclick="close_choose_lieu();" class="button_valider_lieu_observation">Valider le lieu d'observation</a>
+
+                                            </div>
+
+                                            <div class="map_set_lieu_observation">
+
+                                                <div id="carte_lieu_observation" style="width:100%; height:100%"></div>
+
+                                            </div>
 
                                         </div>
 
-                                        <div class="infos_coords">
-
-                                            <label>Longitude :</label>
-
-                                            <input id="longitude"/>
-
-                                        </div>
-
-                                        <a onclick="close_choose_lieu();" class="button_valider_lieu_observation">Valider le lieu d'observation</a>
-
                                     </div>
-
-                                    <div class="map_set_lieu_observation">
-
-                                        <div id="carte_lieu_observation" style="width:100%; height:100%"></div>
-
-                                    </div>
-
-                                </div>
-
-                            </div>
 
                         </div>
 
-                 <!--dupliquer le style de la date et l'heure pour la longitude et la latitude-->
+                        <!--dupliquer le style de la date et l'heure pour la longitude et la latitude-->
                         <div class="date_heure_observation">
 
                             <div class="date_observation">
@@ -213,7 +213,7 @@
                                     <div class="container">
                                         <div class="calendar">
 
-                                {{ form_widget(formObservation.longitude,{'attr':{'placeholder':"Longitude",'class':'long'}}) }}
+                                            {{ form_widget(formObservation.longitude,{'attr':{'placeholder':"Longitude",'class':'long'}}) }}
                                         </div>
 
                                     </div>
@@ -263,13 +263,13 @@
 
                         <button id="submit" type="submit">Envoyer l'observation</button>
                         {{ form_end(formObservation) }}
-                </div>
+                    </div>
                 </div>
             {% else %}
                 <p>Pour laisser ou voir les observations vous devez vous  <a href="{{ path('loginUsers') }}" class="button_style_1">Connecter</a></p>
             {% endif %}
 
-            </div><!-- end div laisser un commentaire -->
+        </div><!-- end div laisser un commentaire -->
 
     </div><!--end of body content observation -->
 
@@ -288,8 +288,8 @@
             var currentFocus;
             /*execute the function when someone writes in the text field:*/
             inp.addEventListener("input",function(e)
-                {
-                    if (this.value.length >3){
+            {
+                if (this.value.length >3){
                     var a, b, i, val = this.value;
                     /*close any already open lists of autocompleted values*/
                     closeAllLists();
@@ -325,8 +325,8 @@
                         }
 
                     }
-                    }
-                });
+                }
+            });
             /*execute a function presses a key on the keyboard:*/
             inp.addEventListener("keydown",function(e){
                 var x = document.getElementById(this.id + "autocomplete-list");
@@ -471,8 +471,8 @@
                 position: {lat: latitude, lng: longitude}
             });
 
-                map.setZoom(10);
-                map.setCenter({lat: latitude, lng: longitude});
+            map.setZoom(10);
+            map.setCenter({lat: latitude, lng: longitude});
             if (document.getElementById('mapp_obs').style.display == "")
                 document.getElementById('mapp_obs').style.display = "none";
             else
@@ -669,8 +669,8 @@
             autoclose: true,
             vibrate: true // vibrate the device when dragging clock hand
         });
-</script>
-        <script>
+    </script>
+    <script>
 
         var fileInputTextDiv = document.getElementById('observation_photo');
         var fileInput = document.getElementById('file_input_file');

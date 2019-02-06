@@ -69,9 +69,18 @@ class ObservationRepository extends ServiceEntityRepository
         $data = $query->getResult();
         return $data;
     }
+    public function getObs(){
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery('SELECT ob FROM App\Entity\Observation ob WHERE ob.valide = :valide');
+        $query->setParameters(array(
+            'valide' => 1
+        ));
+        $data = $query->getResult();
+        return $data;
+    }
     public function findAll()
     {
-        return $this->findBy(array(), array('createdAt' => 'DESC'));
+        return $this->findBy(array(), array('ObservationDate' => 'DESC'));
     }
 
 
