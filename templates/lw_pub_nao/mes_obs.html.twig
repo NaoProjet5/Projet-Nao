@@ -1,0 +1,125 @@
+{% extends 'lwLayout.html.twig' %}
+{% block body %}
+    <section class="title_page">
+
+        <div class="section_content">
+
+            <h1>MES OBSERVATIONS</h1>
+
+        </div>
+
+    </section>
+
+    <div class="body_content">
+        <div class="content">
+
+        <div class="header_mes_observations">
+
+            <div class="mes_obervations mes_obervations_validees">
+
+                <a onclick="display_observations_validees();">Mes observations validées</a>
+
+            </div>
+
+            <div class="mes_obervations mes_obervations_en_cours_validation">
+
+                <a onclick="display_observations_en_validation();">Mes observations en attente de validation</a>
+
+            </div>
+
+        </div>
+
+        <div class="mes_observations" id="validees">
+
+            <div class="last_observations_content">
+                {%  if obs_valide is null  %}
+                <p class="souligner">Vous n'avez encore d'observation validée pour l'instant</p>
+                {%  else %}
+                {% for observation in obs_valide  %}
+                <div class="last_observation_item">
+
+                    <div class="image_last_observation_item">
+
+                        <a>{% if observation.photo is null %}
+                                <img src="{{ asset('images_appli/no_photo_avaible.jpg') }}" alt="Bootstrap" class="img-thumbnail">
+                            {% else %}
+                                <img src="{{ asset('images_appli/'~ observation.photo) }}" alt="Bootstrap" class="img-thumbnail">
+                            {% endif %}</a>
+
+                    </div>
+
+                    <h3>{{ observation.nom }}</h3>
+
+                    <p>Oiseau observé<br />le <strong>{{ observation.observationDate|date('d/m/Y') }} </strong> à <strong>{{ observation.observationTime|date('H:i') }}</strong></p>
+
+                    <a class="action_view" href="{{ path('bird',{'id':observation.oiseau.id}) }}">Voir l'oiseau</a>
+
+                </div>
+                {% endfor %}
+                {% endif %}
+            </div>
+
+        </div>
+
+        <div class="mes_observations" id="en_attente">
+
+            <div class="last_observations_content">
+                {%  if obs_invalide is null  %}
+                <p >Vous n'avez pas encore d'observation en attente pour le moment !!!</p>
+                {%  else %}
+                {% for observation in obs_invalide  %}
+                <div class="last_observation_item">
+
+                    <div class="image_last_observation_item">
+
+                        <a>{% if observation.photo is null %}
+                                <img src="{{ asset('images_appli/no_photo_avaible.jpg') }}" alt="Bootstrap" class="img-thumbnail">
+                            {% else %}
+                                <img src="{{ asset('images_appli/'~ observation.photo) }}" alt="Bootstrap" class="img-thumbnail">
+                            {% endif %}</a>
+
+                    </div>
+
+                    <h3>{{ observation.nom }}</h3>
+
+                    <p>Oiseau observé<br />le <strong>{{ observation.observationDate|date('d/m/Y') }} </strong> à <strong>{{ observation.observationTime|date('H:i') }}</strong></p>
+
+                    <p class="en_attente_validation">En attente de validation</p>
+
+                </div>
+                {% endfor %}
+            {% endif %}
+            </div>
+
+        </div>
+        </div>
+
+    </div>
+
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        function display_observations_validees(){
+            $('.mes_obervations').removeClass('active');
+            $('.mes_obervations.mes_obervations_validees').addClass('active');
+            $('.mes_obervations:not(.mes_obervations_validees) a').css('color','rgba(255,255,255,0.7)');
+            $('.mes_obervations.mes_obervations_validees a').css('color','white');
+            $('.mes_observations:not(#validees)').css('display','none');
+            $('.mes_observations#validees').css('display','block');
+        }
+
+        function display_observations_en_validation(){
+            $('.mes_obervations').removeClass('active');
+            $('.mes_obervations.mes_obervations_en_cours_validation').addClass('active');
+            $('.mes_obervations:not(.mes_obervations_en_cours_validation) a').css('color','rgba(255,255,255,0.7)');
+            $('.mes_obervations.mes_obervations_en_cours_validation a').css('color','white');
+            $('.mes_observations:not(#en_attente)').css('display','none');
+            $('.mes_observations#en_attente').css('display','block');
+        }
+    </script>
+
+
+{% endblock %}

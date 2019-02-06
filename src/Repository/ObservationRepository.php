@@ -83,6 +83,31 @@ class ObservationRepository extends ServiceEntityRepository
         return $this->findBy(array(), array('ObservationDate' => 'DESC'));
     }
 
+    public function MyOwneObsVal($id_user)
+    {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery('SELECT ob FROM App\Entity\Observation ob WHERE ob.valide = :valide AND ob.user = :id_user');
+        $query->setParameters(array(
+            'valide' => 1,
+            'id_user'=>$id_user
+        ));
+        $data = $query->getResult();
+        return $data;
+
+    }
+    public function MyObsInvalid($id_user)
+    {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery('SELECT ob FROM App\Entity\Observation ob WHERE ob.valide = :valide AND ob.user = :id_user');
+        $query->setParameters(array(
+            'valide' => 0,
+            'id_user'=>$id_user
+        ));
+        $data = $query->getResult();
+        return $data;
+
+    }
+
 
 //    /**
 //     * @return Observation[] Returns an array of Observation objects

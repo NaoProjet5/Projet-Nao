@@ -30,6 +30,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use EWZ\Bundle\RecaptchaBundle\Form\Type\EWZRecaptchaType;
 use EWZ\Bundle\RecaptchaBundle\Validator\Constraints\IsTrue as RecaptchaTrue;
 
+
 class LwController extends Controller
 {
     /**
@@ -577,5 +578,21 @@ class LwController extends Controller
             'bird' => $bird
         ], 200, [], ['groups' => ['main']]);
     }
+    /**
+     * @Route("/mes-observations", name="mes_obs")
+     */
+    public function mes_obs(ObservationRepository $repos)
+    {
+        $user = $this->getUser();
+        $obs_valide = $repos->MyOwneObsVal($user->getId());
+        $obs_invalide = $repos->MyObsInvalid($user->getId());
+
+        return $this->render('lw_pub_nao/mes_obs.html.twig',['obs_valide'=>$obs_valide,'obs_invalide'=>$obs_invalide]);
+    }
+
+
+
+
+
 
 }
