@@ -130,19 +130,27 @@ class JdPubNaoController extends Controller
         {
             //$observation->setCreatedAt(new \DateTime());
             $user = $security->getUser();
-            $observation->setUser($user);
+            $bird = $repos_bird->findBy(['nomValide'=>$observation->getNom()]);
 
-            $file = $observation->getPhoto();
-            if ($file <> null){
-                $fileName = $fileUploader->upload($file);
-                $observation->setPhoto($fileName);
+            if ($bird == null OR empty($bird)){
+                $this->addFlash('notice_obs_fail','Désolé votre requette n\'a pas été prise en compte: veuillez reprendre en choisissant un nom d\'oiseau valide !!!');
+                return $this->redirectToRoute('faire-une-observation');
             }
-            $observation->setValide(0);
-            $observation->setOiseau($oiseau);
-            $manager->persist($observation);
-            $manager->flush();
-            $this->addFlash('notice_obs','Merci pour votre observation pour rendre publique nos spécialistes vont étudier pour une validation !!!');
-            return $this->redirectToRoute('bird',['id'=>$oiseau->getId()]);
+            else{
+
+                $observation->setUser($user);
+                $file = $observation->getPhoto();
+                if ($file <> null){
+                    $fileName = $fileUploader->upload($file);
+                    $observation->setPhoto($fileName);
+                }
+                $observation->setValide(0);
+                $observation->setOiseau($bird[0]);
+                $manager->persist($observation);
+                $manager->flush();
+                $this->addFlash('notice_obs','Merci pour votre observation pour rendre publique nos spécialistes vont étudier pour une validation !!!');
+                return $this->redirectToRoute('faire-une-observation');
+            }
         }
         return $this->render('lw_pub_nao/lwObservation.html.twig',[
             'formObservation'=>$form->createView(),

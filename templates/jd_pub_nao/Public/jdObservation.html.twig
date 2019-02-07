@@ -118,6 +118,8 @@
                 <input onclick="enter_search();" type="text" id="search_text" name="search_text" placeholder="Recherchez un oiseau"/>
 
                 <button onclick="close_search();">Rechercher</button>
+                <br><br>
+                <button>liste des observations de cet oiseau</button>
 
             </div>
 
@@ -245,17 +247,17 @@
                 icon: 'assets/img/marker_carte.png',
                 position: {lat: {{ obs.latitude }}, lng: {{ obs.longitude }}}
             });
-            var nom = "{{ obs.oiseau.nomvalide }}";
-            var  lien_page = "{{ obs.oiseau.url }}";
-            var  image_observation = "{{ obs.photo }}";
-            var  observator = "{{ obs.user.name }} {{ obs.user.firstname }}";
-            var  date_observation = "{{ obs.observationDate|date('d/m/Y')}}";
-            var   heure_observation = "{{ obs.observationTime|date('H:i') }}";
-            var   commentaire_observation = "{{ obs.commentobservation }}";
-            var   lat = {{ obs.latitude }};
-            var       long = {{ obs.longitude}};
+             /*data[i]['nom'] = "{{ obs.oiseau.nomvalide }}";
+             data[i]['lien_page'] = "{{ obs.oiseau.url }}";
+            data[i]['image_observation ']= 'images_appli/'+"{{ obs.photo }}";
+              data[i]['observator'] = "{{ obs.user.name }} {{ obs.user.firstname }}";
+              data[i]['date_observation'] = "{{ obs.observationDate|date('d/m/Y')}}";
+              data[i]['heure_observation'] = "{{ obs.observationTime|date('H:i') }}";
+               data[i]['commentaire_observation'] = "{{ obs.commentobservation }}";
+               data[i]['lat'] = {{ obs.latitude }};
+                data[i]['long']  = {{ obs.longitude}};*/
             data[i].addListener('click', function() {
-                display_oiseau(connected,nom,lien_page,image_observation,observator,date_observation,heure_observation,commentaire_observation,lat , long );
+                display_oiseau(connected,"{{ obs.oiseau.nomvalide }}","{{ obs.oiseau.url }}",'images_appli/'+"{{ obs.photo }}","{{ obs.user.name }} {{ obs.user.firstname }}","{{ obs.observationDate|date('d/m/Y')}}","{{ obs.observationTime|date('H:i') }}","{{ obs.commentobservation }}",{{ obs.latitude }}, {{ obs.longitude}} );
 
             });
             i = i+1;
@@ -349,7 +351,7 @@
                 }
 
                 if(zoomControl == true){
-                    map.setZoom(17);
+                    map.setZoom(15);
                 }
                 else {
                     notification('error','Vous devez vous connecter afin de pouvoir zoomer et afficher les coordonnées', '7000');
@@ -409,6 +411,12 @@
             $('.mes_observations:not(#en_attente)').css('display','none');
             $('.mes_observations#en_attente').css('display','block');
         }
+    </script>
+
+
+
+    <script>
+
     </script>
 
 {% endblock %}

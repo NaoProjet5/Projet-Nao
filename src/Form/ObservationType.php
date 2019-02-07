@@ -32,7 +32,8 @@ class ObservationType extends AbstractType
             ]))
             ->add('ObservationDate', DateType::class,array('label'=>'Date de l\'observation', 'widget' => 'single_text',
                 'html5' => false,
-                'attr' => ['placeholder' => 'choisir une date','class' => 'js-datepicker']))
+                'format' => 'yyyy-MM-dd',
+                'attr' => ['placeholder' => 'choisir une date','class' => 'obs_date']))
             ->add('ObservationTime', Timetype::class,array('label'=>'Heure de l\'observation', 'widget' => 'single_text',
                 'html5' => false,
                 'attr' => ['id'=>'timepicker_ampm_dark', 'class'=>'timepicker observation_input', 'type'=>'time', 'placeholder'=>'Choisir une heure'

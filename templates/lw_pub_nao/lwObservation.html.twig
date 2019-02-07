@@ -4,11 +4,13 @@
         * { box-sizing: border-box; }
         body {
             font: 16px Arial;
+            height: 10px;
         }
         .autocomplete {
             /*the container must be positioned relative:*/
             position: relative;
             display: inline-block;
+
         }
         .autocomplete-items {
             position: absolute;
@@ -26,6 +28,7 @@
             cursor: pointer;
             background-color: #fff;
             border-bottom: 1px solid #d4d4d4;
+
         }
         .autocomplete-items div:hover {
             /*when hovering an item:*/
@@ -50,7 +53,12 @@
             {% if app.user %}
 
                 {% for message in app.flashes('notice_obs') %}
-                    <div class="alert alert-danger" style="margin-top:1.5%;"><strong>
+                    <div class="button_style_2" style="margin-top:1.5%;"><strong>
+                            {{ message }}
+                        </strong></div>
+                {% endfor %}
+                {% for message in app.flashes('notice_obs_fail') %}
+                    <div class="button_style_2" style="margin-top:1.5%;"><strong>
                             {{ message }}
                         </strong></div>
                 {% endfor %}
@@ -84,6 +92,7 @@
                     <div class="faire_observation_form">
 
                         {{ form_start(formObservation,{ 'attr': {'autocomplete': 'null'}}) }}
+                        {{ form_errors(formObservation.recaptcha) }}
                         <div class="nom_oiseau">
 
                             <h3>Nom de l'observation</h3>
@@ -111,9 +120,9 @@
                                 <div id="app">
 
                                     <div class="container">
-                                        <div class="calendar">
+                                        {{ form_errors(formObservation.ObservationDate) }}
+
                                             {{ form_widget(formObservation.ObservationDate) }}
-                                        </div>
 
                                     </div>
 
@@ -124,7 +133,7 @@
                             <div class="heure_observation">
 
                                 <label class="observation_labels">Heure de l'observation</label>
-
+                                {{ form_errors(formObservation.ObservationTime) }}
                                 {{ form_widget(formObservation.ObservationTime) }}
 
                             </div>
@@ -141,7 +150,7 @@
 
                             <a class="button bg_black" onclick="choose_lieu();">Choisir un lieu d'observation</a>
                             <p>OU</p>
-                            <a class="button bg_black" onclick="locate()" >Générer mes coordonnées GPS du lieu où je me trouve<a>
+                            <a class="button bg_black" onclick="locate()" >Générer mes coordonnées GPS du lieu où je me trouve</a>
 
                                     <div id="set_lieu_observation">
 
@@ -182,8 +191,9 @@
                                         </div>
 
                                     </div>
-
                         </div>
+
+
 
                         <!--dupliquer le style de la date et l'heure pour la longitude et la latitude-->
                         <div class="date_heure_observation">
@@ -230,23 +240,23 @@
 
 
 
+
+
                         <div class="photo_observation">
 
-                            <label class="observation_labels">Photographie de l'oiseau (Facultative)</label>
+                            <label class="observation_labels">Photographie de l'oiseau(facultative)</label>
 
                             <div class="file_input_div">
                                 <div class="file_input">
                                     <label class="image_input_button mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-js-ripple-effect mdl-button--colored">
                                         Choisir une photo <i class="material-icons">file_upload</i>
-                                        {{ form_widget(formObservation.photo,{'attr':{'id':'file_input_file','class':'none'}}) }}
+                                        {{ form_widget(formObservation.photo,{'attr':{'id':'file_input_file'}}) }}
                                     </label>
-                                </div>
-                                <div id="file_input_text_div" class="mdl-textfield mdl-js-textfield textfield-demo">
-                                    <img class="file_input_text mdl-textfield__input" src="" />
                                 </div>
                             </div>
 
-                        </div> <br />
+                        </div>
+                        <br />
 
                         <div class="commentaire_observation">
                             {{ form_label(formObservation.comment_observation,'Commentaire de l\'observation (facultatif) ',{'attr':{'class':'observation_labels'}}) }}
@@ -257,16 +267,15 @@
 
 
                         <div>
-                            {{ form_errors(formObservation.recaptcha) }}
                             {{ form_widget(formObservation.recaptcha) }}
                         </div>
 
-                        <button id="submit" type="submit">Envoyer l'observation</button>
+                        <button id="submit" >Envoyer l'observation</button>
                         {{ form_end(formObservation) }}
                     </div>
                 </div>
             {% else %}
-                <p>Pour laisser ou voir les observations vous devez vous  <a href="{{ path('loginUsers') }}" class="button_style_1">Connecter</a></p>
+                <p>Pour laisser les observations vous devez vous  <a href="{{ path('loginUsers') }}" class="button_style_1">Connecter</a></p>
             {% endif %}
 
         </div><!-- end div laisser un commentaire -->
@@ -289,7 +298,7 @@
             /*execute the function when someone writes in the text field:*/
             inp.addEventListener("input",function(e)
             {
-                if (this.value.length >3){
+                if (this.value.length >=3){
                     var a, b, i, val = this.value;
                     /*close any already open lists of autocompleted values*/
                     closeAllLists();
@@ -672,8 +681,8 @@
     </script>
     <script>
 
-        var fileInputTextDiv = document.getElementById('observation_photo');
-        var fileInput = document.getElementById('file_input_file');
+        var fileInputTextDiv = document.getElementById('file_input_text_div');
+        var fileInput = document.getElementById('file_input_fi');
         var fileInputText = document.getElementById('file_input_text');
 
         fileInput.addEventListener('change', changeInputText);
@@ -729,8 +738,6 @@
 
 
     </script>
-
-    <script>display_observations_validees();</script>
 
 
     <script type="text/javascript">
@@ -790,12 +797,10 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
     <script>
-        $(document).ready(function() {
-            // you may need to change this code if you are not using Bootstrap Datepicker
-            $('.js-datepicker').datepicker({
-                format: 'yyyy-mm-dd'
-            });
+        $( ".obs_date" ).datepicker({
+            dateFormat: "yy-mm-dd"
         });
     </script>
+
 
 {% endblock %}
