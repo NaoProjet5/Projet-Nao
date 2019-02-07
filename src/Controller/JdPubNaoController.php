@@ -99,12 +99,29 @@ class JdPubNaoController extends Controller
     /**
      * @Route("/observations", name="observations")
      */
-    public function jdAllObs(ObservationRepository $repos)
+    public function jdAllObs(ObservationRepository $repos,Request $request)
     {
+        if ($request->request->get('search_text') !== null){
+        $observation = $repos->getGpsData($request->request->get('search_text'));
+
+        if (empty($observation)){
+            $this->addFlash('search_fail','Désolé pas de resultat correspondant à votre recherche !!!');
+            return $this->render('jd_pub_nao/Public/jdObservation.html.twig',['observation'=>$observation
+            ]);
+        }
+        else {
+            $this->addFlash('search_success','Si les resultats ne sont pas visible veuillez de zoomer la carte mapp pour voir les résultats !!!');
+            return $this->render('jd_pub_nao/Public/jdObservation.html.twig',['observation'=>$observation
+            ]);
+        }
+       }
+       else{
+
         $observations = $repos->getObs();
 
         return $this->render('jd_pub_nao/Public/jdObservation.html.twig',['observation'=>$observations
         ]);
+       }
     }
 
     /**

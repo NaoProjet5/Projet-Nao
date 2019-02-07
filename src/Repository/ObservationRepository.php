@@ -61,7 +61,7 @@ class ObservationRepository extends ServiceEntityRepository
     }
     public function getGpsData($oiseau){
         $entityManager = $this->getEntityManager();
-        $query = $entityManager->createQuery('SELECT ob FROM App\Entity\Observation ob JOIN ob.oiseau oi WHERE ob.valide = :valide AND oi.lbNom = :oiseau');
+        $query = $entityManager->createQuery('SELECT ob FROM App\Entity\Observation ob JOIN ob.oiseau oi WHERE ob.valide = :valide AND oi.nomValide = :oiseau');
         $query->setParameters(array(
             'valide' => 1,
             'oiseau' => $oiseau

@@ -193,10 +193,19 @@ class LwController extends Controller
      * @route ("/lw/gpsdata", name="gpsdata" )
      */
     public function getDataObservation( ObservationRepository $repos, ObjectManager $manager, Request $request){
+        $name_bird = $request->request->get('search_text');
+        $observation = $repos->getGpsData($name_bird);
 
-        $oiseaux =  $request->request->get('bird_name');
-        $observation = $repos->getGpsData($oiseaux);
-        $dataLong = array();
+        if (empty($observation)){
+            $this->addFlash('search_fail','Désolé pas de resultat correspondant à votre recherche !!!');
+            return $this->redirectToRoute('observations',['observation'=>$observation
+            ]);
+        }
+        else {
+            return $this->redirectToRoute('observations',['observation'=>$observation
+            ]);
+        }
+       /* $dataLong = array();
         $dataLat = array();
         $dataId = array();
 
@@ -207,7 +216,7 @@ class LwController extends Controller
 
         }
 
-        return new JsonResponse(array($dataLong,$dataLat,$dataId));
+        return new JsonResponse(array($dataLong,$dataLat,$dataId));*/
     }
 
     /**
