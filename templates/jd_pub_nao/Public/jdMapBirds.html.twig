@@ -88,15 +88,13 @@
 
                             <div class="image_last_observation_item">
 
-                                <a><img src="{{ oiseau.url }}" alt="{{ oiseau.lbNom  }}" /></a>
+                                <a><img src="{{ oiseau.url }}" alt="{{ oiseau.nomValide }}" /></a>
 
                             </div>
 
-                            <h3>{{ oiseau.lbNom  }}</h3>
+                            <h3>{{ oiseau.nomValide  }}</h3>
 
-                            <p>Découvert par {{ oiseau.lbAuteur }} <strong> reference:</strong>
-                                {{ oiseau.cdRef }}</p>
-                            <p>{{ oiseau.famille }}</p>
+                            <p>{{ oiseau.lbNom }}</p>
                             <a class="action_view" href="{{ path('bird',{'id':oiseau.id}) }}">Observations</a>
 
                         </div>

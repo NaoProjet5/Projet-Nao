@@ -28,7 +28,7 @@ class ObservationRepository extends ServiceEntityRepository
             'SELECT o
             FROM App\Entity\Observation o
             WHERE o.valide = 1
-            ORDER BY o.createdAt DESC'
+            ORDER BY o.ObservationDate DESC'
         )->setMaxResults(5);
         // returns an array of articles objects
         return $query->execute();
@@ -40,7 +40,7 @@ class ObservationRepository extends ServiceEntityRepository
             'SELECT o
             FROM App\Entity\Observation o
             WHERE o.valide = 1
-            ORDER BY o.createdAt DESC'
+            ORDER BY o.ObservationDate DESC'
         )->setMaxResults(3);
         // returns an array of articles objects
         return $query->execute();
@@ -61,7 +61,7 @@ class ObservationRepository extends ServiceEntityRepository
     }
     public function getGpsData($oiseau){
         $entityManager = $this->getEntityManager();
-        $query = $entityManager->createQuery('SELECT ob FROM App\Entity\Observation ob JOIN ob.oiseau oi WHERE ob.valide = :valide AND oi.lbNom = :oiseau');
+        $query = $entityManager->createQuery('SELECT ob FROM App\Entity\Observation ob JOIN ob.oiseau oi WHERE ob.valide = :valide AND oi.nomValide = :oiseau');
         $query->setParameters(array(
             'valide' => 1,
             'oiseau' => $oiseau
@@ -69,9 +69,43 @@ class ObservationRepository extends ServiceEntityRepository
         $data = $query->getResult();
         return $data;
     }
+    public function getObs(){
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery('SELECT ob FROM App\Entity\Observation ob WHERE ob.valide = :valide');
+        $query->setParameters(array(
+            'valide' => 1
+        ));
+        $data = $query->getResult();
+        return $data;
+    }
     public function findAll()
     {
-        return $this->findBy(array(), array('createdAt' => 'DESC'));
+        return $this->findBy(array(), array('ObservationDate' => 'DESC'));
+    }
+
+    public function MyOwneObsVal($id_user)
+    {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery('SELECT ob FROM App\Entity\Observation ob WHERE ob.valide = :valide AND ob.user = :id_user');
+        $query->setParameters(array(
+            'valide' => 1,
+            'id_user'=>$id_user
+        ));
+        $data = $query->getResult();
+        return $data;
+
+    }
+    public function MyObsInvalid($id_user)
+    {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery('SELECT ob FROM App\Entity\Observation ob WHERE ob.valide = :valide AND ob.user = :id_user');
+        $query->setParameters(array(
+            'valide' => 0,
+            'id_user'=>$id_user
+        ));
+        $data = $query->getResult();
+        return $data;
+
     }
 
 

@@ -6,6 +6,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "diversen/get-meta-tags": "^1.0",
+        "elasticsearch/elasticsearch": "^6.1",
         "excelwebzone/recaptcha-bundle": "^1.5",
         "geocoder-php/common-http": "^4.1",
         "geocoder-php/google-maps-provider": "^4.2",

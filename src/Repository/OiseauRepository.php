@@ -45,6 +45,14 @@ class OiseauRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+    public function findLimitBird($value)
+    {
+        return $this->createQueryBuilder('o')
+            ->setMaxResults($value)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 
 //    /**
 //     * @return Oiseau[] Returns an array of Oiseau objects

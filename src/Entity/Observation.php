@@ -24,11 +24,6 @@ class Observation
     private $nom;
 
     /**
-     * @ORM\Column(type="datetime")
-     */
-    private $createdAt;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\JdUsers", inversedBy="observations")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -66,6 +61,21 @@ class Observation
      */
     private $photo;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $comment_observation;
+
+    /**
+     * @ORM\Column(type="date")
+     */
+    private $ObservationDate;
+
+    /**
+     * @ORM\Column(type="time")
+     */
+    private $ObservationTime;
+
 
     public function getId(): ?int
     {
@@ -83,20 +93,6 @@ class Observation
 
         return $this;
     }
-
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-
 
     public function getUser(): ?JdUsers
     {
@@ -166,6 +162,42 @@ class Observation
     public function setPhoto($photo): self
     {
         $this->photo = $photo;
+
+        return $this;
+    }
+
+    public function getCommentObservation(): ?string
+    {
+        return $this->comment_observation;
+    }
+
+    public function setCommentObservation(?string $comment_observation): self
+    {
+        $this->comment_observation = $comment_observation;
+
+        return $this;
+    }
+
+    public function getObservationDate(): ?\DateTimeInterface
+    {
+        return $this->ObservationDate;
+    }
+
+    public function setObservationDate(\DateTimeInterface $ObservationDate): self
+    {
+        $this->ObservationDate = $ObservationDate;
+
+        return $this;
+    }
+
+    public function getObservationTime(): ?\DateTimeInterface
+    {
+        return $this->ObservationTime;
+    }
+
+    public function setObservationTime(\DateTimeInterface $ObservationTime): self
+    {
+        $this->ObservationTime = $ObservationTime;
 
         return $this;
     }

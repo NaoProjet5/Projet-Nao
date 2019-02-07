@@ -30,6 +30,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use EWZ\Bundle\RecaptchaBundle\Form\Type\EWZRecaptchaType;
 use EWZ\Bundle\RecaptchaBundle\Validator\Constraints\IsTrue as RecaptchaTrue;
 
+
 class LwController extends Controller
 {
     /**
@@ -192,10 +193,19 @@ class LwController extends Controller
      * @route ("/lw/gpsdata", name="gpsdata" )
      */
     public function getDataObservation( ObservationRepository $repos, ObjectManager $manager, Request $request){
+        $name_bird = $request->request->get('search_text');
+        $observation = $repos->getGpsData($name_bird);
 
-        $oiseaux =  $request->request->get('bird_name');
-        $observation = $repos->getGpsData($oiseaux);
-        $dataLong = array();
+        if (empty($observation)){
+            $this->addFlash('search_fail','Désolé pas de resultat correspondant à votre recherche !!!');
+            return $this->redirectToRoute('observations',['observation'=>$observation
+            ]);
+        }
+        else {
+            return $this->redirectToRoute('observations',['observation'=>$observation
+            ]);
+        }
+       /* $dataLong = array();
         $dataLat = array();
         $dataId = array();
 
@@ -206,7 +216,7 @@ class LwController extends Controller
 
         }
 
-        return new JsonResponse(array($dataLong,$dataLat,$dataId));
+        return new JsonResponse(array($dataLong,$dataLat,$dataId));*/
     }
 
     /**
@@ -562,7 +572,7 @@ class LwController extends Controller
         $name = array();
         $datas = $bird_name->findAll();
         foreach ($datas as $data){
-            array_push($name,$data->getLbNom());
+            array_push($name,$data->getNomValide());
         }
 
         return new JsonResponse($name);
@@ -577,5 +587,21 @@ class LwController extends Controller
             'bird' => $bird
         ], 200, [], ['groups' => ['main']]);
     }
+    /**
+     * @Route("/mes-observations", name="mes_obs")
+     */
+    public function mes_obs(ObservationRepository $repos)
+    {
+        $user = $this->getUser();
+        $obs_valide = $repos->MyOwneObsVal($user->getId());
+        $obs_invalide = $repos->MyObsInvalid($user->getId());
+
+        return $this->render('lw_pub_nao/mes_obs.html.twig',['obs_valide'=>$obs_valide,'obs_invalide'=>$obs_invalide]);
+    }
+
+
+
+
+
 
 }

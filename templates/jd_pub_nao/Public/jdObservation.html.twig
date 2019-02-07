@@ -1,0 +1,569 @@
+{% extends 'lwLayout.html.twig' %}
+{% block body %}
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            font: 16px Arial;
+            height: 10px;
+        }
+        .autocomplete {
+            /*the container must be positioned relative:*/
+            position: relative;
+            display: inline-block;
+
+        }
+        .autocomplete-items {
+            position: absolute;
+            border: 1px solid #d4d4d4;
+            border-bottom: none;
+            border-top: none;
+            z-index: 99;
+            /*position the autocomplete items to be the same width as the container:*/
+            top: 70%;
+            left: 0;
+            right: 0;
+        }
+        .autocomplete-items div {
+            padding: 10px;
+            cursor: pointer;
+            background-color: #fff;
+            border-bottom: 1px solid #d4d4d4;
+
+        }
+        .autocomplete-items div:hover {
+            /*when hovering an item:*/
+            background-color: #e9e9e9;
+        }
+        .autocomplete-active {
+            /*when navigating through the items using the arrow keys:*/
+            background-color: DodgerBlue !important;
+            color: #ffffff;
+        }
+    </style>
+    <section class="title_page">
+        <div class="section_content">
+
+            <h1>CARTE DES OBSERVATIONS</h1>
+
+
+        </div>
+
+    </section>
+
+    <div class="body_content observations">
+
+        <div class="content map">
+
+            <div id="map_canvas"></div>
+
+            <div class="observation_oiseau">
+
+                <a onclick="close_box_oiseau();" class="close"><i class="fas fa-times-circle"></i></a>
+
+                <div class="titre_oiseau">
+
+                    <span></span>
+
+                </div>
+
+                <div class="image_oiseau">
+
+                    <a><img src="" /></a>
+
+                </div>
+
+                <div class="name_observator details_observation">
+
+                    <span>Observateur :</span>
+
+                    <p></p>
+
+                </div>
+
+                <div class="date_heure_observator details_observation">
+
+                    <span>Date et Heure de l'observation :</span>
+
+                    <p></p>
+
+                </div>
+
+                <div class="commentaire_observator details_observation">
+
+                    <span>Commentaire de l'observation :</span>
+
+                    <p></p>
+
+                </div>
+
+                <div class="coodonnees_observation details_observation">
+
+                    <span>Coordonnées de l'observation :</span>
+
+                    <p><a></a></p>
+
+                </div>
+
+                <div class="partager_observation details_observation">
+
+                    <span>Partager l'observation :</span>
+
+                    <p>
+
+                        <a><svg version="1.1" id="facebook_share_observation" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                width="49.652px" height="49.652px" viewBox="0 0 49.652 49.652" style="enable-background:new 0 0 49.652 49.652;"
+                                xml:space="preserve">
+          <g>
+              <g>
+                  <path style="fill : #08ACDE;" d="M24.826,0C11.137,0,0,11.137,0,24.826c0,13.688,11.137,24.826,24.826,24.826c13.688,0,24.826-11.138,24.826-24.826
+          			C49.652,11.137,38.516,0,24.826,0z M31,25.7h-4.039c0,6.453,0,14.396,0,14.396h-5.985c0,0,0-7.866,0-14.396h-2.845v-5.088h2.845
+          			v-3.291c0-2.357,1.12-6.04,6.04-6.04l4.435,0.017v4.939c0,0-2.695,0-3.219,0c-0.524,0-1.269,0.262-1.269,1.386v2.99h4.56L31,25.7z
+          			"/>
+              </g>
+          </g>
+          </svg></a>
+
+                        <a><svg version="1.1" id="twitter_share_observation" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                width="49.652px" height="49.652px" viewBox="0 0 49.652 49.652" style="enable-background:new 0 0 49.652 49.652;"
+                                xml:space="preserve">
+          <g>
+              <g>
+                  <path style="fill : #08ACDE;" d="M24.826,0C11.137,0,0,11.137,0,24.826c0,13.688,11.137,24.826,24.826,24.826c13.688,0,24.826-11.138,24.826-24.826
+          			C49.652,11.137,38.516,0,24.826,0z M35.901,19.144c0.011,0.246,0.017,0.494,0.017,0.742c0,7.551-5.746,16.255-16.259,16.255
+          			c-3.227,0-6.231-0.943-8.759-2.565c0.447,0.053,0.902,0.08,1.363,0.08c2.678,0,5.141-0.914,7.097-2.446
+          			c-2.5-0.046-4.611-1.698-5.338-3.969c0.348,0.066,0.707,0.103,1.074,0.103c0.521,0,1.027-0.068,1.506-0.199
+          			c-2.614-0.524-4.583-2.833-4.583-5.603c0-0.024,0-0.049,0.001-0.072c0.77,0.427,1.651,0.685,2.587,0.714
+          			c-1.532-1.023-2.541-2.773-2.541-4.755c0-1.048,0.281-2.03,0.773-2.874c2.817,3.458,7.029,5.732,11.777,5.972
+          			c-0.098-0.419-0.147-0.854-0.147-1.303c0-3.155,2.558-5.714,5.713-5.714c1.644,0,3.127,0.694,4.171,1.804
+          			c1.303-0.256,2.523-0.73,3.63-1.387c-0.43,1.335-1.333,2.454-2.516,3.162c1.157-0.138,2.261-0.444,3.282-0.899
+          			C37.987,17.334,37.018,18.341,35.901,19.144z"/>
+              </g>
+          </g>
+          </svg></a>
+
+                    </p>
+
+                </div>
+
+                <div class="button_more">
+
+                    <a href="">En savoir plus sur cet oiseau</a>
+
+                </div>
+
+            </div>
+
+            <div id="do_observation" class="">
+                <form action="{{ path('observations') }}" method="POST" >
+                    <div class="autocomplete" >
+
+                <input onclick="enter_search();" type="text" id="search_text" name="search_text" placeholder="Recherchez un oiseau" autocomplete="off"/>
+                    </div>
+                <button  id="recherche_bouton" onclick="close_search();">Rechercher</button>
+                </form>
+                <br><br>
+                {% for message in app.flashes('search_fail') %}
+                    <div class="button_style_2" style="margin-top:1.5%;"><strong>
+                            {{ message }}
+                        </strong></div>
+                {% endfor %}
+
+            </div>
+
+            <div id="lien_faire_observation">
+
+                <a href="{{ path('faire-une-observation') }}">Faire une observation</a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+
+        function open_menu_mobile(){
+            jQuery('.menu_box ul').css('display','block');
+            jQuery('#menu_burger').css('display','none');
+            jQuery('#menu_close').css('display','inline-block');
+            jQuery('body').css('overflow','hidden');
+        }
+
+        function close_menu_mobile(){
+            jQuery('.menu_box ul').css('display','none');
+            jQuery('#menu_burger').css('display','inline-block');
+            jQuery('#menu_close').css('display','none');
+            jQuery('body').css('overflow','auto');
+        }
+
+        function enter_search(){
+            $('#do_observation').attr('onclick','');
+            jQuery('#do_observation').addClass('active');
+            setTimeout(function(){
+                $('#do_observation').attr('onclick','close_search();');
+            }, 500);
+
+        }
+
+        function close_search(){
+            jQuery('#do_observation').removeClass('active');
+        }
+
+        $( "#do_observation input" ).change(function() {
+            enter_search();
+        });
+
+    </script>
+
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC1_2otoK8H-gpWeExPvPD-pK7V2CDWNwE"></script>
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js'></script><script src='https://cdn.rawgit.com/chingyawhao/materialize-clockpicker/master/dist/js/materialize.clockpicker.js'></script>
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.22/vue.min.js'></script>
+
+    <script>
+
+        function notification(vise,text,duree){
+            $('.notification .'+vise).css('display','block');
+            $('.notification .'+vise).css('bottom','20px');
+            $('.notification .'+vise+' p a').text(text);
+
+            $('.notification div:not(.'+vise+')').css('bottom','-500px');
+            $('.notification div:not(.'+vise+')').css('display','none');
+            $('.notification div:not(.'+vise+') p a').text('');
+
+            if(duree){
+                setTimeout(function(){
+                    $('.notification .'+vise).css('bottom','-500px');
+                    setTimeout(function(){
+                        $('.notification .'+vise).css('display','none');
+                        $('.notification .'+vise+' p a').text('');
+                    }, 500);
+                }, duree);
+            }
+
+        }
+
+    </script>
+
+    <script>
+        {% if app.user %}
+        var connected = 'yes';
+        {% else %}
+        var connected = 'no';
+        {% endif %}
+
+        var zoomControl;
+
+        var map;
+
+        var data = {};
+
+        var oiseau = {};
+
+
+        function initMap() {
+
+         if(connected == 'no'){
+                zoomControl = false;
+                notification('error','Vous devez vous connecter afin de pouvoir zoomer', '7000');
+         }
+         else{
+                zoomControl = true;
+         }
+
+            var center = {lat: 46.102079,lng: -0.076303};
+
+            map = new google.maps.Map(document.getElementById('map_canvas'), {
+                zoom: 5,
+                center: {lat: 46.102079,lng: -0.076303},
+                zoomControl: zoomControl,
+                scrollwheel:  zoomControl
+            });
+            var i = 0;
+
+            {% for obs in observation %}
+
+            data[i] = new google.maps.Marker({
+                map: map,
+                icon: 'assets/img/marker_carte.png',
+                position: {lat: {{ obs.latitude }}, lng: {{ obs.longitude }}}
+            });
+             /*data[i]['nom'] = "{{ obs.oiseau.nomvalide }}";
+             data[i]['lien_page'] = "{{ obs.oiseau.url }}";
+            data[i]['image_observation ']= 'images_appli/'+"{{ obs.photo }}";
+              data[i]['observator'] = "{{ obs.user.name }} {{ obs.user.firstname }}";
+              data[i]['date_observation'] = "{{ obs.observationDate|date('d/m/Y')}}";
+              data[i]['heure_observation'] = "{{ obs.observationTime|date('H:i') }}";
+               data[i]['commentaire_observation'] = "{{ obs.commentobservation }}";
+               data[i]['lat'] = {{ obs.latitude }};
+                data[i]['long']  = {{ obs.longitude}};*/
+            data[i].addListener('click', function() {
+                display_oiseau(connected,"{{ obs.oiseau.nomvalide }}","{{ obs.oiseau.url }}",'images_appli/'+"{{ obs.photo }}","{{ obs.user.name }} {{ obs.user.firstname }}","{{ obs.observationDate|date('d/m/Y')}}","{{ obs.observationTime|date('H:i') }}","{{ obs.commentobservation }}",{{ obs.latitude }}, {{ obs.longitude}} );
+
+            });
+            i = i+1;
+                    {% endfor %}
+
+
+
+
+
+
+
+
+            function display_oiseau(connected,nom_oiseau,lien_page,image_observation,observator,date_observation,heure_observation,commentaire_observation,coordonnees_lat_observation,coordonnees_lng_observation){
+
+                $('.observation_oiseau .titre_oiseau').css('display','none');
+                $('.observation_oiseau .image_oiseau').css('display','none');
+                $('.observation_oiseau .button_more').css('display','none');
+                $('.observation_oiseau .name_observator').css('display','none');
+                $('.observation_oiseau .date_heure_observator').css('display','none');
+                $('.observation_oiseau .commentaire_observator').css('display','none');
+                $('.observation_oiseau .coodonnees_observation').css('display','none');
+
+                $('.observation_oiseau .titre_oiseau span').html('');
+                $('.observation_oiseau .image_oiseau a img').attr('src','');
+                $('.observation_oiseau .button_more a').attr('href','');
+                $('.observation_oiseau .name_observator p').html('');
+                $('.observation_oiseau .date_heure_observator p').html('');
+                $('.observation_oiseau .commentaire_observator p').html('');
+                $('.observation_oiseau .coodonnees_observation p').html('');
+
+
+                $('.observation_oiseau').css('display','block');
+                $('#map_canvas').css('width','calc(100% - 300px)');
+
+                $('#do_observation').css('left','calc(50% - 150px)');
+
+                $('#lien_faire_observation').css('left','calc(50% - 150px)');
+
+                $('.observation_oiseau .titre_oiseau').css('display','block');
+                $('.observation_oiseau .titre_oiseau span').html(nom_oiseau);
+
+                if( image_observation != '' ){
+
+                    $('.observation_oiseau .image_oiseau').css('display','block');
+
+                    $('.observation_oiseau .image_oiseau a img').attr('src',image_observation);
+
+                }
+
+                if( lien_page != '' ){
+
+                    $('.observation_oiseau .button_more').css('display','block');
+
+                    $('.observation_oiseau .button_more a').attr('href',lien_page);
+
+                }
+
+                if( observator != '' ){
+
+                    $('.observation_oiseau .name_observator').css('display','block');
+
+                    $('.observation_oiseau .name_observator p').html(observator);
+
+                }
+
+                if( date_observation != '' || heure_observation ){
+
+                    $('.observation_oiseau .date_heure_observator').css('display','block');
+
+                    $('.observation_oiseau .date_heure_observator p').html(date_observation+' à '+heure_observation);
+
+                }
+
+                if( commentaire_observation != '' ){
+
+                    $('.observation_oiseau .commentaire_observator').css('display','block');
+
+                    $('.observation_oiseau .commentaire_observator p').html(commentaire_observation);
+
+                }
+
+                if (connected == 'yes') {
+
+                    if (coordonnees_lat_observation != '' || coordonnees_lng_observation) {
+
+                        $('.observation_oiseau .coodonnees_observation').css('display', 'block');
+
+                        $('.observation_oiseau .coodonnees_observation p').html('Lat : ' + coordonnees_lat_observation + '<br />Lng : ' + coordonnees_lng_observation);
+
+                    }
+                }
+
+                if(zoomControl == true){
+                    map.setZoom(15);
+                }
+                else {
+                    notification('error','Vous devez vous connecter afin de pouvoir zoomer et afficher les coordonnées', '7000');
+                }
+                map.setCenter({lat: coordonnees_lat_observation, lng: coordonnees_lng_observation});
+            }
+
+        }
+
+        initMap();
+
+        function close_box_oiseau(){
+
+            map.setZoom(3);
+
+            map.setCenter({lat: 46.102079,lng: -0.076303});
+
+            $('.observation_oiseau').css('display','none');
+            $('#map_canvas').css('width','80%');
+
+            $('#do_observation').css('left','50%');
+
+            $('#lien_faire_observation').css('left','50%');
+
+            $('.observation_oiseau .titre_oiseau').css('display','none');
+            $('.observation_oiseau .image_oiseau').css('display','none');
+            $('.observation_oiseau .button_more').css('display','none');
+            $('.observation_oiseau .name_observator').css('display','none');
+            $('.observation_oiseau .date_heure_observator').css('display','none');
+            $('.observation_oiseau .commentaire_observator').css('display','none');
+            $('.observation_oiseau .coodonnees_observation').css('display','none');
+
+            $('.observation_oiseau .titre_oiseau span').html('');
+            $('.observation_oiseau .image_oiseau a img').attr('src','');
+            $('.observation_oiseau .button_more a').attr('href','');
+            $('.observation_oiseau .name_observator p').html('');
+            $('.observation_oiseau .date_heure_observator p').html('');
+            $('.observation_oiseau .commentaire_observator p').html('');
+            $('.observation_oiseau .coodonnees_observation p').html('');
+
+        }
+
+        function display_observations_validees(){
+            $('.mes_obervations').removeClass('active');
+            $('.mes_obervations.mes_obervations_validees').addClass('active');
+            $('.mes_obervations:not(.mes_obervations_validees) a').css('color','rgba(255,255,255,0.7)');
+            $('.mes_obervations.mes_obervations_validees a').css('color','white');
+            $('.mes_observations:not(#validees)').css('display','none');
+            $('.mes_observations#validees').css('display','block');
+        }
+
+        function display_observations_en_validation(){
+            $('.mes_obervations').removeClass('active');
+            $('.mes_obervations.mes_obervations_en_cours_validation').addClass('active');
+            $('.mes_obervations:not(.mes_obervations_en_cours_validation) a').css('color','rgba(255,255,255,0.7)');
+            $('.mes_obervations.mes_obervations_en_cours_validation a').css('color','white');
+            $('.mes_observations:not(#en_attente)').css('display','none');
+            $('.mes_observations#en_attente').css('display','block');
+        }
+    </script>
+
+
+
+        <script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script>
+    <script>
+        function autocomplete(inp,arr) {
+            /*the autocomplete function takes two arguments,
+            the text field element and an array of possible autocompleted value
+             */
+            var currentFocus;
+            /*execute the function when someone writes in the text field:*/
+            inp.addEventListener("input",function(e)
+            {
+                if (this.value.length >=3){
+                    var a, b, i, val = this.value;
+                    /*close any already open lists of autocompleted values*/
+                    closeAllLists();
+                    if(!val) { return false;}
+                    currentFocus = -1;
+                    /*create a DIV element that will contain the items (values):*/
+                    a = document.createElement("DIV");
+                    a.setAttribute("id",this.id + "autocomplete-list");
+                    a.setAttribute("class", "autocomplete-items");
+                    /*append the DIV element as a child of the autocomplete container:*/
+                    this.parentNode.appendChild(a);
+                    /*for each item in the array...*/
+                    for(i = 0; i <arr.length; i++){
+                        /*check if the item  starts the same letters as the test field value:*/
+                        if(arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()){
+                            /*create a DIV element for each matching element */
+                            b = document.createElement("DIV");
+                            /*make the matching letters bold:*/
+                            b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+                            b.innerHTML += arr[i].substr(val.length);
+                            /*insert a input field that will hold the current array item's value:*/
+                            b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+                            /*execute a function when someone clicks on the item value (DIV element):*/
+                            b.addEventListener("click",function(e){
+                                /*insert the value for the autocomplete text field:*/
+                                inp.value = this.getElementsByTagName("input")[0].value;
+                                /*close the list of autocomplete value,
+                                (or any other open lists of autocompleted values:)
+                                 */
+                                closeAllLists();
+                            });
+                            a.appendChild(b);
+                        }
+
+                    }
+                }
+            });
+            /*execute a function presses a key on the keyboard:*/
+            inp.addEventListener("keydown",function(e){
+                var x = document.getElementById(this.id + "autocomplete-list");
+                if (x) x = x.getElementsByTagName("div");
+                if (e.keyCode == 40){
+                    /*IF the arrow DOWN key is pressed,
+                    increase the currentFocus variable:*/
+                    currentFocus++;
+                    /*and and make the current item more visible:*/
+                    addActive(x);
+                }else if (e.keyCode == 38) {
+                    currentFocus--;
+                    addActive(x);
+                } else if (e.keyCode == 13){
+                    e.preventDefault();
+                    if (currentFocus > -1 ){
+                        if(x) x[currentFocus].click();
+                    }
+                }
+
+            });
+            function addActive(x){
+                if(!x) return false;
+                removeActive(x);
+                if(currentFocus >= x.length) currentFocus = 0;
+                if (currentFocus < 0) currentFocus = (x.length - 1);
+                x[currentFocus].classList.add("autocomplete-active");
+            }
+            function removeActive(x){
+                for (var i = 0; i< x.length; i++){
+                    x[i].classList.remove("autocomplete-active");
+                }
+            }
+            function closeAllLists(elmnt){
+                var x = document.getElementsByClassName("autocomplete-items");
+                for (var i=0; i < x.length; i++){
+                    if (elmnt != x[i] && elmnt != inp){
+                        x[i].parentNode.removeChild(x[i]);
+                    }
+                }
+            }
+            document.addEventListener("click",function(e) {
+                closeAllLists(e.target);
+            });
+        }
+        $('#search_text').click(function() {
+            $.ajax({
+                url: "{{ path('get_name_bird') }}",
+                success: function (data_name) {
+                    autocomplete(document.getElementById("search_text"),data_name);
+                }
+            });
+        });
+
+    </script>
+
+{% endblock %}

@@ -15,6 +15,7 @@ use App\Repository\LwArticleRepository;
 use App\Repository\ObservationRepository;
 use App\Repository\OiseauRepository;
 use Doctrine\Common\Persistence\ObjectManager;
+use Elasticsearch\Client;
 use phpDocumentor\Reflection\Types\Null_;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,6 +25,7 @@ use Symfony\Component\Security\Core\Security;
 use App\Form\LwArticleType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use diversen\meta;
+use Elasticsearch\ClientBuilder;
 
 
 class JdPubNaoController extends Controller
@@ -44,29 +46,40 @@ class JdPubNaoController extends Controller
     /**
      * @Route("/presentation", name="aboutUs")
      */
-    public function jdAboutUs()
+    public function jdAboutUs(OiseauRepository $repos)
     {
+        /*https://afsy.fr/avent/2017/20-elasticsearch-6-et-symfony-4
+        $data = $repos->findLimitBird(1);
+        $client = ClientBuilder::create()->build();
+        $params['body'][] = [
+            'nomValide' => 'my_value'
+        ];
+
+        $response = $client->index($params);
+        dump($response);
+        die();*/
         return $this->render('jd_pub_nao/Public/jdAbout.html.twig');
     }
 
     /**
-     * @Route("/observations", name="birds")
+     * @Route("/les_oiseaux", name="birds")
      */
     public function jdAllBirds(OiseauRepository $repos, Request $request)
     {
-        $oiseau = $repos->findAll();
-        /*$ary = get_meta_tags('https://inpn.mnhn.fr/espece/cd_nom/2891','"https://inpn.mnhn.fr/photos/uploads');
-        dump( $ary['twitter:image']);
-        die();*/
-       /* boucle pour la creation des urls des images des oiseaux*/
-      /*  foreach ($oiseau as $data) {
-            if ($data->getUrl() <> " " OR $data->getUrl() <> null OR $data->getUrl() <> 'A' OR !empty( $data->getUrl() )){
+        /*Pour limiter les données pour les soucis de traitement c'est mieux cette fonction*/
+        $oiseau = $repos->findLimitBird(20);
+        /*Pour revenir à la normal c'est mieux cette fonction*/
+        //$oiseau = $repos->findAll();
+        /* boucle pour la creation des urls des images des oiseaux*/
+        dump($oiseau);
+        die();
+        foreach ($oiseau as $data) {
+            if ( preg_match('/http/',$data->getUrl()) == true ){
                 $url = get_meta_tags($data->getUrl(),'https://inpn.mnhn.fr/photos/uploads');
                 $data->setUrl($url['twitter:image']);
             }
-            dump($data->getUrl());
+
         }
-        die();*/
         $bird_name = $repos->name_bird();
         /* @var $paginator \Knp\Component\Pager\Paginator */
         $paginator  = $this->get('knp_paginator');
@@ -83,6 +96,33 @@ class JdPubNaoController extends Controller
             'oiseaux'=>$appointments,'bird_name'=>$bird_name
         ]);
     }
+    /**
+     * @Route("/observations", name="observations")
+     */
+    public function jdAllObs(ObservationRepository $repos,Request $request)
+    {
+        if ($request->request->get('search_text') !== null){
+        $observation = $repos->getGpsData($request->request->get('search_text'));
+
+        if (empty($observation)){
+            $this->addFlash('search_fail','Désolé pas de resultat correspondant à votre recherche !!!');
+            return $this->render('jd_pub_nao/Public/jdObservation.html.twig',['observation'=>$observation
+            ]);
+        }
+        else {
+            $this->addFlash('search_success','Si les resultats ne sont pas visible veuillez de zoomer la carte mapp pour voir les résultats !!!');
+            return $this->render('jd_pub_nao/Public/jdObservation.html.twig',['observation'=>$observation
+            ]);
+        }
+       }
+       else{
+
+        $observations = $repos->getObs();
+
+        return $this->render('jd_pub_nao/Public/jdObservation.html.twig',['observation'=>$observations
+        ]);
+       }
+    }
 
     /**
      * @return string
@@ -95,8 +135,9 @@ class JdPubNaoController extends Controller
     }
     /**
      * @Route("/liste-oiseaux/{id}", name="bird")
+     * @Route("/faire-une-observation", name="faire-une-observation")
      */
-    public function oneBird(Request $request, ObjectManager $manager, Oiseau $oiseau, FileUploader $fileUploader, Security $security, ObservationRepository $repos_obs,OiseauRepository $repos_bird){
+    public function oneBird( Request $request, ObjectManager $manager, Oiseau $oiseau = NULL, FileUploader $fileUploader, Security $security, ObservationRepository $repos_obs,OiseauRepository $repos_bird){
         $observation = new Observation();
         $data = $repos_obs->findBy(['valide'=>1,'oiseau'=>$oiseau]);
         $bird_name = $repos_bird->name_bird();
@@ -104,21 +145,29 @@ class JdPubNaoController extends Controller
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid())
         {
-            $observation->setCreatedAt(new \DateTime());
+            //$observation->setCreatedAt(new \DateTime());
             $user = $security->getUser();
-            $observation->setUser($user);
+            $bird = $repos_bird->findBy(['nomValide'=>$observation->getNom()]);
 
-            $file = $observation->getPhoto();
-            if ($file <> null){
-                $fileName = $fileUploader->upload($file);
-                $observation->setPhoto($fileName);
+            if ($bird == null OR empty($bird)){
+                $this->addFlash('notice_obs_fail','Désolé votre requette n\'a pas été prise en compte: veuillez reprendre en choisissant un nom d\'oiseau valide !!!');
+                return $this->redirectToRoute('faire-une-observation');
             }
-            $observation->setValide(0);
-            $observation->setOiseau($oiseau);
-            $manager->persist($observation);
-            $manager->flush();
-            $this->addFlash('notice_obs','Merci pour votre observation pour rendre publique nos spécialistes vont étudier pour une validation !!!');
-            return $this->redirectToRoute('bird',['id'=>$oiseau->getId()]);
+            else{
+
+                $observation->setUser($user);
+                $file = $observation->getPhoto();
+                if ($file <> null){
+                    $fileName = $fileUploader->upload($file);
+                    $observation->setPhoto($fileName);
+                }
+                $observation->setValide(0);
+                $observation->setOiseau($bird[0]);
+                $manager->persist($observation);
+                $manager->flush();
+                $this->addFlash('notice_obs','Merci pour votre observation pour rendre publique nos spécialistes vont étudier pour une validation !!!');
+                return $this->redirectToRoute('faire-une-observation');
+            }
         }
         return $this->render('lw_pub_nao/lwObservation.html.twig',[
             'formObservation'=>$form->createView(),
@@ -160,8 +209,11 @@ class JdPubNaoController extends Controller
             $comment->setSignale(1);
         }
         $manager->flush();
-            return $this->redirectToRoute('oneArticle',['id'=>$comment->getArticle()->getId()]);
+        return $this->redirectToRoute('oneArticle',['id'=>$comment->getArticle()->getId()]);
     }
+
+
+
 
 
 
