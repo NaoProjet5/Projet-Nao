@@ -335,7 +335,7 @@
                 $('.observation_oiseau .commentaire_observator p').html('');
                 $('.observation_oiseau .coodonnees_observation p').html('');
 
-
+                if (connected == 'yes') {
                 $('.observation_oiseau').css('display','block');
                 $('#map_canvas').css('width','calc(100% - 300px)');
 
@@ -386,7 +386,6 @@
 
                 }
 
-                if (connected == 'yes') {
 
                     if (coordonnees_lat_observation != '' || coordonnees_lng_observation) {
 
