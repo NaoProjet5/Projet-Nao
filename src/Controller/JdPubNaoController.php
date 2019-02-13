@@ -9,6 +9,7 @@ use App\Entity\Observation;
 use App\Entity\Oiseau;
 use App\Form\CommentType;
 use App\Form\ObservationType;
+use App\Form\SearchType;
 use App\LwServices\FileUploader;
 use App\Repository\CommentRepository;
 use App\Repository\LwArticleRepository;
@@ -49,6 +50,7 @@ class JdPubNaoController extends Controller
         return $this->render('jd_pub_nao/Public/jdAbout.html.twig');
     }
 
+
     /**
      * @Route("/observations", name="birds")
      */
@@ -58,16 +60,19 @@ class JdPubNaoController extends Controller
         /*$ary = get_meta_tags('https://inpn.mnhn.fr/espece/cd_nom/2891','"https://inpn.mnhn.fr/photos/uploads');
         dump( $ary['twitter:image']);
         die();*/
-       /* boucle pour la creation des urls des images des oiseaux*/
-      /*  foreach ($oiseau as $data) {
-            if ($data->getUrl() <> " " OR $data->getUrl() <> null OR $data->getUrl() <> 'A' OR !empty( $data->getUrl() )){
-                $url = get_meta_tags($data->getUrl(),'https://inpn.mnhn.fr/photos/uploads');
-                $data->setUrl($url['twitter:image']);
-            }
-            dump($data->getUrl());
-        }
-        die();*/
+        /* boucle pour la creation des urls des images des oiseaux*/
+        /*  foreach ($oiseau as $data) {
+              if ($data->getUrl() <> " " OR $data->getUrl() <> null OR $data->getUrl() <> 'A' OR !empty( $data->getUrl() )){
+                  $url = get_meta_tags($data->getUrl(),'https://inpn.mnhn.fr/photos/uploads');
+                  $data->setUrl($url['twitter:image']);
+              }
+              dump($data->getUrl());
+          }
+          die();*/
+        $form = $this->createForm(SearchType::class);
+        $form->handleRequest($request);
         $bird_name = $repos->name_bird();
+
         /* @var $paginator \Knp\Component\Pager\Paginator */
         $paginator  = $this->get('knp_paginator');
         // Paginate the results of the query
@@ -80,7 +85,8 @@ class JdPubNaoController extends Controller
             8
         );
         return $this->render('jd_pub_nao/Public/jdMapBirds.html.twig',[
-            'oiseaux'=>$appointments,'bird_name'=>$bird_name
+            'form'  => $form->createView(),
+            'oiseaux'=>$appointments,'bird_name'=>$bird_name,
         ]);
     }
 

@@ -121,8 +121,8 @@ class JdUsers implements UserInterface
      */
 
     /**
-     * @Recaptcha\IsTrue
-     */
+    * Recaptcha\IsTrue
+    */
     public $recaptcha;
     public function __construct()
     {

@@ -1,0 +1,32 @@
+{% extends ('jdLayout.html.twig') %}
+
+{% block body %}
+        <div class="content">
+            <div class="content">
+                <div class="container-fluid">
+                    <div class="card">
+                        <div class="card-header card-header-rose card-header-text">
+                            <div class="card-text">
+                                <h4 class="card-title">Formulaire de modification du compte de l'utilisateur</h4>
+                            </div>
+                        </div>
+                        <div class="card-body ">
+                            <div class="row">
+                                <div class="center col-lg-12 col-sm-12">
+                                    {{ form_start(form, {'attr': {'class': 'col-sm-6 col-sm-offset-6'}}) }}
+                                    {{ form_errors(form) }}
+                                    {% include ('jd_login_nao/TemplatesViews/jdFormLogin.html.twig') %}
+
+                                    <button class="btn btn-success">Modifier</button>
+                                    {{ form_end(form) }}
+                                    <div>
+                                        <a href="{{ path('UpdetePassWordUser') }}" class="btn btn-primary">Modifier le mot de passe</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}

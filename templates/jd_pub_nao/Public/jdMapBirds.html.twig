@@ -22,10 +22,14 @@
                <!-- <input type="text" id="search_text" name="search_text" placeholder="Recherchez un oiseau"/>
 
                 <button id="recherche_bouton">Rechercher</button>-->
-                <input onclick="enter_search();" type="text" id="search_text" name="search_text" placeholder="Nom d'un oiseau à afficher"/>
+                {{ form_start(form, {'attr': {'class': 'col-sm-6 col-sm-offset-6'}}) }}
+                {{ form_errors(form) }}
+                <!--<input onclick="enter_search();" type="text" id="search_text" name="search_text" placeholder="Nom d'un oiseau à afficher"/>-->
+                {{ form_errors(form.lbNom) }}
+                {{ form_widget(form.lbNom, {'attr': {'class': 'form-control', 'onclick': "enter_search();",'id': 'search_text', 'name': 'search_text', 'placeholder': "Nom d'un oiseau à afficher"}}) }}
 
                 <button id="recherche_bouton" onclick="close_search();">Afficher l'oiseau sur la carte</button>
-
+                {{ form_end(form) }}
             </div>
 
             <div id="cartes_oiseaux">

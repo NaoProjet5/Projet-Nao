@@ -1,5 +1,0 @@
-[{% for oiseau in oiseaus -%}
-    {{ {value: oiseau.id, label: oiseau.nomconplet}|json_encode|raw }}
-    {% if not loop.last %}
-    {% endif %}
-{% endfor %}]

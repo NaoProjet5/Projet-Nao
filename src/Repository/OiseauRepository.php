@@ -46,19 +46,11 @@ class OiseauRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    /**
-     * @return Oiseau[] Returns an array of Oiseau objects
-     */
-    public function findLike($value)
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.nomComplet = :query')
-            ->setParameter('query', "%". $value ."%")
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+    public function search_bird(){
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery('SELECT oi.nomValide FROM App\Entity\Oiseau oi');
+        $data = $query->getResult();
+        return $data;
     }
 
     /*

@@ -1,0 +1,16 @@
+{% extends ('jdLayout.html.twig') %}
+
+{% block body %}
+  <h1>Vos informations</h1>
+  <p>Nom: {{  app.user.name }}</p>
+
+  <div><p>Prénom: {{ app.user.firstname }}</p></div>
+
+  <div><p>Votre adress email: {{ app.user.email }}</p></div>
+
+  <a href="{{ path('updateUser', {'id': user}) }}" class="btn btn-success">Modifier vos paramètres</a>
+
+  <div>
+    <a href="{{ path('UpdetePassWordUser') }}" class="btn btn-primary">Modifier le mot de passe</a>
+  </div>
+{% endblock %}
