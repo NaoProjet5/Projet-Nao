@@ -570,9 +570,10 @@ class LwController extends Controller
     public function getNameBird(OiseauRepository $bird_name)
     {
         $name = array();
-        $datas = $bird_name->findAll();
+        $datas = $bird_name->get_name_bird();
+
         foreach ($datas as $data){
-            array_push($name,$data->getNomValide());
+            array_push($name,$data['nomValide']);
         }
 
         return new JsonResponse($name);

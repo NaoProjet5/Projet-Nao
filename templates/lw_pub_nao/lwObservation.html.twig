@@ -92,7 +92,7 @@
                         {{ form_errors(formObservation.recaptcha) }}
                         <div class="nom_oiseau">
 
-                            <h3>Nom de l'observation</h3>
+                            <h3>Nom de l'oiseau</h3>
 
                             <div class="autocomplete" >
                                 {% if oiseau is not null and oiseau is defined  %}
@@ -146,9 +146,9 @@
                             <label class="observation_labels">Lieu de l'observation</label>
 
                             <a class="button bg_black" onclick="choose_lieu();">Choisir un lieu d'observation</a>
-                            <p>OU</p>
+                           <!-- <p>OU</p>
                             <a class="button bg_black" onclick="locate()" >Générer mes coordonnées GPS du lieu où je me trouve</a>
-
+                                   -->
                                     <div id="set_lieu_observation">
 
                                         <a class="close_choose_lieu" onclick="close_choose_lieu();"><i class="fas fa-times-circle"></i></a>
@@ -295,7 +295,7 @@
             /*execute the function when someone writes in the text field:*/
             inp.addEventListener("input",function(e)
             {
-                if (this.value.length >=3){
+                if (this.value.length > 1){
                     var a, b, i, val = this.value;
                     /*close any already open lists of autocompleted values*/
                     closeAllLists();
@@ -739,7 +739,7 @@
 
     <script type="text/javascript">
         function initialiser_gps() {
-            var latlng = new google.maps.LatLng(46.779231, 6.659431);
+            var latlng = new google.maps.LatLng(46.528634, 2.438964);
             //objet contenant des propriétés avec des identificateurs prédéfinis dans Google Maps permettant
             //de définir des options d'affichage de notre carte
             var options = {
@@ -754,7 +754,7 @@
             var carte = new google.maps.Map(document.getElementById("carte_lieu_observation"), options);
             //création du marqueur
             var marqueur = new google.maps.Marker({
-                position: new google.maps.LatLng(46.779231, 6.659431),
+                position: new google.maps.LatLng(46.528634, 2.438964),
                 map: carte
             });
 
