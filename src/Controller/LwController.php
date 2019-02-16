@@ -591,11 +591,31 @@ class LwController extends Controller
     /**
      * @Route("/mes-observations", name="mes_obs")
      */
-    public function mes_obs(ObservationRepository $repos)
+    public function mes_obs(ObservationRepository $repos, Request $request)
     {
         $user = $this->getUser();
-        $obs_valide = $repos->MyOwneObsVal($user->getId());
-        $obs_invalide = $repos->MyObsInvalid($user->getId());
+        $obs_val = $repos->MyOwneObsVal($user->getId());
+        $obs_inval = $repos->MyObsInvalid($user->getId());
+
+        $paginator = $this->get('knp_paginator');
+        // Paginate the results of the query
+        $obs_valide = $paginator->paginate(
+        // Doctrine Query, not results
+            $obs_val,
+            // Define the page parameter
+            $request->query->getInt('page', 1),
+            // Items per page
+            4
+        );
+        // Paginate the results of the query
+        $obs_invalide = $paginator->paginate(
+        // Doctrine Query, not results
+            $obs_inval,
+            // Define the page parameter
+            $request->query->getInt('page', 1),
+            // Items per page
+            4
+        );
 
         return $this->render('lw_pub_nao/mes_obs.html.twig',['obs_valide'=>$obs_valide,'obs_invalide'=>$obs_invalide]);
     }

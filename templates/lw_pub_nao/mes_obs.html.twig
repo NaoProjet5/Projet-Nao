@@ -58,6 +58,9 @@
                 {% endfor %}
                 {% endif %}
             </div>
+            <div class="navigation">
+                {{ knp_pagination_render(obs_valide) }}
+            </div>
 
         </div>
 
@@ -91,7 +94,9 @@
                 {% endfor %}
             {% endif %}
             </div>
-
+            <div class="navigation">
+                {{ knp_pagination_render(obs_invalide) }}
+            </div>
         </div>
         </div>
 
