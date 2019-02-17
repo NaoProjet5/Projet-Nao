@@ -296,7 +296,7 @@
             });
              /*data[i]['nom'] = "{{ obs.oiseau.nomvalide }}";
              data[i]['lien_page'] = "{{ obs.oiseau.url }}";
-            data[i]['image_observation ']= 'images_appli/'+"{{ obs.photo }}";
+               data[i]['image_observation ']= 'images_appli/'+"{{ obs.photo }}";
               data[i]['observator'] = "{{ obs.user.name }} {{ obs.user.firstname }}";
               data[i]['date_observation'] = "{{ obs.observationDate|date('d/m/Y')}}";
               data[i]['heure_observation'] = "{{ obs.observationTime|date('H:i') }}";
@@ -304,7 +304,7 @@
                data[i]['lat'] = {{ obs.latitude }};
                 data[i]['long']  = {{ obs.longitude}};*/
             data[i].addListener('click', function() {
-                display_oiseau(connected,"{{ obs.oiseau.nomvalide }}","{{ obs.oiseau.url }}",'images_appli/'+"{{ obs.photo }}","{{ obs.user.name }} {{ obs.user.firstname }}","{{ obs.observationDate|date('d/m/Y')}}","{{ obs.observationTime|date('H:i') }}","{{ obs.commentobservation }}",{{ obs.latitude }}, {{ obs.longitude}} );
+                display_oiseau(connected,"{{ obs.oiseau.nomvalide }}","{{ path('bird',{'id':obs.oiseau.id}) }}",'images_appli/'+"{{ obs.photo }}","{{ obs.user.name }} {{ obs.user.firstname }}","{{ obs.observationDate|date('d/m/Y')}}","{{ obs.observationTime|date('H:i') }}","{{ obs.commentobservation }}",{{ obs.latitude }}, {{ obs.longitude}} );
 
             });
             i = i+1;

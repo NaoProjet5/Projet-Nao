@@ -15,7 +15,7 @@ class CommentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('content',TextareaType::class,[
-                'label'=>'le contenu du commentaire',
+                'label'=>'Commentaire sur cet article',
                 'attr'=>['placeholder'=>'contenu du commentaire']
             ]);
             $builder->add('recaptcha', EWZRecaptchaType::class, [
@@ -29,8 +29,6 @@ class CommentType extends AbstractType
                         'async' => true,
                     ]
                 ]
-            ])
-            ->add('save',SubmitType::class, ['label'=>'Enregistrer le commentaire','attr'=>['class'=>'submit']
             ])
         ;
     }
