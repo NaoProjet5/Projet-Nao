@@ -18,6 +18,7 @@
         <div id="connexion_form">
 
             <h2 class="souligner">Se connecter</h2>
+        <br />
             {% if error %}
                 <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
             {% endif %}

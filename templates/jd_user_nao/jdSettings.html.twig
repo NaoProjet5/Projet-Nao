@@ -1,0 +1,27 @@
+{% extends ('lwLayout.html.twig') %}
+
+{% block body %}
+    <section class="title_page">
+
+        <div class="section_content">
+            <h1>Vos informations</h1>
+        </div>
+
+    </section>
+    <div class="body_content connexion">
+    <div id="connexion_form">
+       <br>
+        <p><strong>Nom:</strong> {{  app.user.name }}</p>
+
+        <p><strong>Prénom:</strong> {{ app.user.firstname }}</p>
+
+        <p><strong>Votre adress email:</strong> {{ app.user.email }}</p>
+        <div class="form_obs">
+
+            <a href="{{ path('updateUser', {'id': user}) }}" class="submit">Modifier vos paramètres</a> <br /><br /><br />
+
+            <a href="{{ path('UpdetePassWordUser') }}" class="submit" style="margin-top: 2%; position: relative;">Modifier le mot de passe</a>
+        </div>
+    </div>
+    </div>
+{% endblock %}

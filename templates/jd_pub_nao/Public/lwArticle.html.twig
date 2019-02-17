@@ -57,18 +57,22 @@
 
     </div>
 
-    <div id="laisser_commentaire">
-
-        <h2 class="souligner">Laisser un commentaire sur cet article</h2>
+    <div id="contact">
         {% if app.user %}
         <div class="form_obs">
 
-                    <h3>Commentaire</h3>
+                    <h2>Laisser un commentaire sur cet article</h2>
 
                     {{ form_start(formComment,{'action': path('oneArticle',{'id':article.id}), 'method': 'POST'}) }}
                     {{ form_row(formComment.content) }}
                 {{ form_errors(formComment.recaptcha) }}
                 {{ form_widget(formComment.recaptcha) }}
+            <br>
+            <div id="submit">
+
+                <button type="submit">Enregister le commentaire</button>
+
+            </div>
                     {{ form_end(formComment) }}
 
                 </div>

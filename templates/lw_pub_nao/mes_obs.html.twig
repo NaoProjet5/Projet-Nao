@@ -17,24 +17,29 @@
 
             <div class="mes_obervations mes_obervations_validees">
 
-                <a onclick="display_observations_validees();">Mes observations validées</a>
+                <a onclick="display_observations_validees();">Mes observations validées <strong>({{ obs_valide|length }})</strong></a>
 
             </div>
 
             <div class="mes_obervations mes_obervations_en_cours_validation">
 
-                <a onclick="display_observations_en_validation();">Mes observations en attente de validation</a>
+                <a onclick="display_observations_en_validation();">Mes observations en attente de validation <strong>({{ obs_invalide|length }})</strong></a>
 
             </div>
 
         </div>
 
         <div class="mes_observations" id="validees">
+            {%  if obs_valide|length == 0   %}
+            <p class="souligner">Vous n'avez pas encore d'observation validée pour l'instant</p>
+            <div class="buttons_box">
 
+                <a href="{{ path('faire-une-observation') }}" class="button_style_2" style="margin-right : 15px;">Faire une observation</a>
+
+            </div>
+            {%  else %}
             <div class="last_observations_content">
-                {%  if obs_valide is null  %}
-                <p class="souligner">Vous n'avez encore d'observation validée pour l'instant</p>
-                {%  else %}
+
                 {% for observation in obs_valide  %}
                 <div class="last_observation_item">
 
@@ -58,15 +63,24 @@
                 {% endfor %}
                 {% endif %}
             </div>
+            <div class="navigation">
+                {{ knp_pagination_render(obs_valide) }}
+            </div>
 
         </div>
 
         <div class="mes_observations" id="en_attente">
 
+            {%  if obs_invalide|length == 0  %}
+            <p >Vous n'avez pas encore d'observation en attente pour le moment !!!</p>
+            <div class="buttons_box">
+
+                <a href="{{ path('faire-une-observation') }}" class="button_style_2" style="margin-right : 15px;">Faire une observation</a>
+
+            </div>
+            {%  else %}
+
             <div class="last_observations_content">
-                {%  if obs_invalide is null  %}
-                <p >Vous n'avez pas encore d'observation en attente pour le moment !!!</p>
-                {%  else %}
                 {% for observation in obs_invalide  %}
                 <div class="last_observation_item">
 
@@ -90,7 +104,9 @@
                 {% endfor %}
             {% endif %}
             </div>
-
+            <div class="navigation">
+                {{ knp_pagination_render(obs_invalide) }}
+            </div>
         </div>
         </div>
 

@@ -20,10 +20,21 @@ class OiseauRepository extends ServiceEntityRepository
     }
     public function name_bird(){
         $entityManager = $this->getEntityManager();
-        $query = $entityManager->createQuery('SELECT oi.lbNom FROM App\Entity\Oiseau oi');
+        $query = $entityManager->createQuery('SELECT DISTINCT oi.lbNom FROM App\Entity\Oiseau oi');
         $data = $query->getResult();
         return $data;
     }
+
+    public function get_name_bird(){
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery('SELECT DISTINCT oi.nomValide FROM App\Entity\Oiseau oi');
+        $data = $query->getResult();
+        return $data;
+    }
+
+
+
+
     public function nameLike($q, int $limit = 10){
         $entityManager = $this->getEntityManager();
         $dql_query = $entityManager->createQuery("
