@@ -1,0 +1,35 @@
+{% extends ('lwLayout.html.twig') %}
+
+{% block body %}
+    <section class="title_page">
+
+        <div class="section_content">
+            <h1>Formulaire de modification du compte</h1>
+        </div>
+
+    </section>
+    <div class="body_content connexion">
+        <div id="connexion_form">
+            <h2 class="souligner">Modifier son compte</h2>
+        <br />
+            <div class="form_obs">
+                {{ form_start(form) }}
+                {{ form_errors(form) }}
+                {% include ('jd_login_nao/TemplatesViews/jdFormLogin.html.twig') %}
+                <br><br>
+
+                {{ form_widget(form.recaptcha) }}
+                <div class="form-group">
+                    <button type="submit" class="submit">Modifier</button>
+                </div>
+                {{ form_end(form) }}
+                <br />
+                <a href="{{ path('UpdetePassWordUser') }}" class="submit">Modifier le mot de passe</a>
+
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock %}
