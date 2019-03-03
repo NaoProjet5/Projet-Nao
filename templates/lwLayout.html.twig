@@ -53,6 +53,15 @@
 
         }
     </script>
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-135511186-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'UA-135511186-1');
+        </script>
 
     {% endblock %}
 </head>
@@ -94,7 +103,7 @@
 
             <div id="reseaux_sociaux">
 
-                <a><?xml version="1.0" encoding="iso-8859-1"?>
+                <a href="https://www.facebook.com/" target="_blank"><?xml version="1.0" encoding="iso-8859-1"?>
                     <!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
                     <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
                     <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -141,7 +150,7 @@
 </svg>
                 </a>
 
-                <a><?xml version="1.0" encoding="iso-8859-1"?>
+                <a href="https://twitter.com/" target="_blank"><?xml version="1.0" encoding="iso-8859-1"?>
                     <!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
                     <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
                     <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -193,7 +202,7 @@
 </svg>
                 </a>
 
-                <a><?xml version="1.0" encoding="iso-8859-1"?>
+                <a href="https://www.instagram.com/" target="_blank"><?xml version="1.0" encoding="iso-8859-1"?>
                     <!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
                     <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
                     <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -252,8 +261,7 @@
 
             <div id="mon_compte">
 
-                <a id="icon_user"><svg style="width : 25px; heght : auto;" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                                       viewBox="0 0 350 350" style="enable-background:new 0 0 350 350;" xml:space="preserve">
+                <a id="icon_user">
 <g>
     <path style="fill : white;" d="M175,171.173c38.914,0,70.463-38.318,70.463-85.586C245.463,38.318,235.105,0,175,0s-70.465,38.318-70.465,85.587
 		C104.535,132.855,136.084,171.173,175,171.173z"/>
@@ -301,7 +309,8 @@
                     <a href="{{ path('loginUsers') }}" class="button_inscription_connexion">Connexion / Inscription</a>
                 {% else %}
 
-                        <a id="icon_user"><svg onclick="open_sub_menu_compte();" style="width : 25px; heght : auto;" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                        <a id="icon_user"><svg style="width : 25px; heght : auto;" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                               viewBox="0 0 350 350" style="enable-background:new 0 0 350 350;" xml:space="preserve"><svg onclick="open_sub_menu_compte();" style="width : 25px; heght : auto;" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                                                viewBox="0 0 350 350" style="enable-background:new 0 0 350 350;" xml:space="preserve">
 <g>
     <path style="fill : white;" d="M175,171.173c38.914,0,70.463-38.318,70.463-85.586C245.463,38.318,235.105,0,175,0s-70.465,38.318-70.465,85.587
@@ -556,7 +565,7 @@
 
                     <li><a href="{{ path('home') }}">Accueil</a></li>
 
-                    <li><a href="{{ path('blog') }}">blog</a></li>
+                    <li><a href="{{ path('blog') }}">Blog</a></li>
 
                     <li><a href="{{ path('contactNao') }}">Contact</a></li>
                     <li><a href="{{ path('observations') }}">Voir les observations</a></li>
@@ -587,7 +596,7 @@
 
                     <li><a href="{{ path('mentions_legales') }}">Mentions légales</a></li>
 
-                    <li><a href="{{ path('politique_confidentialite') }}">Politique de confidencialité</a></li>
+                    <li><a href="{{ path('politique_confidentialite') }}">Politique de confidentialité</a></li>
 
                 </ul>
 

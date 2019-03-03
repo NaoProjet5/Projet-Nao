@@ -58,6 +58,11 @@
                     <div class="collapse" id="collapseExample">
                         <ul class="nav">
                             <li class="nav-item">
+                                <a class="nav-link" href="{{ path('settingsUser') }}">
+                                    <span class="sidebar-normal"> Vos paramètres </span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link" href="{{ path('home') }}">
                                     <span class="sidebar-normal"> Retour au site </span>
                                 </a>
@@ -67,6 +72,7 @@
                                     <span class="sidebar-normal"> Se déconnecter </span>
                                 </a>
                             </li>
+
                         </ul>
                     </div>
                 </div>
@@ -199,6 +205,7 @@
                                 </p>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item"  href="{{ path('settingsUser') }}">Vos paramètres</a>
                                 <a class="dropdown-item" href="{{ path('home') }}">Retour au site</a>
                                 <a class="dropdown-item" href="{{ path('usersLogout') }}">Se déconnecter</a>
                             </div>

@@ -105,7 +105,7 @@ class JdPubNaoController extends Controller
         $observation = $repos->getGpsData($request->request->get('search_text'));
 
         if (empty($observation)){
-            $this->addFlash('search_fail','Désolé pas de resultat correspondant à votre recherche !!!');
+            $this->addFlash('search_fail','Désolé pas de resultat correspondant à votre recherche.');
             return $this->render('jd_pub_nao/Public/jdObservation.html.twig',['observation'=>$observation
             ]);
         }
@@ -150,7 +150,7 @@ class JdPubNaoController extends Controller
             $bird = $repos_bird->findBy(['nomValide'=>$observation->getNom()]);
 
             if ($bird == null OR empty($bird)){
-                $this->addFlash('notice_obs_fail','Désolé votre requette n\'a pas été prise en compte: veuillez reprendre en choisissant un nom d\'oiseau valide !!!');
+                $this->addFlash('notice_obs_fail','Désolé votre requette n\'a pas été prise en compte: veuillez reprendre en choisissant un nom d\'oiseau valide.');
                 return $this->redirectToRoute('faire-une-observation');
             }
             else{
@@ -165,7 +165,7 @@ class JdPubNaoController extends Controller
                 $observation->setOiseau($bird[0]);
                 $manager->persist($observation);
                 $manager->flush();
-                $this->addFlash('notice_obs','Merci pour votre observation pour rendre publique nos spécialistes vont étudier pour une validation !!!');
+                $this->addFlash('notice_obs','Merci pour votre contribution, votre observation est en attente de validation.');
                 return $this->redirectToRoute('faire-une-observation');
             }
         }
