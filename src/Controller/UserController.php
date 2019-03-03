@@ -16,7 +16,7 @@ class UserController extends AbstractController
 {
     /**
      * @Security("is_granted('ROLE_USER')")
-     * @Route("/paramtres", name="settingsUser")
+     * @Route("/parametres", name="settingsUser")
      */
     public  function jdSettingsUser()
     {

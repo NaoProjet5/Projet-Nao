@@ -3604,5 +3604,7 @@ label[for=comment_recaptcha] {
 	font-size: 17px;
 	box-shadow: 0px 3px 6px rgba(0,0,0,0.16);
 }
-
+.view_my_observations{
+	min-height : 300px;
+}
 
